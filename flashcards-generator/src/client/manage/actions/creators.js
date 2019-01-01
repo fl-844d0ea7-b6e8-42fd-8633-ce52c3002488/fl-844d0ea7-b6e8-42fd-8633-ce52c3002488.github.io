@@ -1,4 +1,7 @@
-import { getTopics as getInitialTopics } from '../../connectors/apigateway'
+import {
+  getTopics as fetchTopics,
+  getFlashcards as fetchFlashcards
+} from '../../connectors/apigateway'
 import {
   GET_TOPICS,
   LOAD_TOPICS,
@@ -7,19 +10,33 @@ import {
   GET_FLASHCARDS,
   UPDATE_FLASHCARD,
   DELETE_FLASHCARD,
-  GET_TOPICS_SUCCESS
+  GET_TOPICS_SUCCESS,
+  GET_TOPICS_FAILURE
 } from './types'
 
 export function getTopicsFromAPI() {
   return async function (dispatch) {
     dispatch(getTopics())
 
-    const resp = await getInitialTopics()
+    const resp = await fetchTopics()
 
     if (resp && resp.data){
       dispatch(getTopicsSuccess(resp.data))
     }
     return {}
+  }
+}
+
+export function getFlashcardsFromAPI(data) {
+  return async function (dispatch) {
+    dispatch(getFlashcards())
+
+    const resp = await fetchFlashcards(data)
+
+    if (resp && resp.data){
+      dispatch(getFlashcardsSuccess(resp.data))
+    }
+    dispatch(getFlashcards)
   }
 }
 
@@ -29,6 +46,11 @@ export const getTopics = (data = {}) => ({
 
 export const getTopicsSuccess = (data = {}) => ({
   type: GET_TOPICS_SUCCESS,
+  data
+})
+
+export const getTopicsFailure = (data = {}) => ({
+  type: GET_TOPICS_FAILURE,
   data
 })
 

@@ -110,7 +110,7 @@ export const getFlashcards = async (name, topic_id, term) => {
       },
       config
     );
-
+    console.log('flashcards', resp.data)
     return { data: resp.data };
   } catch (error) {
     console.log(error);

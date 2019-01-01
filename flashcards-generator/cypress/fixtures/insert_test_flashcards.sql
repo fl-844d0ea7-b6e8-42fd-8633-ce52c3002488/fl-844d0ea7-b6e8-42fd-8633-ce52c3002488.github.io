@@ -5,6 +5,8 @@ INSERT INTO flashcards_app.topics (name, colour, created, updated) VALUES ('Dele
 INSERT INTO flashcards_app.topics (name, colour, created, updated) VALUES ('TestTopic', '#ff0', NOW(), NOW());
 INSERT INTO flashcards_app.topics (name, colour, created, updated) VALUES ('Testing', '#f0f', NOW(), NOW());
 
+SELECT flashcards_app.topics.topic_id into TEMPORARY topic_ids from flashcards_app.topics LIMIT 2;
+
 INSERT INTO flashcards_app.flashcards (name, term, definition) VALUES ('TestFlashcardName', 'TestFlashcardTerm', 'TestFlashcardDefinition');
 
 INSERT INTO flashcards_app.flashcards (name, term, definition) VALUES ('TestingFlashcardName', 'TestingFlashcardTerm', 'TestingFlashcardDefinition');

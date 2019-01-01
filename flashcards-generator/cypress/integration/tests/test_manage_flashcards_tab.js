@@ -98,9 +98,6 @@ describe('The Manage Flashcards Tab', function () {
     })
 
     it('Displays a modal when edit is selected for flashcard', function () {
-        cy.server()
-        cy.route('POST', '/api/listFlashcards', 'fx:listFlashcardsResult').as('getFlashcards')
-
         cy.visit("/manage/")
 
 
@@ -110,7 +107,6 @@ describe('The Manage Flashcards Tab', function () {
             cy.contains('Submit')
                 .click()
 
-            cy.wait("@getFlashcards")
         })
 
         cy.get('div[class="card-columns"] div:first').within(() => {
@@ -121,9 +117,6 @@ describe('The Manage Flashcards Tab', function () {
     })
 
     it('Allows me to close the edit flashcard modal', function () {
-        cy.server()
-        cy.route('POST', '/api/listFlashcards', 'fx:listFlashcardsResult').as('getFlashcards')
-
         cy.visit("/manage/")
 
         cy.get('form').within(() => {
@@ -132,7 +125,6 @@ describe('The Manage Flashcards Tab', function () {
             cy.contains('Submit')
                 .click()
 
-            cy.wait("@getFlashcards")
         })
 
         cy.get('div[class="card-columns"] div:first').within(() => {
@@ -146,9 +138,6 @@ describe('The Manage Flashcards Tab', function () {
     })
 
     it('Allows me to edit the definition of a Flashcard', function () {
-        cy.server()
-        cy.route('POST', '/api/listFlashcards', 'fx:listFlashcardsResult').as('getFlashcards')
-
         cy.visit("/manage/")
 
         cy.get('form').within(() => {
@@ -157,7 +146,6 @@ describe('The Manage Flashcards Tab', function () {
             cy.contains('Submit')
                 .click()
 
-            cy.wait("@getFlashcards")
         })
 
         cy.get('div[class="card-columns"] div:first').within(() => {
@@ -178,9 +166,6 @@ describe('The Manage Flashcards Tab', function () {
     })
 
     it('Allows me to edit the name of a Flashcard', function () {
-        cy.server()
-        cy.route('POST', '/api/listFlashcards', 'fx:listFlashcardsResult').as('getFlashcards')
-
         cy.visit("/manage/")
 
         cy.get('form').within(() => {
@@ -189,7 +174,6 @@ describe('The Manage Flashcards Tab', function () {
             cy.contains('Submit')
                 .click()
 
-            cy.wait("@getFlashcards")
         })
 
         cy.get('div[class="card-columns"] div:first').within(() => {
@@ -209,10 +193,7 @@ describe('The Manage Flashcards Tab', function () {
         cy.get(['data-cy=successAlert'])
     })
 
-    it('Allows me to edit the term of a Flashcard', function () {
-        cy.server()
-        cy.route('POST', '/api/listFlashcards', 'fx:listFlashcardsResult').as('getFlashcards')
-
+    it.only('Allows me to edit the term of a Flashcard', function () {
         cy.visit("/manage/")
 
         cy.get('form').within(() => {
@@ -221,7 +202,6 @@ describe('The Manage Flashcards Tab', function () {
             cy.contains('Submit')
                 .click()
 
-            cy.wait("@getFlashcards")
         })
 
         cy.get('div[class="card-columns"] div:first').within(() => {
@@ -242,10 +222,7 @@ describe('The Manage Flashcards Tab', function () {
         })
     })
 
-    it('Allows me to edit the term, definition, and name of a Flashcard', function () {
-        cy.server()
-        cy.route('POST', '/api/listFlashcards', 'fx:listFlashcardsResult').as('getFlashcards')
-
+    it.only('Allows me to edit the term, definition, and name of a Flashcard', function () {
         cy.visit("/manage/")
 
         cy.get('form').within(() => {
@@ -254,7 +231,6 @@ describe('The Manage Flashcards Tab', function () {
             cy.contains('Submit')
                 .click()
 
-            cy.wait("@getFlashcards")
         })
 
         cy.get('div[class="card-columns"] div:first').within(() => {
@@ -282,9 +258,6 @@ describe('The Manage Flashcards Tab', function () {
     })
 
     it("Doesn't submit changes is no changes have been made", function () {
-        cy.server()
-        cy.route('POST', '/api/listFlashcards', 'fx:listFlashcardsResult').as('getFlashcards')
-
         cy.visit("/manage/")
 
         cy.get('form').within(() => {
@@ -293,7 +266,6 @@ describe('The Manage Flashcards Tab', function () {
             cy.contains('Submit')
                 .click()
 
-            cy.wait("@getFlashcards")
         })
 
         cy.get('div[class="card-columns"] div:first').within(() => {
@@ -309,15 +281,11 @@ describe('The Manage Flashcards Tab', function () {
     })
 
     it('Allows me view a flashcard with the colour associated to its topic', function () {
-        cy.server()
-        cy.route('POST', '/api/listFlashcards', 'fx:listFlashcardsResult').as('getFlashcards')
-
         cy.visit("/manage/")
 
         cy.contains('Submit')
             .click()
 
-        cy.wait("@getFlashcards")
 
         cy.get('div[class="card-columns"]').first().within(() => {
             cy.get('div[class="card-header"]').first()
