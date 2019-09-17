@@ -1,10 +1,10 @@
 import { Router } from 'express'
-import { createFlashcards, editFlashCards, deleteFlashcards, listFlashcards } from './controller'
+import { createFlashcard, updateFlashcard, deleteFlashcard, listFlashcards } from './controller'
 
 const routes = Router()
-    .post('/create', createFlashcards)
+    .post('/create', createFlashcard)
     .post('/list', listFlashcards)
-    // .get('/delete', deleteFlashcards)
-    // .get('/edit', editFlashCards)
+    .delete('/delete/:id', deleteFlashcard)
+    .post('/update/:id', updateFlashcard)
 
 export default routes

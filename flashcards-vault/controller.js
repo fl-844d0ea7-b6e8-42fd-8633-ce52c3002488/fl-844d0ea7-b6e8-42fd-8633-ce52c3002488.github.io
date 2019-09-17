@@ -1,7 +1,12 @@
 import { logInfo, logError } from './logging/logger'
-import { insertFlashcard, getFlashcards } from './data'
+import {
+    insertFlashcard,
+    getFlashcards,
+    removeFlashcard,
+    updateFlashcardDefinition
+} from './data'
 
-export const createFlashcards = async (request, response) => {
+export const createFlashcard = async (request, response) => {
     logInfo("Received request to create Flashcards")
 
     const { data } = request.body
@@ -31,15 +36,57 @@ export const createFlashcards = async (request, response) => {
         logError(err)
     }
 }
-// export const editFlashcards = async (request, response) => {
-//     return response.sendStatus(501)
-// }
-// export const deleteFlashcards = async (request, response) => {
-//     return response.sendStatus(501)
-// }
+export const updateFlashcard = async (request, response) => {
 
-function parseListFlashcardsResults(results){
-    return results.map(x => x.data)
+    const { id } = request.params
+    logInfo('Received request to update flashcard', id)
+
+    const { data } = request.body
+    logInfo("Received data", data)
+
+    const { definition, term} = data
+
+    if (definition) {
+        try{
+            const dbResponse = await updateFlashcardDefinition(id, definition)
+            logInfo(`Got response from data: ${dbResponse}`)
+
+            if (dbResponse) {
+                logInfo("Got a valid reponse from DB")
+                return response.sendStatus(200)
+            } else {
+                logError("No response from db...")
+                return response.sendStatus(503)
+            }
+        } catch (err) {
+            logError(err)
+            return response.sendStatus(503)
+        }
+    }
+    return response.sendStatus(400)
+}
+
+export const deleteFlashcard = async (request, response) => {
+
+    const { id } = request.params
+    logInfo("Received request to delete flashcard", {id})
+
+    try {
+        const dbResponse = await removeFlashcard(id)
+        logInfo(`Got response from data: ${dbResponse}`)
+
+        if (dbResponse) {
+            logInfo("Got a valid reponse from DB")
+            return response.sendStatus(200)
+        } else {
+            logError("No response from db...")
+            return response.sendStatus(503)
+        }
+    } catch (err) {
+        logError("Got error from the database", err)
+        logError(err)
+        return response.sendStatus(503)
+    }
 }
 
 export const listFlashcards = async (request, response) => {
@@ -56,19 +103,19 @@ export const listFlashcards = async (request, response) => {
     logInfo("Got search terms", { searchTerms })
 
     try {
-        const dbResponse = await getFlashcards(searchTerms.map(x => x.toLowerCase()))
+        logInfo("Making request to database")
+        const dbResponse = await getFlashcards(searchTerms)
         logInfo(`Got response from data: ${dbResponse}`)
 
         if (dbResponse) {
             logInfo('Got a cool response from the DB')
-            const returnedResults = parseListFlashcardsResults(dbResponse)
-            return response.status(200).send(returnedResults)
+            return response.status(200).send(dbResponse)
         }
+
+        logInfo("No response received", dbResponse)
     }
     catch (err) {
-        logError(err)
+        logError("Got an error", {err})
         return response.status(503).send("AAAAAAAARGH")
     }
-
-    // return response.sendStatus(501)
 }
