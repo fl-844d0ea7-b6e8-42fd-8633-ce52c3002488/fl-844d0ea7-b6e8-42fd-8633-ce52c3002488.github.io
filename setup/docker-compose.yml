@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+
+  flashcards-postgres:
+    container_name: flashcards-postgres
+    image: postgres:10.5
+    ports:
+      - 54320:5432
+    environment:
+      - POSTGRES_PASSWORD=$POSTGRES_PASSWORD

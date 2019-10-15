@@ -5,7 +5,8 @@ const postgresPool = new Pool({
     host: 'localhost',
     user: 'postgres',
     password: 'testpassword',
-    database: 'postgres'
+    database: 'postgres',
+    port: 54320
 })
 
 export const getFlashcardByName = async ( name ) => new Promise(
@@ -184,6 +185,12 @@ export const getTopics = async () => new Promise(
 
 export const getFlashcards = async (searchTerms) => new Promise(
     (resolve, reject) => {
+
+        const hasEmptyValues = (searchTerms) => {
+            console.log("Checking empty values for: ", searchTerms)
+            return Object.values(searchTerms).every((val) => (val === null || val === ''))
+        }
+
         logInfo("Received request to get flashcards")
         postgresPool.connect((connectError, client, release) => {
             if (connectError) {
@@ -193,21 +200,20 @@ export const getFlashcards = async (searchTerms) => new Promise(
             }
 
             const query = {
-                text: 'SELECT id, data from flashcards_app.flashcards ',
+                text: `SELECT id, data, colour FROM flashcards_app.flashcards INNER JOIN flashcards_app.topics ON flashcards_app.topics.topic_id = flashcards_app.flashcards.topic_id`,
                 values: []
             }
 
-            logInfo("Building query paramters")
+            if (!hasEmptyValues(searchTerms)){
+                logInfo("Building query paramters")
+                Object.entries(searchTerms).map(([column, value], index) => {
+                    console.log(`${index}: ${column} => ${value}`)
+                    // if value not empty
+                    //
+                })
+            }
 
-            Object.entries(searchTerms).map(([column, value]) => {
-                console.log(`${column} => ${value}`)
-                if (value){
-                    return concat(`${column} like ${value}`)
-                }
-            })
-
-            logInfo(query)
-
+            logInfo("Preparing to make query", {queryText: query.text})
             client.query(query, (queryError, result) => {
                 release()
                 if (queryError) {
