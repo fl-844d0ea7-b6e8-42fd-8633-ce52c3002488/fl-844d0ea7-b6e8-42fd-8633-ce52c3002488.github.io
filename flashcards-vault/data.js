@@ -206,11 +206,27 @@ export const getFlashcards = async (searchTerms) => new Promise(
 
             if (!hasEmptyValues(searchTerms)){
                 logInfo("Building query paramters")
+                let whereClause = ' WHERE '
                 Object.entries(searchTerms).map(([column, value], index) => {
                     console.log(`${index}: ${column} => ${value}`)
-                    // if value not empty
-                    //
+                    if (!(value === null || value === '')){
+                        query.values.push(value)
+                        if (whereClause !== ' WHERE '){
+                            whereClause += ` AND `
+                        }
+
+                        switch(column) {
+                            case 'topic_id':
+                                whereClause += `flashcards_app.flashcards.${column} = $${query.values.length}`
+                                break;
+                            default:
+                                whereClause += `flashcards_app.flashcards.${column} like $${query.values.length}`
+                        }
+                    }
                 })
+                logInfo(`Built ${whereClause}`)
+                query.text += whereClause
+                logInfo("Query values: ", query.values)
             }
 
             logInfo("Preparing to make query", {queryText: query.text})
