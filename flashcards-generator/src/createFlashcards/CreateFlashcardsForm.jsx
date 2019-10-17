@@ -17,7 +17,11 @@ const CreateFlashcardsForm = ({ newTopicCreated }) => {
     const [successMessage, setSuccess] = useState("")
     const [showSuccess, setShowSuccess] = useState(false)
     const [validFormInputs, setValidFormInputs] = useState(false)
-    const [formErrors, setFormErrors] = useState({ name: '', term: '', definition: ''})
+    const [formErrors, setFormErrors] = useState({ name: false, term: false, definition: false})
+
+    const hasValidFormInputs = () => {
+        return Object.values(formErrors).every((val) => (val === '' || val === false))
+    }
 
     const validateFormInput = (e) => {
         const isEmpty = (string) => {
@@ -43,21 +47,20 @@ const CreateFlashcardsForm = ({ newTopicCreated }) => {
         else {
             switch (e.target.id) {
                 case "formFlashcardName":
-                    setFormErrors({ ...formErrors, name: "" })
+                    setFormErrors({ ...formErrors, name: false })
                     break;
                 case "formFlashcardTerm":
-                    setFormErrors({ ...formErrors, term: "" })
+                    setFormErrors({ ...formErrors, term: false })
                     break;
                 case "formFlashcardDefinition":
-                    setFormErrors({ ...formErrors, definition: "" })
+                    setFormErrors({ ...formErrors, definition: false })
                     break;
             }
         }
 
         setValidFormInputs(
-            Object.values(formErrors).every((val) => (val === ''))
+            Object.values(formErrors).every((val) => (val === '' || !val))
         )
-
     }
 
     const handleSubmit = async () => {
@@ -65,7 +68,7 @@ const CreateFlashcardsForm = ({ newTopicCreated }) => {
         setShowSuccess(false)
         setShowError(false)
 
-        if (!validFormInputs || !topicId){
+        if (!hasValidFormInputs() || !topicId){
             setLoading(false)
             setError("There are invalid fields - please check your data is correct")
             setShowError(true)
@@ -165,7 +168,7 @@ const CreateFlashcardsForm = ({ newTopicCreated }) => {
                     rows="3"
                     placeholder="Enter the Definition"
                     name="flashcardDefinition"
-                    invalid={formErrors.definition}
+                    isInvalid={formErrors.definition}
                     onBlur={validateFormInput}
                     onChange={(e) => setDefinition(e.target.value)}
                     value={definition}

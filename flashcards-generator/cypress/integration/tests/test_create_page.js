@@ -61,6 +61,24 @@ describe('The Create Topics Tab', function() {
         })
 
         cy.contains('Successfully added topic: TestTopic2 :)')
+
+        cy.get('div[id="colourPicker"]').within(() => {
+            cy.get('input:first')
+                .click()
+                .clear()
+                .type('F000F')
+        })
+
+        cy.get('form').within(() => {
+            cy.get('input[name="flashcardTopic"]')
+                .type("TestTopic3")
+                .should('have.value', 'TestTopic3')
+
+            cy.get('button').last()
+                .click()
+        })
+
+        cy.contains('Successfully added topic: TestTopic3 :)')
     })
 
     it('Does not allow me to create topics with the same name', function () {
@@ -85,6 +103,34 @@ describe('The Create Topics Tab', function() {
         })
 
         cy.contains('That topic already exists apparently')
+    })
+
+    it('Does not allow me to leave the topic field blank', function () {
+        cy.visit("http://localhost:3000/create/")
+
+        cy.contains('Create Topics').click()
+
+        cy.get('form').within(() => {
+            cy.get('input[name="flashcardTopic"]')
+                .click()
+                .blur()
+
+            cy.contains("Please enter a value for the topic name")
+
+        })
+    })
+
+    it('Does not allow me to create a topic without a name', function () {
+        cy.visit("http://localhost:3000/create/")
+
+        cy.contains('Create Topics').click()
+
+        cy.get('form').within(() => {
+            cy.get('button').last()
+                .click()
+        })
+
+        cy.contains("Please ensure all mandatory fields are filled")
     })
 })
 
@@ -250,7 +296,7 @@ describe('The Create Flashcard Tab', function () {
         })
     })
 
-    it('Does not allow me to leave the name field empty', function () {
+    it('Warns me when if the name field is empty', function () {
         cy.visit("http://localhost:3000/create/")
 
         cy.get('form').within(() => {
@@ -262,7 +308,7 @@ describe('The Create Flashcard Tab', function () {
         cy.contains('Please enter a value for the flashcard name')
     })
 
-    it('Does not allow me to leave the term field empty', function () {
+    it('Warns me when if the term field is empty', function () {
         cy.visit("http://localhost:3000/create/")
 
         cy.get('form').within(() => {
@@ -274,7 +320,7 @@ describe('The Create Flashcard Tab', function () {
         cy.contains('Please enter a value for the flashcard term')
     })
 
-    it('Does not allow me to leave the definition field empty', function () {
+    it('Warns me when if the definition field is empty', function () {
         cy.visit("http://localhost:3000/create/")
 
         cy.get('form').within(() => {
@@ -284,5 +330,90 @@ describe('The Create Flashcard Tab', function () {
         })
 
         cy.contains('Please enter a value for the flashcard definition')
+    })
+
+    it('Does not allow me to create a flashcard without a definition', function () {
+        cy.visit("http://localhost:3000/create/")
+
+        cy.get('form').within(() => {
+            cy.get('input[name="flashcardName"]')
+                .click()
+                .type("creationtest")
+
+            cy.get('input[name="flashcardTerm"]')
+                .click()
+                .type("createtest")
+
+            cy.get('input[id="flashcardTopicsSearch"]')
+                .click({
+                    force: true
+                })
+                .type('Testing {enter}')
+
+            cy.get('textarea[name="flashcardDefinition"]')
+                .click()
+                .blur()
+
+            cy.contains('Submit')
+                .click()
+        })
+
+        cy.contains('There are invalid fields - please check your data is correct')
+    })
+
+    it('Does not allow me to create a flashcard without a term', function () {
+        cy.visit("http://localhost:3000/create/")
+
+        cy.get('form').within(() => {
+            cy.get('input[name="flashcardName"]')
+                .click()
+                .type("creationtest")
+
+            cy.get('input[name="flashcardTerm"]')
+                .click()
+                .blur()
+
+            cy.get('input[id="flashcardTopicsSearch"]')
+                .click({
+                    force: true
+                })
+                .type('Testing {enter}')
+
+            cy.get('textarea[name="flashcardDefinition"]')
+                .click()
+                .type("Testingstuff")
+
+            cy.contains('Submit')
+                .click()
+        })
+        cy.contains('There are invalid fields - please check your data is correct')
+    })
+
+    it('Does not allow me to create a flashcard without a name', function () {
+        cy.visit("http://localhost:3000/create/")
+
+        cy.get('form').within(() => {
+            cy.get('input[name="flashcardName"]')
+                .click()
+                .blur()
+
+            cy.get('input[name="flashcardTerm"]')
+                .click()
+                .type("termtest")
+
+            cy.get('input[id="flashcardTopicsSearch"]')
+                .click({
+                    force: true
+                })
+                .type('Testing {enter}')
+
+            cy.get('textarea[name="flashcardDefinition"]')
+                .click()
+                .type("Testingstuff")
+
+            cy.contains('Submit')
+                .click()
+        })
+        cy.contains('There are invalid fields - please check your data is correct')
     })
 })

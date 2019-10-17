@@ -15,7 +15,24 @@ const CreateTopicsForm = ({handleNewTopic}) => {
     const [successMessage, setSuccess] = useState("")
     const [errorMessage, setError] = useState("")
     const [showError, setShowError] = useState(false)
+    const [validFormInputs, setValidFormInputs] = useState(false)
+    const [formErrors, setFormErrors] = useState({topicName: ''})
 
+    const validateFormInput = (e) => {
+        const isEmpty = (string) => {
+            return (string === null || string === "")
+        }
+
+        if (e && isEmpty(e.target.value)) {
+            setFormErrors({ ...formErrors, topicName: "Please enter a value for the topic name" })
+            setValidFormInputs(false)
+        }
+        else {
+            setFormErrors({...formErrors, topicName: ''})
+            setValidFormInputs(true)
+        }
+
+    }
     const handleTopicColourChange = ({ hex }) => {
         setTopicColour(hex)
     }
@@ -25,6 +42,13 @@ const CreateTopicsForm = ({handleNewTopic}) => {
         setShowError(false)
         setShowSuccess(false)
 
+        if (!validFormInputs){
+            setIsLoading(false)
+            setError("Please ensure all mandatory fields are filled")
+            setShowError(true)
+            return
+        }
+
         const resp = await insertTopic(topic, topicColour)
 
         if (resp && resp.data) {
@@ -33,7 +57,6 @@ const CreateTopicsForm = ({handleNewTopic}) => {
             setShowSuccess(true)
             setTopic("")
             setTopicColour("")
-            console.log("Setting new topic created")
             handleNewTopic()
         }
 
@@ -63,7 +86,12 @@ const CreateTopicsForm = ({handleNewTopic}) => {
                     name="flashcardTopic"
                     onChange={(e) => setTopic(e.target.value)}
                     value={topic}
+                    onBlur={validateFormInput}
+                    isInvalid={formErrors.topicName}
                 />
+                <Form.Control.Feedback type="invalid">
+                    {formErrors.topicName}
+                </Form.Control.Feedback>
                 <Form.Text className="text-muted">
                     Enter the topic name (e.g. Tort Law)
                 </Form.Text>

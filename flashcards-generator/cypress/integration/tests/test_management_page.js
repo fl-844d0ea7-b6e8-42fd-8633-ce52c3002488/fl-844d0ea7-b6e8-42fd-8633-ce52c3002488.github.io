@@ -72,6 +72,8 @@ describe('The Manage Flashcard Page', function () {
                 .click()
         })
 
+        cy.get('div[class="card-columns"]').children().should('have.length', 4)
+
         cy.get('div[class="card-columns"] div:first').within(() => {
             cy.get('svg[data-icon="trash"]').click()
         })
@@ -111,6 +113,63 @@ describe('The Manage Flashcard Page', function () {
         cy.get('div[class="card-columns"]').first().within(() => {
             cy.get('div[class="card-header"]').first()
         })
+    })
+
+    it('Allows me search flashcards based on topic and name', function () {
+        cy.visit("http://localhost:3000/view/")
+
+        cy.get('input[id="flashcardTopicsSearch"]')
+            .click({
+                force: true
+            })
+            .type('TestTopic {enter}')
+
+        cy.get('input[name="flashcardName"]')
+            .click({ force: true })
+            .type("2")
+
+        cy.contains('Submit')
+            .click()
+
+        cy.get('div[class="card-columns"]').children().should('have.length', 1)
+    })
+
+    it('Allows me search flashcards based on topic and term', function () {
+        cy.visit("http://localhost:3000/view/")
+
+        cy.get('input[id="flashcardTopicsSearch"]')
+            .click({
+                force: true
+            })
+            .type('TestTopic {enter}')
+
+        cy.get('input[name="flashcardTerm"]')
+            .click({ force: true })
+            .type("Testing{enter}")
+
+        cy.contains('Submit')
+            .click()
+
+        cy.get('div[class="card-columns"]').children().should('have.length', 1)
+    })
+
+    it('Allows me search flashcards based on name and term', function () {
+        cy.visit("http://localhost:3000/view/")
+
+        cy.get('input[name="flashcardName"]')
+            .click({
+                force: true
+            })
+            .type('Test {enter}')
+
+        cy.get('input[name="flashcardTerm"]')
+            .click({ force: true })
+            .type("testing {enter}")
+
+        cy.contains('Submit')
+            .click()
+
+        cy.get('div[class="card-columns"]').children().should('have.length', 1)
     })
 })
 

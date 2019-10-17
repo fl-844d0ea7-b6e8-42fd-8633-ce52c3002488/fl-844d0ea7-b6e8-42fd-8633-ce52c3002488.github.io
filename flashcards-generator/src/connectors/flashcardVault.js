@@ -6,7 +6,6 @@ const parseSearchTerm = (string) => {
   if (string === "" || string === null){
     return string
   }
-  console.log(`Converting ${string} to %${string.toLowerCase()}%`)
   return `%${string.toLowerCase()}%`
 }
 
@@ -49,8 +48,8 @@ export const insertTopic = async (name, colour) => {
 export const getFlashcards = async (name, topic_id, term) => {
     console.log('Making POST request to Flashcards Vault get FLASHCARDS');
 
-    name = parseSearchTerm(name)
-    term = parseSearchTerm(term)
+    name = parseSearchTerm(name.trim())
+    term = parseSearchTerm(term.trim())
 
     try {
         const resp = await axios.post('http://localhost:4000/v1/list', {

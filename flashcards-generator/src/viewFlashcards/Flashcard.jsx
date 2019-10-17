@@ -106,7 +106,7 @@ const Flashcard = ({ id, term, definition, colour, handleDelete }) => {
                             defaultValue={newFlashcardDefinition}
                             onKeyDown={handleEditDefinitionSubmission}
                             onChange={(e) => setNewFlashcardDefinition(e.target.value)}/>
-                        : <Card.Text>{titleCase(newFlashcardDefinition)}</Card.Text>
+                        : <Card.Text>{newFlashcardDefinition}</Card.Text>
                 }
             </Card.Body>
         </Card>
