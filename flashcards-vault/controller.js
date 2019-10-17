@@ -19,8 +19,6 @@ export const createFlashcard = async (request, response) => {
 
     const {name, topic, term, definition} = data
 
-    const flashcardData = { term, definition }
-
     logInfo("Checking flashcard exists in Database")
 
     try {
@@ -42,10 +40,10 @@ export const createFlashcard = async (request, response) => {
 
     }
 
-    logInfo("Inserting into database ", {flashcardData, topic, name})
+    logInfo("Inserting into database ", {term, definition, topic, name})
 
     try {
-        const dbResponse = await insertFlashcard(flashcardData, topic, name)
+        const dbResponse = await insertFlashcard(term, definition, topic, name)
         logInfo(`Got response from data: ${dbResponse}`)
 
         if (dbResponse) {

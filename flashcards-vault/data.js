@@ -67,7 +67,7 @@ export const getTopicByName = async ( name ) => new Promise(
     }
 )
 
-export const insertFlashcard = async (data, topic, name) => new Promise(
+export const insertFlashcard = async (term, definition, topic, name) => new Promise(
     (resolve, reject) => {
         postgresPool.connect((connectError, client, release) => {
             if (connectError) {
@@ -77,8 +77,8 @@ export const insertFlashcard = async (data, topic, name) => new Promise(
             }
 
             const query = {
-                text: 'INSERT INTO flashcards_app.flashcards(data, topic_id, name, created, updated) VALUES($1, $2, $3, NOW(), NOW())',
-                values: [data, topic, name]
+                text: 'INSERT INTO flashcards_app.flashcards(term, definition, topic_id, name, created, updated) VALUES($1, $2, $3, $4, NOW(), NOW())',
+                values: [term, definition, topic, name]
             }
 
             logInfo(`Making query: ${query.text}`)
@@ -200,7 +200,7 @@ export const getFlashcards = async (searchTerms) => new Promise(
             }
 
             const query = {
-                text: `SELECT id, data, colour FROM flashcards_app.flashcards INNER JOIN flashcards_app.topics ON flashcards_app.topics.topic_id = flashcards_app.flashcards.topic_id`,
+                text: `SELECT id, term, definition, colour FROM flashcards_app.flashcards INNER JOIN flashcards_app.topics ON flashcards_app.topics.topic_id = flashcards_app.flashcards.topic_id`,
                 values: []
             }
 
