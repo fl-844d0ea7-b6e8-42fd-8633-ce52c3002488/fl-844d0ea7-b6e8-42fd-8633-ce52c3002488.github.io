@@ -65,12 +65,11 @@ const CreateFlashcardsForm = ({ newTopicCreated }) => {
         setShowSuccess(false)
         setShowError(false)
 
-        console.log("Making request to insert flashcard")
-        console.log(`Valid form inputs?: ${validFormInputs}`)
-        if (!validFormInputs){
+        if (!validFormInputs || !topicId){
             setLoading(false)
             setError("There are invalid fields - please check your data is correct")
             setShowError(true)
+            setValidFormInputs(false)
             return
         }
 
