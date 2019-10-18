@@ -2,6 +2,8 @@ import React, {useState} from 'react'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import Alert from 'react-bootstrap/Alert'
+import FormAlert from '../common/FormAlert'
+import FormInput from '../common/FormInput'
 import TopicSelect from '../common/TopicSelect'
 import { insertFlashcard } from '../connectors/flashcardVault'
 
@@ -16,7 +18,6 @@ const CreateFlashcardsForm = ({ newTopicCreated }) => {
     const [showError, setShowError] = useState(false)
     const [successMessage, setSuccess] = useState("")
     const [showSuccess, setShowSuccess] = useState(false)
-    const [validFormInputs, setValidFormInputs] = useState(false)
     const [formErrors, setFormErrors] = useState({ name: false, term: false, definition: false})
 
     const hasValidFormInputs = () => {
@@ -32,15 +33,12 @@ const CreateFlashcardsForm = ({ newTopicCreated }) => {
             switch(e.target.id){
                 case "formFlashcardName":
                     setFormErrors({...formErrors, name: "Please enter a value for the flashcard name"})
-                    setValidFormInputs(false)
                     break;
                 case "formFlashcardTerm":
                     setFormErrors({...formErrors, term: "Please enter a value for the flashcard term"})
-                    setValidFormInputs(false)
                     break;
                 case "formFlashcardDefinition":
                     setFormErrors({...formErrors, definition: "Please enter a value for the flashcard definition"})
-                    setValidFormInputs(false)
                     break;
             }
         }
@@ -57,10 +55,6 @@ const CreateFlashcardsForm = ({ newTopicCreated }) => {
                     break;
             }
         }
-
-        setValidFormInputs(
-            Object.values(formErrors).every((val) => (val === '' || !val))
-        )
     }
 
     const handleSubmit = async () => {
@@ -72,7 +66,6 @@ const CreateFlashcardsForm = ({ newTopicCreated }) => {
             setLoading(false)
             setError("There are invalid fields - please check your data is correct")
             setShowError(true)
-            setValidFormInputs(false)
             return
         }
 
@@ -112,92 +105,66 @@ const CreateFlashcardsForm = ({ newTopicCreated }) => {
 
     return (
         <Form>
-            <Form.Group controlId="formFlashcardName">
-                <Form.Label>Name</Form.Label>
-                <Form.Control
-                    required
-                    type="text"
-                    placeholder="Enter the name of the flashcard"
-                    name="flashcardName"
-                    onBlur={validateFormInput}
-                    onChange={(e) => setName(e.target.value)}
-                    isInvalid={formErrors.name}
-                    value={name}
-                />
-                <Form.Control.Feedback type="invalid">
-                    {formErrors.name}
-                </Form.Control.Feedback>
-                <Form.Text className="text-muted">
-                    Enter the name for the flashcard (e.g. TortCard)
-                </Form.Text>
-            </Form.Group>
+            <FormInput
+                labelText="Name"
+                fieldType="text"
+                fieldPlaceholderText="Enter the name of the flashcard"
+                fieldElementName="flashcardName"
+                fieldOnBlurEvent={validateFormInput}
+                fieldOnChangeEvent={(e) => setName(e.target.value)}
+                fieldGroupControlId="formFlashcardName"
+                fieldHelpText="Enter the name for the flashcard (e.g. TortCard)"
+                fieldErrorMessage={formErrors.name}
+                fieldIsInvalid={formErrors.name}
+                fieldValue={name}
+            />
 
-            <Form.Group controlId="formFlashcardTerm">
-                <Form.Label>Term</Form.Label>
-                <Form.Control
-                    required
-                    type="text"
-                    placeholder="Enter the Term"
-                    name="flashcardTerm"
-                    onBlur={validateFormInput}
-                    onChange={(e) => setTerm(e.target.value)}
-                    isInvalid={formErrors.term}
-                    value={term}
-                />
-                <Form.Control.Feedback type="invalid">
-                    {formErrors.term}
-                </Form.Control.Feedback>
-                <Form.Text className="text-muted">
-                    Enter the word you want to define (e.g. Tort)
-                </Form.Text>
-            </Form.Group>
+            <FormInput
+                labelText="Term"
+                fieldType="text"
+                fieldPlaceholderText="Enter the Term"
+                fieldElementName="flashcardTerm"
+                fieldOnBlurEvent={validateFormInput}
+                fieldOnChangeEvent={(e) => setTerm(e.target.value)}
+                fieldGroupControlId="formFlashcardTerm"
+                fieldHelpText="Enter the word you want to define (e.g. Tort)"
+                fieldErrorMessage={formErrors.term}
+                fieldIsInvalid={formErrors.term}
+                fieldValue={term}
+            />
 
-            <Form.Group>
-                <Form.Label>Topic</Form.Label>
-                <TopicSelect
-                    handleTopicChange={handleTopicChange}
-                    newTopicCreated={newTopicCreated}
-                />
-            </Form.Group>
+            <TopicSelect
+                handleTopicChange={handleTopicChange}
+                newTopicCreated={newTopicCreated}
+            />
 
-            <Form.Group controlId="formFlashcardDefinition">
-                <Form.Label>Definition</Form.Label>
-                <Form.Control
-                    required
-                    as="textarea"
-                    rows="3"
-                    placeholder="Enter the Definition"
-                    name="flashcardDefinition"
-                    isInvalid={formErrors.definition}
-                    onBlur={validateFormInput}
-                    onChange={(e) => setDefinition(e.target.value)}
-                    value={definition}
-                />
-                <Form.Control.Feedback type="invalid">
-                    {formErrors.definition}
-                </Form.Control.Feedback>
-                <Form.Text className="text-muted">
-                    Enter the corresponding defintion (e.g. a civil wrong)
-                </Form.Text>
-            </Form.Group>
+            <FormInput
+                labelText="Definition"
+                fieldAs="textarea"
+                fieldPlaceholderText="Enter the Definition"
+                fieldElementName="flashcardDefinition"
+                fieldOnBlurEvent={validateFormInput}
+                fieldOnChangeEvent={(e) => setDefinition(e.target.value)}
+                fieldGroupControlId="formFlashcardDefinition"
+                fieldHelpText="Enter the corresponding defintion (e.g. a civil wrong)"
+                fieldErrorMessage={formErrors.definition}
+                fieldIsInvalid={formErrors.definition}
+                fieldValue={definition}
+            />
 
-            <Alert
-                variant="danger"
-                show={showError}
-                onClose={() => setShowError(false)}
-                dismissible
-            >
-                <Alert.Heading>{errorMessage}</Alert.Heading>
-            </Alert>
+            <FormAlert
+                alertVariant="danger"
+                showAlert={showError}
+                alertCloseEvent={() => setShowError(false)}
+                message={errorMessage}
+            />
 
-            <Alert
-                variant="success"
-                show={showSuccess}
+            <FormAlert
+                alertVariant="success"
+                showAlert={showSuccess}
                 onClose={() => setShowSuccess(false)}
-                dismissible
-            >
-                <Alert.Heading>{successMessage}</Alert.Heading>
-            </Alert>
+                message={successMessage}
+            />
 
             <Button
                 variant="primary"

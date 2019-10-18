@@ -89,7 +89,6 @@ const FlashcardsViewer = () => {
         <div className="flashcardsViewer">
             <Form>
                 <Form.Group controlId="formFlashcardTopic">
-                    <Form.Label>Topic</Form.Label>
                     <TopicSelect
                         handleTopicChange={handleTopicChange}
                     />

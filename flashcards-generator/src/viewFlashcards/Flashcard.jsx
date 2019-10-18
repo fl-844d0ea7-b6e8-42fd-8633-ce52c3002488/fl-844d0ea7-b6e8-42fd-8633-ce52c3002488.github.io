@@ -94,10 +94,10 @@ const Flashcard = ({ id, term, definition, colour, handleDelete }) => {
         <Card id={id}>
             <Card.Header style={{backgroundColor: colour, color: getAppropriateTextColour()}}>
                 {titleCase(term)}
-                <span className="flashcardsIcons">
+                <div className="flashcardsIcons">
                     <FontAwesomeIcon icon={faEdit} size="sm" onClick={() => handleEditClick()}/>
                     <FontAwesomeIcon icon={faTrash} size="sm" onClick={() => handleDelete(id)}/>
-                </span>
+                </div>
             </Card.Header>
             <Card.Body>
                 {

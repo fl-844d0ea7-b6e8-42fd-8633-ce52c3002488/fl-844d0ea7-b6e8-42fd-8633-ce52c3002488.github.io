@@ -4,3 +4,12 @@
   padding: auto;
   margin: auto;
 }
+
+.topicOptionLabel {
+  margin-left: 2%;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+}

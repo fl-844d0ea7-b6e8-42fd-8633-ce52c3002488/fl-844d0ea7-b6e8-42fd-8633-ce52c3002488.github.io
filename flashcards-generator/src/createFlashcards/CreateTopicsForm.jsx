@@ -3,6 +3,8 @@ import Form from 'react-bootstrap/Form'
 import Alert from 'react-bootstrap/Alert'
 import Button from 'react-bootstrap/Button'
 import ColourPicker from '../common/ColourPicker';
+import FormInput from '../common/FormInput';
+import FormAlert from '../common/FormAlert';
 import { insertTopic } from '../connectors/flashcardVault';
 
 
@@ -77,25 +79,18 @@ const CreateTopicsForm = ({handleNewTopic}) => {
 
     return (
         <Form>
-            <Form.Group controlId="formTopic">
-                <Form.Label>Topic</Form.Label>
-                <Form.Control
-                    required
-                    type="text"
-                    placeholder="Enter the Topic"
-                    name="flashcardTopic"
-                    onChange={(e) => setTopic(e.target.value)}
-                    value={topic}
-                    onBlur={validateFormInput}
-                    isInvalid={formErrors.topicName}
-                />
-                <Form.Control.Feedback type="invalid">
-                    {formErrors.topicName}
-                </Form.Control.Feedback>
-                <Form.Text className="text-muted">
-                    Enter the topic name (e.g. Tort Law)
-                </Form.Text>
-            </Form.Group>
+            <FormInput
+                fieldGroupControlId="formTopic"
+                fieldType="text"
+                fieldPlaceholderText="Enter the Topic"
+                fieldElementName="flashcardTopic"
+                fieldOnBlurEvent={validateFormInput}
+                fieldOnChangeEvent={(e) => setTopic(e.target.value)}
+                fieldIsInvalid={formErrors.topicName}
+                fieldErrorMessage={formErrors.topicName}
+                fieldHelpText="Enter the topic name (e.g. Tort Law)"
+                fieldValue={topic}
+            />
 
             <Form.Group>
                 <ColourPicker
@@ -105,24 +100,19 @@ const CreateTopicsForm = ({handleNewTopic}) => {
                 />
             </Form.Group>
 
-            <Alert
-                variant="success"
-                show={showSuccess}
-                onClose={() => setShowSuccess(false)}
-                dismissible
-            >
-                <Alert.Heading>{successMessage}</Alert.Heading>
-            </Alert>
+            <FormAlert
+                alertVariant="success"
+                showAlert={showSuccess}
+                onCloseEvent={() => setShowSuccess(false)}
+                message={successMessage}
+            />
 
-            <Alert
-                variant="danger"
-                show={showError}
-                onClose={() => setShowError(false)}
-                dismissible
-            >
-                <Alert.Heading>{errorMessage}</Alert.Heading>
-            </Alert>
-
+            <FormAlert
+                alertVariant="danger"
+                showAlert={showError}
+                onCloseEvent={() => setShowError(false)}
+                message={errorMessage}
+            />
 
             <Button
                 variant="primary"
