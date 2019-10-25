@@ -274,8 +274,8 @@ describe('The Create Flashcard Tab', function () {
                 .should('have.value', 'TestingFlashcard')
 
             cy.get('input[name="flashcardTerm"]')
-                .type("TestTerm")
-                .should('have.value', 'TestTerm')
+                .type("TestingTerm")
+                .should('have.value', 'TestingTerm')
 
             cy.get('input[id="flashcardTopicsSearch"]')
                 .click({

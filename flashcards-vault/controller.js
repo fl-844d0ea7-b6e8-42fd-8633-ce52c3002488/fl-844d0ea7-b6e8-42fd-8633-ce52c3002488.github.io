@@ -192,12 +192,34 @@ export const listFlashcards = async (request, response) => {
 }
 
 export const listTopics = async (request, response) => {
-
+    // Endpoint to do a select * from topics
     logInfo("Received request to list flashcards")
 
     try {
         logInfo("Making request to database")
         const dbResponse = await getTopics()
+        logInfo(`Got response from data: ${dbResponse}`)
+
+        if (dbResponse) {
+            logInfo('Got a cool response from the DB')
+            return response.status(200).send(dbResponse)
+        }
+
+        logInfo("No response received", dbResponse)
+    }
+    catch (err) {
+        logError("Got an error", {err})
+        return response.status(503).send("AAAAAAAARGH")
+    }
+}
+
+export const getTopicsByFilter = async (request, response) => {
+    // Endpoint to do a select * from topics where...
+    logInfo("Received request to get flashcards")
+
+    try {
+        logInfo("Making request to database")
+        const dbResponse = await getTopicsByName()
         logInfo(`Got response from data: ${dbResponse}`)
 
         if (dbResponse) {

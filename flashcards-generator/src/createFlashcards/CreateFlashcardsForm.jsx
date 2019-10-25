@@ -155,14 +155,14 @@ const CreateFlashcardsForm = ({ newTopicCreated }) => {
             <FormAlert
                 alertVariant="danger"
                 showAlert={showError}
-                alertCloseEvent={() => setShowError(false)}
+                onCloseEvent={() => setShowError(false)}
                 message={errorMessage}
             />
 
             <FormAlert
                 alertVariant="success"
                 showAlert={showSuccess}
-                onClose={() => setShowSuccess(false)}
+                onCloseEvent={() => setShowSuccess(false)}
                 message={successMessage}
             />
 

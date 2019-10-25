@@ -2,9 +2,9 @@ describe('Basic functionality of the Test Flashcard Page', function () {
     it('Opens the Test Flashcards Page', function () {
         cy.visit("http://localhost:3000/test/")
 
-        cy.contains('Manaaa').click()
+        cy.contains('Test').click()
 
-        cy.url().should('include', '/view')
+        cy.url().should('include', '/test')
     })
 
     it('Allows me to view all Flashcards', function () {

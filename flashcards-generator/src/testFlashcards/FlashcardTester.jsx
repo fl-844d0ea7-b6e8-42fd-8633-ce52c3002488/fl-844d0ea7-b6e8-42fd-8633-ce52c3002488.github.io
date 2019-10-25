@@ -68,12 +68,9 @@ const FlashcardsTester = () => {
             <TestSettings handleTestOptionChange={handleTestOptionChange} />
             <br />
             <Form>
-                <Form.Label>Topic</Form.Label>
-                <Form.Group controlId="formFlashcardTopic">
-                    <TopicSelect
-                        handleTopicChange={handleTopicChange}
-                    />
-                </Form.Group>
+                <TopicSelect
+                    handleTopicChange={handleTopicChange}
+                />
 
                 <Form.Group controlId="formFlashcardTerm">
                     <Form.Label>Term</Form.Label>

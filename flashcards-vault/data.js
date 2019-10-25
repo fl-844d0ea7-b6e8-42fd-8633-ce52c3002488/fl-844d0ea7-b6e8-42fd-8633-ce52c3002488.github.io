@@ -67,6 +67,35 @@ export const getTopicByName = async ( name ) => new Promise(
     }
 )
 
+export const getTopicsByName = async ( name ) => new Promise(
+    (resolve, reject) => {
+        postgresPool.connect((connectError, client, release) => {
+            if (connectError) {
+                logError("Error connecting to the DB", connectError.stack)
+                reject( new Error("Connection sadness"))
+                return
+            }
+
+            const query = {
+                text: 'SELECT COUNT(*) FROM flashcards_app.topics WHERE name like $1',
+                values: [name]
+            }
+
+            logInfo("Performing query", query.text)
+            client.query(query, (queryError, result) => {
+                release()
+                if (queryError) {
+                    logError(queryError.stack)
+                    reject(new Error("Postgres sadness :("))
+                    return
+                }
+                logInfo("Received result", {count: result.rows})
+                resolve(result.rows[0].count)
+            })
+        })
+    }
+)
+
 export const insertFlashcard = async (term, definition, topic, name) => new Promise(
     (resolve, reject) => {
         postgresPool.connect((connectError, client, release) => {
@@ -200,12 +229,12 @@ export const getFlashcards = async (searchTerms) => new Promise(
             }
 
             const query = {
-                text: `SELECT id, term, definition, colour FROM flashcards_app.flashcards INNER JOIN flashcards_app.topics ON flashcards_app.topics.topic_id = flashcards_app.flashcards.topic_id`,
+                text: `SELECT id, flashcards_app.topics.name as topic_name, term, definition, colour FROM flashcards_app.flashcards INNER JOIN flashcards_app.topics ON flashcards_app.topics.topic_id = flashcards_app.flashcards.topic_id`,
                 values: []
             }
 
             if (!hasEmptyValues(searchTerms)){
-                logInfo("Building query paramters")
+                logInfo("Building query parameters")
                 let whereClause = ' WHERE '
                 Object.entries(searchTerms).map(([column, value], index) => {
                     console.log(`${index}: ${column} => ${value}`)

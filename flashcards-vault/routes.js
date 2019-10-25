@@ -5,6 +5,7 @@ import {
     deleteFlashcard,
     listFlashcards,
     listTopics,
+    getTopicsByFilter,
     createTopic
 } from './controller'
 
@@ -15,5 +16,6 @@ const routes = Router()
     .delete('/delete/:id', deleteFlashcard)
     .post('/update/:id', updateFlashcard)
     .get('/listTopics', listTopics)
+    .post('/getTopics', getTopicsByFilter)
 
 export default routes

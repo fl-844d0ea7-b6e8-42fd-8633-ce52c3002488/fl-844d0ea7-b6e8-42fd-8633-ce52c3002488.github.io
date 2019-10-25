@@ -17,17 +17,17 @@ const NavigationBar = () => {
             <Nav>
                 <LinkContainer to="/create/">
                     <Nav.Link>
-                        <Nav.Item>Creaaaaaate</Nav.Item>
+                        <Nav.Item>Create</Nav.Item>
                     </Nav.Link>
                 </LinkContainer>
                 <LinkContainer to="/view/">
                     <Nav.Link>
-                        <Nav.Item>Manaaaaaaaage</Nav.Item>
+                        <Nav.Item>Manage</Nav.Item>
                     </Nav.Link>
                 </LinkContainer>
                 <LinkContainer to="/test/">
                     <Nav.Link>
-                        <Nav.Item>Teeeeesting</Nav.Item>
+                        <Nav.Item>Test</Nav.Item>
                     </Nav.Link>
                 </LinkContainer>
             </Nav>

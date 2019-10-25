@@ -1,14 +1,16 @@
-describe('The Manage Flashcard Page', function () {
-    it('Opens the Manage Flashcards Page', function () {
+describe('The Manage Flashcards Tab', function () {
+    it('Opens the Management Page', function () {
         cy.visit("http://localhost:3000/home/")
 
-        cy.contains('Manaaa').click()
+        cy.contains('Manage').click()
 
         cy.url().should('include', '/view')
     })
 
     it('Allows me to view all Flashcards', function () {
         cy.visit("http://localhost:3000/view/")
+
+        cy.contains('Manage Flashcards').click()
 
         cy.get('form').within(() => {
             cy.contains('Submit')
@@ -58,7 +60,7 @@ describe('The Manage Flashcard Page', function () {
                 .click()
         })
 
-        cy.get('div[class="card-columns"]').children().should('have.length', 1)
+        cy.get('div[class="card-columns"]').children().should('have.length', 2)
     })
 
     it('Allows me to delete a Flashcard', function () {
@@ -145,7 +147,7 @@ describe('The Manage Flashcard Page', function () {
 
         cy.get('input[name="flashcardTerm"]')
             .click({ force: true })
-            .type("Testing{enter}")
+            .type("testing{enter}")
 
         cy.contains('Submit')
             .click()
@@ -169,7 +171,16 @@ describe('The Manage Flashcard Page', function () {
         cy.contains('Submit')
             .click()
 
-        cy.get('div[class="card-columns"]').children().should('have.length', 1)
+        cy.get('div[class="card-columns"]').children().should('have.length', 2)
+    })
+})
+
+describe.skip('The Manage Topics Tab', function () {
+    it('Allows me to switch to the manage topics tab', function () {
+        cy.visit("http://localhost:3000/view")
+
+        cy.contains("Manage Topics")
+            .click()
     })
 })
 

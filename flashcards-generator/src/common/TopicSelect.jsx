@@ -4,7 +4,7 @@ import { faSquareFull } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { getTopics } from '../connectors/flashcardVault'
 import Form from 'react-bootstrap/Form'
-const TopicSelect = ({ labelText, newTopicCreated, value, handleTopicChange, handleCreateTopic }) => {
+const TopicSelect = ({ fieldHelpText, newTopicCreated, value, handleTopicChange, handleCreateTopic }) => {
 
     const [topicOptionsList, setTopicOptionsList] = useState([])
 
@@ -54,6 +54,9 @@ const TopicSelect = ({ labelText, newTopicCreated, value, handleTopicChange, han
                 onCreateOption={handleCreateTopic}
                 value={value}
             />
+            <Form.Text className="text-muted">
+                {fieldHelpText ? fieldHelpText : ""}
+            </Form.Text>
         </Form.Group>
     )
 }

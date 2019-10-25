@@ -51,6 +51,7 @@ export const getFlashcards = async (name, topic_id, term) => {
     name = parseSearchTerm(name.trim())
     term = parseSearchTerm(term.trim())
 
+
     try {
         const resp = await axios.post('http://localhost:4000/v1/list', {
             searchTerms: {
@@ -69,6 +70,18 @@ export const getTopics = async () => {
   console.log('Making GET request to Flashcards Vault get TOPICS');
   try {
     const resp = await axios.get('http://localhost:4000/v1/listTopics');
+    console.log('Request was successful, returning results');
+    return { data: resp.data };
+  } catch (error) {
+    console.log(error);
+    return { error };
+  }
+};
+
+export const getTopicsByName = async () => {
+  console.log('Making GET request to Flashcards Vault get TOPICS');
+  try {
+    const resp = await axios.get('http://localhost:4000/v1/getTopics');
     console.log('Request was successful, returning results');
     return { data: resp.data };
   } catch (error) {
