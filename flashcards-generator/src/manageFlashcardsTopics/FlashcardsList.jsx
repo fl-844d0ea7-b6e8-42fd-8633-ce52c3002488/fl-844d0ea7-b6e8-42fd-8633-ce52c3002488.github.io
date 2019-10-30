@@ -1,14 +1,16 @@
 import React from 'react'
-import CardColumns from 'react-bootstrap/CardColumns'
 import Flashcard from './Flashcard'
-import TopicCard from './TopicCard'
+import Badge from 'react-bootstrap/Badge'
+import CardColumns from 'react-bootstrap/CardColumns'
 
 const FlashcardsList = ({ cardsList, handleDelete }) => {
 
     return (
         Object.entries(cardsList).map(([topic, cardArray]) => (
             <div key={topic+"-section"}>
-                <h4>{topic}</h4>
+                <h4>
+                    <Badge pill variant="light">{topic}</Badge>
+                </h4>
                 <CardColumns id={`${topic}-card-columns`}>
                     {
                         Object.entries(cardArray).map(([index, {id, term, definition, colour}]) => (
