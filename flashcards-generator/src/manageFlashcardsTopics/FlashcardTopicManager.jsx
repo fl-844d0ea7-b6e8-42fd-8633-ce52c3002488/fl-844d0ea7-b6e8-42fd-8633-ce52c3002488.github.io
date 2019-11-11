@@ -10,7 +10,7 @@ const FlashcardTopicManager = () => {
             <Tab eventKey="manageFlashcards" title="Manage Flashcards">
                 <FlashcardsManager />
             </Tab>
-            <Tab eventKey="manageTopics" title="Manage Topics" disabled>
+            <Tab eventKey="manageTopics" title="Manage Topics">
                 <TopicManager />
             </Tab>
         </Tabs>

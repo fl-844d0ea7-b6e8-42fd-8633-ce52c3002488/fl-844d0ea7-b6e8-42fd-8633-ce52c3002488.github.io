@@ -65,7 +65,7 @@ describe('Basic functionality of the Test Flashcard Page', function () {
 
 
 describe('Manual testing functionality of the Test Flashcard Page', function () {
-    it('Hides definitions when Test Manually otion is selected', function() {
+    it('Hides definitions when Test Manually option is selected', function() {
         cy.visit("http://localhost:3000/test/")
 
         cy.contains("Test Manually").click()

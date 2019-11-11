@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button'
 import FormInput from '../common/FormInput'
 import FormAlert from '../common/FormAlert'
 import CardColumns from 'react-bootstrap/CardColumns'
-import { getTopicsByName, getTopics } from '../connectors/flashcardVault'
+import { getTopicsByName, getTopics, deleteTopic } from '../connectors/flashcardVault'
 import TopicCard from './TopicCard'
 
 const TopicManager = () => {
@@ -18,24 +18,44 @@ const TopicManager = () => {
     const [topicsList, setTopicsList] = useState([])
 
     const handleTopicSearch = async () => {
-        let dbResponse
+        let resp
         console.log("Handling Topic Search")
         if (topic) {
             console.log("Got topic - searching by topic name")
-            dbResponse = await getTopicsByName(topic)
+            resp = await getTopicsByName(topic)
         }
         else {
             console.log("No topic - just getting the full list")
-            dbResponse = await getTopics()
+            resp = await getTopics()
         }
 
-        setTopicsList(dbResponse.data)
-        console.log(dbResponse.data)
+        setTopicsList(resp.data)
+    }
+
+    const handleDelete = async (id) => {
+
+        const resp = await deleteTopic(id)
+
+        console.log("Got dbResponse from deleting topic", resp)
+
+        if (resp) {
+            setLoading(false)
+        }
+
+        if (resp && resp.data) {
+            const filteredTopicsList = topicsList.filter(topic => topic.id != id)
+            setTopicsList(filteredTopicsList)
+        }
+
+        if (resp && resp.error) {
+            setError("Cannot delete that topic as there are flashcards related to it")
+            setShowError(true)
+        }
     }
 
     return (
         <div>
-            <Form>
+            <Form id="topicsForm">
                 <FormInput
                     labelText="Name"
                     fieldType="text"
@@ -67,14 +87,15 @@ const TopicManager = () => {
                     {isLoading ? 'Loading...' : 'Submit'}
                 </Button>
             </Form>
+            <br />
             <CardColumns>
-                {topicsList.map(({ id, name, colour }, _) => (
+                {topicsList.map(({ topic_id, name, colour }, _) => (
                     <TopicCard
-                        key={id}
+                        key={`${topic_id}_${name}`}
+                        id={topic_id}
                         name={name}
                         colour={colour}
-                        // definition={definition}
-                        // handleDelete={handleDelete}
+                        handleDelete={handleDelete}
                     />
                 ))}
             </CardColumns>

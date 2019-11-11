@@ -3,10 +3,12 @@ import {
     createFlashcard,
     updateFlashcard,
     deleteFlashcard,
+    deleteTopic,
     listFlashcards,
     listTopics,
     getTopicsByFilter,
-    createTopic
+    createTopic,
+    updateTopicName
 } from './controller'
 
 const routes = Router()
@@ -14,7 +16,9 @@ const routes = Router()
     .post('/createFlashcard', createFlashcard)
     .post('/list', listFlashcards)
     .delete('/delete/:id', deleteFlashcard)
+    .delete('/deleteTopic/:id', deleteTopic)
     .post('/update/:id', updateFlashcard)
+    .post('/updateTopicName/:id', updateTopicName)
     .get('/listTopics', listTopics)
     .post('/getTopics', getTopicsByFilter)
 

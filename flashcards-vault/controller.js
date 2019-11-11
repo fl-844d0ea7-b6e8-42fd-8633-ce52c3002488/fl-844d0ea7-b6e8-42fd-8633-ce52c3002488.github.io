@@ -3,11 +3,13 @@ import {
     insertFlashcard,
     getFlashcards,
     removeFlashcard,
+    removeTopic,
     updateFlashcardDefinition,
     getFlashcardByName,
     getTopics,
     getTopicByName,
-    insertTopic
+    insertTopic,
+    updateTopicByName
 } from './data'
 
 export const createFlashcard = async (request, response) => {
@@ -137,6 +139,41 @@ export const updateFlashcard = async (request, response) => {
     return response.sendStatus(400)
 }
 
+export const updateTopicName = async (request, response) => {
+
+    const { id } = request.params
+    logInfo('Received request to update topic', id)
+
+    if (id === undefined || id === "") {
+        logError("No id received in request")
+        return response.sendStatus(400)
+    }
+
+    const { data } = request.body
+    logInfo("Received data", data)
+
+    const { name } = data
+
+    if (name) {
+        try{
+            const dbResponse = await updateTopicByName(id, name)
+            logInfo(`Got response from data: ${dbResponse}`)
+
+            if (dbResponse) {
+                logInfo("Got a valid reponse from DB")
+                return response.sendStatus(200)
+            } else {
+                logError("No response from db...")
+                return response.sendStatus(503)
+            }
+        } catch (err) {
+            logError(err)
+            return response.sendStatus(503)
+        }
+    }
+    return response.sendStatus(400)
+}
+
 export const deleteFlashcard = async (request, response) => {
 
     const { id } = request.params
@@ -144,6 +181,29 @@ export const deleteFlashcard = async (request, response) => {
 
     try {
         const dbResponse = await removeFlashcard(id)
+        logInfo(`Got response from data: ${dbResponse}`)
+
+        if (dbResponse) {
+            logInfo("Got a valid reponse from DB")
+            return response.sendStatus(200)
+        } else {
+            logError("No response from db...")
+            return response.sendStatus(503)
+        }
+    } catch (err) {
+        logError("Got error from the database", err)
+        logError(err)
+        return response.sendStatus(503)
+    }
+}
+
+export const deleteTopic = async (request, response) => {
+
+    const { id } = request.params
+    logInfo("Received request to delete topic", {id})
+
+    try {
+        const dbResponse = await removeTopic(id)
         logInfo(`Got response from data: ${dbResponse}`)
 
         if (dbResponse) {

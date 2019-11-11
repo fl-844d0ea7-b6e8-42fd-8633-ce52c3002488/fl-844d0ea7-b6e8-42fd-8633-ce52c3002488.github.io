@@ -2,31 +2,33 @@ import React, { useState, useMemo } from 'react'
 import Card from 'react-bootstrap/Card'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons'
-import { updateFlashcard } from '../connectors/flashcardVault'
+import { updateTopicName } from '../connectors/flashcardVault'
 
 const TopicCard = ({ id, name, colour, handleDelete }) => {
     const [edit, setEdit] = useState(false)
+    const [newTopicName, setNewTopicName] = useState(name)
 
     const handleEditClick = () => {
         setEdit(!edit)
     }
 
-    // const handleEditDefinitionSubmission = async (e) => {
-    //     if (e.key == "Enter") {
-    //         if (newFlashcardDefinition && definition !== newFlashcardDefinition) {
-    //             console.log("Making request to update flashcard")
+    const handleEditTopicNameSubmission = async (e) => {
+        if (e.key == "Enter") {
+            if (newTopicName && newTopicName !== name) {
+                console.log("Making request to update flashcard")
 
-    //             const resp = await updateFlashcard(id, "", newFlashcardDefinition)
+                const resp = await updateTopicName(id, newTopicName)
 
-    //             if (resp) {
-    //                 setEdit(false)
-    //             }
-    //         }
-    //         else {
-    //             setEdit(false)
-    //         }
-    //     }
-    // }
+                if (resp) {
+                    console.log("Received request - all good")
+                    setEdit(false)
+                }
+            }
+            else {
+                setEdit(false)
+            }
+        }
+    }
 
     // Taken from: https://codepen.io/andreaswik/pen/YjJqpK
     const getAppropriateTextColour = (colour) => {
@@ -87,22 +89,23 @@ const TopicCard = ({ id, name, colour, handleDelete }) => {
 
 
     return (
-        <Card>
-            {/* <Card.Header style={{ backgroundColor: colour, color: getAppropriateTextColour() }}>
-                {titleCase(name)}
-                <div className="flashcardsIcons">
-                    <FontAwesomeIcon icon={faEdit} size="sm" onClick={() => handleEditClick()} />
-                    <FontAwesomeIcon icon={faTrash} size="sm" onClick={() => handleDelete(id)} />
-                </div>
-            </Card.Header> */}
+        <Card id={id}>
             <Card.Body style={{ backgroundColor: colour, color: getAppropriateTextColour(colour) }}>
                 {
                     edit
-                        ? <input type="text"
-                            defaultValue={newFlashcardDefinition}
-                            onKeyDown={handleEditDefinitionSubmission}
-                            onChange={(e) => setNewFlashcardDefinition(e.target.value)} />
-                        : <Card.Text>{(name)}</Card.Text>
+                        ?
+                            <input type="text"
+                                value={newTopicName}
+                                onKeyDown={handleEditTopicNameSubmission}
+                                onChange={(e) => setNewTopicName(e.target.value)}
+                            />
+                        : <div className="topicCard">
+                            <Card.Text>{(newTopicName)}</Card.Text>
+                            <div className="topicIcons">
+                                <FontAwesomeIcon icon={faEdit} size="sm" onClick={() => handleEditClick()} />
+                                <FontAwesomeIcon icon={faTrash} size="sm" onClick={() => handleDelete(id)} />
+                            </div>
+                        </div>
                 }
             </Card.Body>
         </Card>

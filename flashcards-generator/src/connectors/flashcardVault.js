@@ -104,6 +104,20 @@ export const updateFlashcard = async (id, term, definition) => {
   }
 };
 
+export const updateTopicName = async (id, name) => {
+  console.log('Making POST request to Flashcards Vault to update topic name');
+  try {
+    const resp = await axios.post(`http://localhost:4000/v1/updateTopicName/${id}`, {
+      data: { name },
+    });
+    console.log('Request was successful, returning results');
+    return { data: resp.data };
+  } catch (error) {
+    console.log(error);
+    return { error };
+  }
+};
+
 export const deleteFlashcard = async (id) => {
   console.log('Making DELETE request to Flashcards Vault');
   try {
@@ -115,3 +129,16 @@ export const deleteFlashcard = async (id) => {
     return { error };
   }
 };
+
+export const deleteTopic = async (id) => {
+  console.log('Making DELETE request to Flashcards Vault for topic');
+  try {
+    const resp = await axios.delete(`http://localhost:4000/v1/deleteTopic/${id}`);
+    console.log('Request was successful, returning results');
+    return { data: resp.data };
+  } catch (error) {
+    console.log(error);
+    return { error };
+  }
+};
+
