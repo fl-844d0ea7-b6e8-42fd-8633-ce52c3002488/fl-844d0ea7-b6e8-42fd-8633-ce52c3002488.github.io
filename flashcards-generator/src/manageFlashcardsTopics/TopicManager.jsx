@@ -18,18 +18,49 @@ const TopicManager = () => {
     const [topicsList, setTopicsList] = useState([])
 
     const handleTopicSearch = async () => {
-        let resp
         console.log("Handling Topic Search")
+        let resp
+
         if (topic) {
             console.log("Got topic - searching by topic name")
             resp = await getTopicsByName(topic)
-        }
-        else {
+        } else {
             console.log("No topic - just getting the full list")
             resp = await getTopics()
         }
 
-        setTopicsList(resp.data)
+        if (resp) {
+            setTopic("")
+            console.log(`Resp length: ${resp.data.length}`)
+            if (resp && resp.data && resp.data.length > 0) {
+                console.log("Setting topic list")
+                setShowError(false)
+                setShowSuccess(false)
+                setTopicsList(resp.data)
+            }
+
+            if (resp && resp.data && resp.data.length === 0) {
+                setSuccess("Query Successful - but no results were returned")
+                setShowSuccess(true)
+                setTopicsList([])
+            }
+
+            if (resp && resp.error && resp.error.response && resp.error.response.status) {
+                switch (resp.error.response.status) {
+                    case 404:
+                        setError("Couldn't get any results for that query")
+                        break;
+                    default:
+                        setError("Hory Shit - that's not what we expected...")
+                }
+                setShowError(true)
+                setShowSuccess(false)
+                setTopicsList([])
+            }
+        } else {
+            setError("How rude. We didn't get a response!")
+            setShowError(true)
+        }
     }
 
     const handleDelete = async (id) => {
@@ -61,23 +92,23 @@ const TopicManager = () => {
                     fieldType="text"
                     fieldPlaceholderText="Enter the name of the flashcard"
                     fieldElementName="topicName"
-                    fieldOnChangeEvent={(e) => setName(e.target.value)}
+                    fieldOnChangeEvent={(e) => setTopic(e.target.value)}
                     fieldGroupControlId="formTopicName"
                     fieldHelpText="Enter the name you want to search by"
-                    fieldValue={name}
+                    fieldValue={topic}
                 />
 
                 <FormAlert
                     alertVariant="danger"
                     showAlert={showError}
-                    alertCloseEvent={() => setShowError(false)}
+                    onCloseEvent={() => setShowError(false)}
                     message={errorMessage}
                 />
 
                 <FormAlert
                     alertVariant="success"
                     showAlert={showSuccess}
-                    onClose={() => setShowSuccess(false)}
+                    onCloseEvent={() => setShowSuccess(false)}
                     message={successMessage}
                 />
 

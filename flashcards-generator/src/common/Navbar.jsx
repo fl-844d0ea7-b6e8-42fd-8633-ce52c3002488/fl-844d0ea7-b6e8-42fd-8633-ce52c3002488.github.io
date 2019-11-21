@@ -20,9 +20,14 @@ const NavigationBar = () => {
                         <Nav.Item>Create</Nav.Item>
                     </Nav.Link>
                 </LinkContainer>
-                <LinkContainer to="/view/">
+                <LinkContainer to="/manage/">
                     <Nav.Link>
                         <Nav.Item>Manage</Nav.Item>
+                    </Nav.Link>
+                </LinkContainer>
+                <LinkContainer to="/view/">
+                    <Nav.Link>
+                        <Nav.Item>View</Nav.Item>
                     </Nav.Link>
                 </LinkContainer>
                 <LinkContainer to="/test/">

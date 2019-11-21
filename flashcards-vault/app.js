@@ -4,7 +4,7 @@ import logger from './logging/logger'
 import requestLogger from './logging/requestLogger'
 import cors from 'cors'
 
-const port = 4000
+const port = 3001
 
 express()
   .use(requestLogger)

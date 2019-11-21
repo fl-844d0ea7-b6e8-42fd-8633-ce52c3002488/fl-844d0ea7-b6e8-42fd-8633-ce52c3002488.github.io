@@ -39,7 +39,7 @@ export const getFlashcardByName = async ( name ) => new Promise(
     }
 )
 
-export const getTopicByName = async ( name ) => new Promise(
+export const getTopicCountByName = async ( name ) => new Promise(
     (resolve, reject) => {
         postgresPool.connect((connectError, client, release) => {
             if (connectError) {
@@ -70,6 +70,7 @@ export const getTopicByName = async ( name ) => new Promise(
 
 export const getTopicsByName = async ( name ) => new Promise(
     (resolve, reject) => {
+        logInfo("Making connectiong to database")
         postgresPool.connect((connectError, client, release) => {
             if (connectError) {
                 logError("Error connecting to the DB", connectError.stack)
@@ -78,7 +79,7 @@ export const getTopicsByName = async ( name ) => new Promise(
             }
 
             const query = {
-                text: 'SELECT COUNT(*) FROM flashcards_app.topics WHERE name like $1',
+                text: 'SELECT * FROM flashcards_app.topics WHERE name like $1',
                 values: [name]
             }
 
@@ -91,7 +92,7 @@ export const getTopicsByName = async ( name ) => new Promise(
                     return
                 }
                 logInfo("Received result", {count: result.rows})
-                resolve(result.rows[0].count)
+                resolve(result.rows)
             })
         })
     }

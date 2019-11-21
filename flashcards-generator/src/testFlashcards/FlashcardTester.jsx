@@ -3,11 +3,13 @@ import React, { useState } from 'react'
 import { TestSettings } from './FlashcardsTestSettings'
 import TopicSelect from '../common/TopicSelect'
 import Form from 'react-bootstrap/Form'
-import Tabs from 'react-bootstrap/Tabs'
 import Alert from 'react-bootstrap/Alert'
 import Button from 'react-bootstrap/Button'
 import CardDeck from 'react-bootstrap/CardDeck'
 import { getFlashcards } from '../connectors/flashcardVault'
+import ProgressBar from 'react-bootstrap/ProgressBar'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faRedo } from '@fortawesome/free-solid-svg-icons'
 
 const FlashcardsTester = () => {
 
@@ -22,11 +24,25 @@ const FlashcardsTester = () => {
     const [showSuccess, setShowSuccess] = useState(false)
     // testOption: [0 = Manual, 1=Automatic/Semantic Similarity]
     const [testOption, setTestOption] = useState(1)
+    const [disableOptions, setDisableOptions] = useState(false)
+    const [cardListSize, setCardListSize] = useState(0)
+    const [showProgress, setShowProgress] = useState(false)
+    const [scoreObject, setScoreObject] = useState({})
+    const [pendingAnswers, setPendingAnswers] = useState(0)
+    const [incorrectAnswers, setIncorrectAnswers] = useState(0)
+    const [correctAnswers, setCorrectAnswers] = useState(0)
+    const [finishedTest, setFinishedTest] = useState(false)
+
+    const createTestObject = (data) => {
+        const testObject = {}
+        data.map((card) => {
+            testObject[card.id] =  ''
+        })
+        setScoreObject(testObject)
+    }
 
     const handleSubmit = async () => {
         setLoading(true)
-
-        console.log("Making request to get flashcards")
 
         const resp = await getFlashcards(name, topicId, term)
 
@@ -39,9 +55,13 @@ const FlashcardsTester = () => {
                 setName("")
                 setTopicId("")
                 setCardsList(resp.data)
+                setDisableOptions(true)
+                setCardListSize(resp.data.length)
+                createTestObject(resp.data)
             }
             else {
                 setSuccess(`Query succesful - No results were returned ${resp.data.length}`)
+                setCardListSize(0)
                 setShowSuccess(true)
             }
         }
@@ -50,6 +70,7 @@ const FlashcardsTester = () => {
             setError(`Sorry! Something went wrong :( \n ${resp.error}`)
             setShowError(true)
             setLoading(false)
+            setCardListSize(0)
         }
     }
 
@@ -63,9 +84,35 @@ const FlashcardsTester = () => {
         }
     }
 
+    const updateScore = (data, answerType) => {
+        const count =  Object.values(data).reduce((n, val) => {
+            return n + (val===answerType)
+        }, 0)
+        return ((count / cardListSize) * 100).toFixed(2)
+    }
+
+    const handleScoreUpdate = ({id, status}) => {
+        setShowProgress(true)
+        const newScoreObject = { ...scoreObject, [id]: status }
+        setScoreObject(newScoreObject)
+
+        const newCorrectScore = updateScore(newScoreObject, "correct")
+
+        setCorrectAnswers(newCorrectScore)
+        setIncorrectAnswers(updateScore(newScoreObject, "incorrect"))
+        setPendingAnswers(updateScore(newScoreObject, ""))
+
+        if (newCorrectScore == 100.00) {
+            setShowProgress(false)
+            setSuccess("Congratulations! You got them all right! :)")
+            setShowSuccess(true)
+            setFinishedTest(true)
+        }
+    }
+
     return (
         <div className="flashcardsTester">
-            <TestSettings handleTestOptionChange={handleTestOptionChange} />
+            <TestSettings disableOptions={disableOptions} handleTestOptionChange={handleTestOptionChange} />
             <br />
             <Form>
                 <TopicSelect
@@ -121,17 +168,32 @@ const FlashcardsTester = () => {
                     onClick={() => handleSubmit()}>
                     {isLoading ? 'Loading...' : 'Submit'}
                 </Button>
+                {finishedTest
+                    ? <Button
+                        variant="primary"
+                        onClick={() => console.log("REDO!")}
+                    >Restart <FontAwesomeIcon icon={faRedo} /></Button>
+                    : ""
+                }
             </Form>
             <br />
+            { showProgress
+                ?   <><ProgressBar>
+                    <ProgressBar striped animated variant="success" now={correctAnswers} label={`${correctAnswers}%`} key={1}/>
+                    <ProgressBar striped animated variant="danger" now={incorrectAnswers} label={`${incorrectAnswers}%`} key={2}/>
+                    <ProgressBar striped animated variant="warning" now={pendingAnswers} label={`${pendingAnswers}%`} key={3}/>
+                    </ProgressBar><br/></>
+                : ""
+            }
             <CardDeck>
                 {cardsList.map(({ id, term, definition, colour }, index) => (
                     <Flashcard
                         key={index}
                         id={id}
-                        color={colour}
                         term={term}
                         definition={definition}
                         testOption={testOption}
+                        handleScoreUpdate={handleScoreUpdate}
                     />
                 ))}
             </CardDeck>

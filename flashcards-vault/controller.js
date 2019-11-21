@@ -7,7 +7,8 @@ import {
     updateFlashcardDefinition,
     getFlashcardByName,
     getTopics,
-    getTopicByName,
+    getTopicsByName,
+    getTopicCountByName,
     insertTopic,
     updateTopicByName
 } from './data'
@@ -76,7 +77,7 @@ export const createTopic = async (request, response) => {
     logInfo("Checking topic exists in Database")
 
     try {
-        const dbResponse = await getTopicByName(name)
+        const dbResponse = await getTopicCountByName(name)
         logInfo(`Got result of topic check: ${dbResponse}`)
 
         if (dbResponse > 0) {
@@ -277,9 +278,13 @@ export const getTopicsByFilter = async (request, response) => {
     // Endpoint to do a select * from topics where...
     logInfo("Received request to get flashcards")
 
+    const topicTerm = request.query.topic
+
+    logInfo(`Received search term: ${topicTerm}`)
+
     try {
         logInfo("Making request to database")
-        const dbResponse = await getTopicsByName()
+        const dbResponse = await getTopicsByName(topicTerm)
         logInfo(`Got response from data: ${dbResponse}`)
 
         if (dbResponse) {
@@ -290,7 +295,7 @@ export const getTopicsByFilter = async (request, response) => {
         logInfo("No response received", dbResponse)
     }
     catch (err) {
-        logError("Got an error", {err})
+        logError("Got an error", err)
         return response.status(503).send("AAAAAAAARGH")
     }
 }

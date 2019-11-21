@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup'
 import ToggleButton from 'react-bootstrap/ToggleButton'
 
-export const TestSettings = ({handleTestOptionChange}) => {
+export const TestSettings = ({handleTestOptionChange, disableOptions}) => {
         const [value, setValue] = useState([1, 3]);
 
     const handleChange = val => { handleTestOptionChange(val); setValue(val) }
@@ -16,8 +16,8 @@ export const TestSettings = ({handleTestOptionChange}) => {
                     size="md"
                     onChange={handleChange}
                 >
-                    <ToggleButton value={0}> Test Manually </ToggleButton>
-                    <ToggleButton value={1}> Mark answers automagically </ToggleButton>
+                    <ToggleButton value={0} disabled={disableOptions}> Test Manually </ToggleButton>
+                    <ToggleButton value={1} disabled={disableOptions}> Mark answers automagically </ToggleButton>
                 </ToggleButtonGroup>
             </div>
         )

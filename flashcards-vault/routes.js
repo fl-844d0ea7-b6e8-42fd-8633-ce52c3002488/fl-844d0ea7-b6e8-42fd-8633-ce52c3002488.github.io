@@ -20,6 +20,6 @@ const routes = Router()
     .post('/update/:id', updateFlashcard)
     .post('/updateTopicName/:id', updateTopicName)
     .get('/listTopics', listTopics)
-    .post('/getTopics', getTopicsByFilter)
+    .get('/getTopics', getTopicsByFilter)
 
 export default routes
