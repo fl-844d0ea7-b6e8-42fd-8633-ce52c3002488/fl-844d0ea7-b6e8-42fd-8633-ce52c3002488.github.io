@@ -13,11 +13,17 @@ const Flashcard = ({ id, term, color, definition, testOption, handleScoreUpdate 
 
 
     const handleTermClick = () => {
-        if (testOption === 0) setShowTerm(!showTerm)
+        if (testOption === 0) {
+            setShowTerm(!showTerm)
+            setShowDefinition(showTerm)
+        }
     }
 
     const handleDefinitionClick = () => {
-        if (testOption === 0) setShowDefinition(!showDefinition)
+        if (testOption === 0) {
+            setShowDefinition(!showDefinition)
+            setShowTerm(showDefinition)
+        }
     }
 
     const markSubmittedDefinition = (e) => {

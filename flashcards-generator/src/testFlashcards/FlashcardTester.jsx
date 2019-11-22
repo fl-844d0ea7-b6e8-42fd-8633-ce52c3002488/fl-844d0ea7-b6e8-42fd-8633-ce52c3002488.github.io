@@ -5,11 +5,11 @@ import TopicSelect from '../common/TopicSelect'
 import Form from 'react-bootstrap/Form'
 import Alert from 'react-bootstrap/Alert'
 import Button from 'react-bootstrap/Button'
-import CardDeck from 'react-bootstrap/CardDeck'
 import { getFlashcards } from '../connectors/flashcardVault'
 import ProgressBar from 'react-bootstrap/ProgressBar'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRedo } from '@fortawesome/free-solid-svg-icons'
+import CardColumns from 'react-bootstrap/CardColumns'
 
 const FlashcardsTester = () => {
 
@@ -185,7 +185,7 @@ const FlashcardsTester = () => {
                     </ProgressBar><br/></>
                 : ""
             }
-            <CardDeck>
+            <CardColumns>
                 {cardsList.map(({ id, term, definition, colour }, index) => (
                     <Flashcard
                         key={index}
@@ -196,7 +196,7 @@ const FlashcardsTester = () => {
                         handleScoreUpdate={handleScoreUpdate}
                     />
                 ))}
-            </CardDeck>
+            </CardColumns>
         </div>
     )
 }
