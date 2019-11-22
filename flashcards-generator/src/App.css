@@ -5,6 +5,9 @@
   margin: auto;
 }
 
+.topicOption {
+  width: 30em;
+}
 .topicOptionLabel {
   margin-left: 2%;
 }
@@ -14,8 +17,37 @@
   justify-content: space-between;
 }
 
-.topicCard {
+.card {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  text-align: justify;
+  text-justify: inter-word;
+  background-color: transparent;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+  position: static;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+}
+
+.flip-card-back {
+  transform: rotateY(180deg);
 }
