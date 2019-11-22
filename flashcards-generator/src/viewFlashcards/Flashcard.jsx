@@ -4,12 +4,10 @@ import Card from 'react-bootstrap/Card'
 const Flashcard = ({ id, term, definition }) => {
 
     const [currentSide, setCurrentSide] = useState("front")
-    const [cardFlip, setCardFlip] = useState(false)
 
     const handleCardFlip = () => {
         const side = (currentSide === "front" ? "back" : "front")
         setCurrentSide(side)
-        setCardFlip(true)
     }
 
     const titleCase = (str) => {
