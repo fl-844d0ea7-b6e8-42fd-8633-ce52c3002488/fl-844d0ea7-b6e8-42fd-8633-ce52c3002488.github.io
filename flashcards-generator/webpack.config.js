@@ -1,6 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
+const DotEnv = require('dotenv-webpack')
 
 module.exports = {
   entry: "./src/index.js",
@@ -41,6 +42,7 @@ module.exports = {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new FaviconsWebpackPlugin('./public/flashcards.png')
+    new FaviconsWebpackPlugin('./public/flashcards.png'),
+    new DotEnv(),
   ]
 };

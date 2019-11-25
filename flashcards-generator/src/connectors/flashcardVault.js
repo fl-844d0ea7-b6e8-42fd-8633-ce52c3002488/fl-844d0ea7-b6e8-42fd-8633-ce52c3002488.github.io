@@ -1,7 +1,6 @@
 import axios from 'axios';
 
-// FLASHCARDS_VAULT_HOSTNAME = process.env.FLASHCARDS_VAULT_HOSTNAME
-const FLASHCARD_VAULT_HOSTNAME = "http://localhost:3001"
+const FLASHCARD_VAULT_HOSTNAME = process.env.FLASHCARDS_VAULT_HOSTNAME
 
 const parseSearchTerm = (string) => {
   if (string === "" || string === null){

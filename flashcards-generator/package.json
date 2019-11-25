@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "env-cmd webpack-dev-server --config webpack.config.js",
+    "start": "webpack-dev-server --config webpack.config.js",
     "test": "cypress open",
     "teardown": "export PGPASSWORD=testpassword; psql -h localhost -U postgres -p 54320 -d postgres -e -f cypress/fixtures/delete_test_entries.sql",
     "lint": "eslint --ext .jsx --ext .js src/",
@@ -23,6 +23,7 @@
     "babel-loader": "^8.0.6",
     "css-loader": "^1.0.1",
     "cypress": "^3.4.1",
+    "dotenv-webpack": "^1.7.0",
     "eslint": "^6.5.1",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-plugin-import": "^2.18.2",
