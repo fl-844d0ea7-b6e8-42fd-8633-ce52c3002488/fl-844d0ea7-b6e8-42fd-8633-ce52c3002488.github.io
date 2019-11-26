@@ -2,12 +2,9 @@ name: Build and deploy Flashcards Generator on push
 
 on:
   push:
-    paths:
-      - '/flashcards-generator'
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
