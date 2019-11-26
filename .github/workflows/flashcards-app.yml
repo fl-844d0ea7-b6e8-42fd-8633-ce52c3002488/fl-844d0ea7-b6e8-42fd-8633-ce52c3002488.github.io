@@ -14,6 +14,6 @@ jobs:
       run: npm install
     - name: Run npm build
       working-directory: ./flashcards-generator
-      with:
+      env:
         FLASHCARDS_VAULT_HOSTNAME: ${{ secrets.FLASHCARDS_VAULT_HOSTNAME }}
       run: npm run build
