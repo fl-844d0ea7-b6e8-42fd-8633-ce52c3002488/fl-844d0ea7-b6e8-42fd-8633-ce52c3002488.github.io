@@ -10,6 +10,8 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: install dependencies
-      run: npm install ./flashcards-generator/package.json
+      working-directory: ./flashcards-generator
+      run: npm install
     - name: Run npm build
+      working-directory: ./flashcards-generator
       run: npm run build
