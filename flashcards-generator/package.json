@@ -1,7 +1,7 @@
 {
   "name": "flashcards-generator",
   "version": "1.0.0",
-  "description": "",
+  "description": "This is a react app connected to another component",
   "main": "index.js",
   "scripts": {
     "start": "env-cmd -e debug webpack-dev-server --config webpack.config.js",
