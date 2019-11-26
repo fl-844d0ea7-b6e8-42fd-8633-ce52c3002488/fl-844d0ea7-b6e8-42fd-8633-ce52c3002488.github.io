@@ -19,9 +19,12 @@ jobs:
       run: npm run build
 
   deploy-flashcards-generator:
+    needs: build-flashcards-generator
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
+    - name: Authenticate with gcloud
+      run: gcloud config set account ${{ secrets.GCP_ACCOUNT }}
     - name: Deploy to gcloud app engine
       working-directory: ./flashcards-generator
       run: gcloud app deploy
