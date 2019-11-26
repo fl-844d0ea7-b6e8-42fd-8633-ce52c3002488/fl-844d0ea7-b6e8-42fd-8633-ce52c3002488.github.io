@@ -1,0 +1,18 @@
+name: Build and deploy Flashcards Generator on push
+
+on:
+  push:
+    paths:
+      - '/flashcards-generator'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: install dependencies
+      run: npm install
+    - name: Run npm build
+      run: npm run build
