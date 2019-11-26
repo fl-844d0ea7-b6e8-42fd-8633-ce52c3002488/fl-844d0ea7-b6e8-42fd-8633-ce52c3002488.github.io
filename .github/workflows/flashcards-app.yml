@@ -21,6 +21,7 @@ jobs:
   deploy-flashcards-generator:
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v1
     - name: Deploy to gcloud app engine
       working-directory: ./flashcards-generator
       run: gcloud app deploy
