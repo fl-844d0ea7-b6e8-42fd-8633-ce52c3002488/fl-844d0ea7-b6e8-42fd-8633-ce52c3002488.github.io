@@ -1,17 +1,14 @@
-name: CI
+name: Build and deploy on push
 
 on: [push]
 
 jobs:
   build:
-
+    name: install dependencies
     runs-on: ubuntu-latest
-
     steps:
+    - name: Run npm install
     - uses: actions/checkout@v1
-    - name: Run a one-line script
-      run: echo Hello, world!
-    - name: Run a multi-line script
-      run: |
-        echo Add other actions to build,
-        echo test, and deploy your project.
+      run: npm install
+    - name: Run npm build
+      run: npm build
