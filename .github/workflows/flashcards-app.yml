@@ -17,3 +17,12 @@ jobs:
       env:
         FLASHCARDS_VAULT_HOSTNAME: ${{ secrets.FLASHCARDS_VAULT_HOSTNAME }}
       run: npm run build
+
+  deploy-flashcards-generator:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Deploy to gcloud app engine
+      working-directory: ./flashcards-generator
+      run: gcloud app deploy
+
+
