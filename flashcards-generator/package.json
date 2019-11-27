@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "env-cmd -e debug webpack-dev-server --config webpack.config.js",
-    "build": "env-cmd -e dev webpack --progress --config webpack.config.js",
+    "start": "env-cmd -e dev webpack-dev-server --config webpack.config.js",
+    "build": "./node_modules/.bin/env-cmd -e dev ./node_modules/.bin/webpack --progress --config webpack.config.js",
     "test": "cypress open",
     "teardown": "export PGPASSWORD=testpassword; psql -h localhost -U postgres -p 54320 -d postgres -e -f cypress/fixtures/delete_test_entries.sql",
     "lint": "eslint --ext .jsx --ext .js src/",
