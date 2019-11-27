@@ -43,5 +43,7 @@ jobs:
       run: gcloud config set account ${{ secrets.FLASHCARDS_SERVICE_ACCOUNT }}
     - name: Deploy to gcloud app engine
       uses: actions/gcloud/cli@master
+      env:
+        CLOUDSDK_CORE_PROJECT: ${{ FLASHCARDS_APP_PROJECT_NAME }}
       with:
         args: app deploy ./flashcards-generator/app.yaml ./flashcards-vault/app.yaml
