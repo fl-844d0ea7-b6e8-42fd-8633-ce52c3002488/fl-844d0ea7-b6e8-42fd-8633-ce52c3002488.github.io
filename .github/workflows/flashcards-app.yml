@@ -29,6 +29,8 @@ jobs:
         GCLOUD_AUTH: ${{ secrets.GCLOUD_AUTH_64 }}
     # - name: Activate GCloud Account
     #   run: gcloud auth activate-service-account flashcards-app-259817@appspot.gserviceaccount.com --key-file ${{ secrets.GCLOUD_AUTH_JSON }}
+    - name: Setup service account
+    - run: gcloud config set account ${{ sercrets.FLASHCARDS_SERVICE_ACCOUNT }}
     - name: Deploy to gcloud app engine
       working-directory: ./flashcards-generator
       run: gcloud app deploy
