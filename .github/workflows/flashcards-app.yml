@@ -5,7 +5,6 @@ on:
 
 jobs:
   setup-google-cloud:
-    needs: build-flashcards-generator
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
