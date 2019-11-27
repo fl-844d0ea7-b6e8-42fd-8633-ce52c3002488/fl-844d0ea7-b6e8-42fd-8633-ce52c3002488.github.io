@@ -41,6 +41,8 @@ jobs:
         GCLOUD_AUTH: ${{ secrets.GCLOUD_AUTH_64 }}
     - name: Gcloud Setup
       run: gcloud config set account ${{ secrets.FLASHCARDS_SERVICE_ACCOUNT }}
+    - name: List users
+      run: gcloud auth list
     - name: Deploy to gcloud app engine
       run: gcloud app deploy ./flashcards-generator/app.yaml ./flashcards-vault/app.yaml
 
