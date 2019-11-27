@@ -4,18 +4,8 @@ on:
   push:
 
 jobs:
-  setup-google-cloud:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - name: Setup GCP Login
-        uses: actions/gcloud/auth@master
-        env:
-          GCLOUD_AUTH: ${{ secrets.GCLOUD_AUTH_64 }}
-
   build-flashcards-generator:
     runs-on: ubuntu-latest
-    needs: setup-google-cloud
     steps:
     - uses: actions/checkout@v1
     - name: install dependencies
@@ -29,7 +19,6 @@ jobs:
 
   build-flashcards-vault:
     runs-on: ubuntu-latest
-    needs: setup-google-cloud
     steps:
     - uses: actions/checkout@v1
     - name: install dependencies
@@ -46,6 +35,10 @@ jobs:
     needs: [build-flashcards-generator, build-flashcards-vault]
     runs-on: ubuntu-latest
     steps:
+    - name: Setup GCP Login
+      uses: actions/gcloud/auth@master
+      env:
+        GCLOUD_AUTH: ${{ secrets.GCLOUD_AUTH_64 }}
     - name: Deploy to gcloud app engine
       run: gcloud app deploy ./flashcards-generator/app.yaml ./flashcards-vault/app.yaml
 
