@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "env-cmd debug babel-node app.js",
-    "build": "env-cmd -e dev webpack --progress --config webpack.config.js",
+    "build": "env-cmd -e dev webpack --progress --config webpack.config.js"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.3",
