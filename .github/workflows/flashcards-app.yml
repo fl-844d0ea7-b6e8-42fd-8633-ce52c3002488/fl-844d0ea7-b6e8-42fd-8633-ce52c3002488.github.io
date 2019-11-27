@@ -28,7 +28,7 @@ jobs:
         FLASHCARDS_VAULT_HOSTNAME: ${{ secrets.FLASHCARDS_VAULT_HOSTNAME }}
       run: npm run build
 
-  build-flashcards-generator:
+  build-flashcards-vault:
     runs-on: ubuntu-latest
     needs: setup-google-cloud
     steps:
