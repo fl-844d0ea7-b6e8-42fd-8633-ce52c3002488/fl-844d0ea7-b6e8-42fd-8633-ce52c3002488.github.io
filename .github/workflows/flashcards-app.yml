@@ -35,6 +35,7 @@ jobs:
     needs: [build-flashcards-generator, build-flashcards-vault]
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v1
     - name: Setup GCP Login
       uses: actions/gcloud/auth@master
       env:
@@ -43,7 +44,6 @@ jobs:
       run: gcloud config set account ${{ secrets.FLASHCARDS_SERVICE_ACCOUNT }}
     - name: Deploy to gcloud app engine
       uses: actions/gcloud/cli@master
-      uses: actions/checkout@v1
       env:
         CLOUDSDK_CORE_PROJECT: ${{ secrets.FLASHCARDS_APP_PROJECT_NAME }}
       with:
