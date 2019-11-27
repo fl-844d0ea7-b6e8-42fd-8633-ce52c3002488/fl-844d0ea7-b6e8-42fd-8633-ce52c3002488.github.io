@@ -4,7 +4,7 @@ on:
   push:
 
 jobs:
-  build-flashcards-generator:
+  build-and-deploy-flashcards-generator:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
@@ -16,26 +16,6 @@ jobs:
       env:
         FLASHCARDS_VAULT_HOSTNAME: ${{ secrets.FLASHCARDS_VAULT_HOSTNAME }}
       run: npm run build
-
-  build-flashcards-vault:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v1
-    - name: install dependencies
-      working-directory: ./flashcards-vault
-      run: npm install
-    - name: Run npm build
-      working-directory: ./flashcards-vault
-      env:
-        DB_CONNECTION: ${{ secrets.DB_CONNECTION }}
-      run: npm run build
-
-
-  deploy-flashcards-app:
-    needs: [build-flashcards-generator, build-flashcards-vault]
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v1
     - name: Setup GCP Login
       uses: actions/gcloud/auth@master
       env:
@@ -47,4 +27,31 @@ jobs:
       env:
         CLOUDSDK_CORE_PROJECT: ${{ secrets.FLASHCARDS_APP_PROJECT_NAME }}
       with:
-        args: app deploy ./flashcards-generator/flashcard-generator.yaml ./flashcards-vault/flashcard-vault.yaml
+        args: app deploy ./flashcards-generator/flashcard-generator.yaml
+
+
+
+  build-and-deploy-flashcards-vault:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: install dependencies
+      working-directory: ./flashcards-vault
+      run: npm install
+    - name: Run npm build
+      working-directory: ./flashcards-vault
+      env:
+        DB_CONNECTION: ${{ secrets.DB_CONNECTION }}
+      run: npm run build
+    - name: Setup GCP Login
+      uses: actions/gcloud/auth@master
+      env:
+        GCLOUD_AUTH: ${{ secrets.GCLOUD_AUTH_64 }}
+    - name: Gcloud Setup
+      run: gcloud config set account ${{ secrets.FLASHCARDS_SERVICE_ACCOUNT }}
+    - name: Deploy to gcloud app engine
+      uses: actions/gcloud/cli@master
+      env:
+        CLOUDSDK_CORE_PROJECT: ${{ secrets.FLASHCARDS_APP_PROJECT_NAME }}
+      with:
+        args: app deploy ./flashcards-vault/flashcard-vault.yaml
