@@ -47,4 +47,4 @@ jobs:
       env:
         CLOUDSDK_CORE_PROJECT: ${{ secrets.FLASHCARDS_APP_PROJECT_NAME }}
       with:
-        args: app deploy ./flashcards-generator/app.yaml ./flashcards-vault/app.yaml
+        args: app deploy ./flashcards-generator/flashcard-generator.yaml ./flashcards-vault/flashcard-vault.yaml
