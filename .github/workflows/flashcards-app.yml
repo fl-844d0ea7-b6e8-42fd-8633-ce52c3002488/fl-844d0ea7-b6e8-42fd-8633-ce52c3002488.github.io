@@ -43,7 +43,7 @@ jobs:
 
 
   deploy-flashcards-app:
-    needs: setup-google-cloud
+    needs: [build-flashcards-generator, build-flashcards-vault]
     runs-on: ubuntu-latest
     steps:
     - name: Deploy to gcloud app engine
