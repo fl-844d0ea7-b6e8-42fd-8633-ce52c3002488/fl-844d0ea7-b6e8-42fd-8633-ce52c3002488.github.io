@@ -32,8 +32,6 @@ jobs:
     needs: setup-google-cloud
     runs-on: ubuntu-latest
     steps:
-    - name: Setup service account
-      run: gcloud config set account ${{ secrets.FLASHCARDS_SERVICE_ACCOUNT }}
     - name: Deploy to gcloud app engine
       working-directory: ./flashcards-generator
       run: gcloud app deploy
