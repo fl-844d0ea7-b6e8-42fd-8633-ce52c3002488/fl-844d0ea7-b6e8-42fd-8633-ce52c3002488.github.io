@@ -2,7 +2,6 @@ name: Build and deploy Flashcards App on push
 
 on:
   push:
-
 jobs:
   build-and-deploy-flashcards-generator:
     runs-on: ubuntu-latest
@@ -28,8 +27,6 @@ jobs:
         CLOUDSDK_CORE_PROJECT: ${{ secrets.FLASHCARDS_APP_PROJECT_NAME }}
       with:
         args: app deploy ./flashcards-generator/flashcard-generator.yaml
-
-
 
   build-and-deploy-flashcards-vault:
     runs-on: ubuntu-latest
