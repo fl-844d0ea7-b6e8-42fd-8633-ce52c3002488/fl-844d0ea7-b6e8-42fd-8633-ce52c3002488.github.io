@@ -50,7 +50,7 @@ module.exports = {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new FaviconsWebpackPlugin(path.resolve(DIST_BUILD_DIR, 'assets/favicon.png')),
+    new FaviconsWebpackPlugin('./dist/assets/favicon.png'),
     new webpack.EnvironmentPlugin(
       ['NODE_ENV', 'FLASHCARDS_VAULT_HOSTNAME']
     )
