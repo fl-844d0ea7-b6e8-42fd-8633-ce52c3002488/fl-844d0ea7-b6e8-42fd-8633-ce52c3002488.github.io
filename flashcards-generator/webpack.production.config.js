@@ -2,6 +2,7 @@ const path = require("path");
 const webpack = require("webpack");
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const common = require('./webpack.config.js')
+const merge = require('webpack-merge')
 
 const production = process.env.NODE_ENV === 'production'
 const SRC_DIR = __dirname
