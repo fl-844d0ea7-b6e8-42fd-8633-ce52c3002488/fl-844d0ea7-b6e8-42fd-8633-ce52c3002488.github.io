@@ -1,8 +1,4 @@
 {
-  "presets": [
-    "@babel/env",
-    "@babel/preset-react"
-  ],
   "client": {
     "presets": [
       ["@babel/preset-env", {
@@ -11,7 +7,9 @@
         },
         "useBuiltIns": "usage"
       }],
-      "@babel/react"
+      "@babel/react",
+      "@babel/env",
+      "@babel/preset-react"
     ]
   },
   "plugins": [
