@@ -3,6 +3,17 @@
     "@babel/env",
     "@babel/preset-react"
   ],
+  "client": {
+    "presets": [
+      ["@babel/preset-env", {
+        "targets": {
+          "browsers": ["last 2 versions", "safari >= 7"]
+        },
+        "useBuiltIns": "usage"
+      }],
+      "@babel/react"
+    ]
+  },
   "plugins": [
     "@babel/plugin-transform-runtime"
   ]

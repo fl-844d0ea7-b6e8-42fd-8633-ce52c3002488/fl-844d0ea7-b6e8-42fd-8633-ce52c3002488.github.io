@@ -1,24 +1,24 @@
 const path = require("path");
 const webpack = require("webpack");
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
+const common = require('./webpack.config.js')
 
-const fileNameTemplate = ext => (production ?
-  `[name].[chunkhash].min.${ext}` :
-  `[name].${ext}`)
-
+const production = process.env.NODE_ENV === 'production'
 const SRC_DIR = __dirname
-const DIST_BUILD_DIR = path.resolve(__dirname, '../dist')
 
-module.exports = {
-  entry: "./src/index.js",
-  mode: "development",
+module.exports = merge(common, {
+  mode: production ? 'production' : "development",
   module: {
     rules: [{
         test: /\.(js|jsx)$/,
         exclude: /(node_modules|bower_components)/,
         loader: "babel-loader",
         options: {
-          presets: ["@babel/env"]
+          presets: ["@babel/env"],
+          include: [SRC_DIR],
+            options: {
+              envName: 'client'
+            },
         }
       },
       {
@@ -36,8 +36,8 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, "dist/"),
-    publicPath: "/dist/",
-    filename: fileNameTemplate('js')
+    publicPath: "/",
+    filename: "bundle.js"
   },
   devServer: {
     contentBase: path.join(__dirname, "public/"),
@@ -47,10 +47,12 @@ module.exports = {
     historyApiFallback: true
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new FaviconsWebpackPlugin(path.resolve(DIST_BUILD_DIR, 'assets/flashcards.png')),
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    new webpack.optimize.ModuleConcatenationPlugin(),
+    new webpack.optimize.AggressiveMergingPlugin(),
+    new FaviconsWebpackPlugin('./public/flashcards.png'),
     new webpack.EnvironmentPlugin(
       ['NODE_ENV', 'FLASHCARDS_VAULT_HOSTNAME']
     )
   ]
-};
+})
