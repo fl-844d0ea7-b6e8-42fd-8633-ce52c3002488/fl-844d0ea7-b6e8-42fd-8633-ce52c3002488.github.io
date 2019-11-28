@@ -9,7 +9,7 @@ const fileNameTemplate = ext => (production ?
   `[name].${ext}`)
 
 const SRC_DIR = __dirname
-const DIST_BUILD_DIR = path.resolve(__dirname, '../dist')
+const DIST_BUILD_DIR = path.resolve(__dirname, './dist')
 
 module.exports = {
   entry: "./src/index.js",
