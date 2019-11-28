@@ -7,6 +7,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
+    - name: Clear cache
+      working-directory: ./flashcards-generator
+      run: rm -rf node_modules && npm cache clean --force
     - name: install dependencies
       working-directory: ./flashcards-generator
       run: npm install
@@ -32,6 +35,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
+    - name: Clear cache
+      working-directory: ./flashcards-vault
+      run: rm -rf node_modules && npm cache clean --force
     - name: install dependencies
       working-directory: ./flashcards-vault
       run: npm install
