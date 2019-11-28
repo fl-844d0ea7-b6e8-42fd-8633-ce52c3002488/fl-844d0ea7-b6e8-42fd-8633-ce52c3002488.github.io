@@ -2,6 +2,8 @@ const path = require("path");
 const webpack = require("webpack");
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 
+const production = process.env.NODE_ENV === 'production'
+
 const fileNameTemplate = ext => (production ?
   `[name].[chunkhash].min.${ext}` :
   `[name].${ext}`)
