@@ -2,12 +2,7 @@
   "env": {
     "client": {
       "presets": [
-        ["@babel/preset-env", {
-          "targets": {
-            "browsers": ["last 2 versions", "safari >= 7"]
-          },
-          "useBuiltIns": "usage"
-        }],
+        "@babel/preset-env",
         "@babel/react"
       ]
     }
