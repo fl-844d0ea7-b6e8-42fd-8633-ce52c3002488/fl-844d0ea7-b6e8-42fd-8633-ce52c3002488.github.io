@@ -5,7 +5,7 @@ const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const production = process.env.NODE_ENV === 'production'
 
 const fileNameTemplate = ext => (production ?
-  `[name].[chunkhash].min.${ext}` :
+  `[name].[hash].min.${ext}` :
   `[name].${ext}`)
 
 const SRC_DIR = __dirname
