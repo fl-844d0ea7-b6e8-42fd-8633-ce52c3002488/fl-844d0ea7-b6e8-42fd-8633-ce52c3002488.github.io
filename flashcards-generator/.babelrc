@@ -1,18 +1,18 @@
 {
-  "client": {
-    "presets": [
-      ["@babel/preset-env", {
-        "targets": {
-          "browsers": ["last 2 versions", "safari >= 7"]
-        },
-        "useBuiltIns": "usage"
-      }],
-      "@babel/react",
-      "@babel/env",
-      "@babel/preset-react"
-    ]
-  },
-  "plugins": [
-    "@babel/plugin-transform-runtime"
-  ]
+  "env": {
+    "client": {
+      "presets": [
+        ["@babel/preset-env", {
+          "targets": {
+            "browsers": ["last 2 versions", "safari >= 7"]
+          },
+          "useBuiltIns": "usage"
+        }],
+        "@babel/preset-react"
+      ],
+      "plugins": [
+        "@babel/plugin-transform-runtime"
+      ]
+    }
+  }
 }
