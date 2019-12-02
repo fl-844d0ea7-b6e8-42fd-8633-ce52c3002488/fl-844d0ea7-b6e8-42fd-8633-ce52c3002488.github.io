@@ -7,6 +7,8 @@ const merge = require('webpack-merge')
 const production = process.env.NODE_ENV === 'production'
 const SRC_DIR = __dirname
 
+console.log(`Looking at source: ${SRC_DIR}`)
+
 module.exports = merge(common, {
   mode: production ? 'production' : "development",
   module: {
@@ -16,15 +18,8 @@ module.exports = merge(common, {
         loader: "babel-loader",
         options: {
           presets: ["@babel/env"],
-          include: [SRC_DIR],
-            options: {
-              envName: 'client'
-            },
+          include: [SRC_DIR]
         }
-      },
-      {
-        test: /\.css$/,
-        use: ["style-loader", "css-loader"]
       },
       {
         test: /\.jpe?g$|\.ico$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$|\.wav$|\.mp3$/,
@@ -39,13 +34,6 @@ module.exports = merge(common, {
     path: path.resolve(__dirname, "dist/"),
     publicPath: "/",
     filename: "bundle.js"
-  },
-  devServer: {
-    contentBase: path.join(__dirname, "public/"),
-    port: 3000,
-    publicPath: "http://localhost:3000/dist/",
-    hotOnly: true,
-    historyApiFallback: true
   },
   plugins: [
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
