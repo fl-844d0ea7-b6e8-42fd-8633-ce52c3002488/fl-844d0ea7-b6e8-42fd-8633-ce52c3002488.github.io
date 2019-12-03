@@ -56,4 +56,4 @@ jobs:
       uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
       with:
         service_account_key: ${{ secrets.GCLOUD_AUTH_64 }}
-        args: app deploy ./flashcards-vault/flashcard-vault.yaml
+    - run : app deploy ./flashcards-vault/flashcard-vault.yaml
