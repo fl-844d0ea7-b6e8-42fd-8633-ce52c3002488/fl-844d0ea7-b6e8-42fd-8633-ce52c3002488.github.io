@@ -7,4 +7,4 @@ basic_scaling:
 handlers:
   - url: /
     static_files: public/index.html
-    upload: www/(.*)
+    upload: public/(.*)
