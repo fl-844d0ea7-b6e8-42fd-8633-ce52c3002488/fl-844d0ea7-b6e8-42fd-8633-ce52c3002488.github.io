@@ -1,7 +1,6 @@
 const path = require("path");
 const webpack = require("webpack");
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
-
 const production = process.env.NODE_ENV === 'production'
 
 const fileNameTemplate = ext => (production ?
@@ -40,13 +39,6 @@ module.exports = {
     path: path.resolve(__dirname, "dist/"),
     publicPath: "/dist/",
     filename: fileNameTemplate('js')
-  },
-  devServer: {
-    contentBase: path.join(__dirname, "public/"),
-    port: 3000,
-    publicPath: "http://localhost:3000/dist/",
-    hotOnly: true,
-    historyApiFallback: true
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
