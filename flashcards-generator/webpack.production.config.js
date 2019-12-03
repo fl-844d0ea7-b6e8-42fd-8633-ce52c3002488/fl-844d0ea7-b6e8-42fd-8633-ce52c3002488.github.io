@@ -36,7 +36,7 @@ module.exports = merge(common, {
   output: {
     path: path.resolve(__dirname, "dist/"),
     publicPath: "/",
-    filename: fileNameTemplate(js)
+    filename: fileNameTemplate('js')
   },
   devServer: {
     port: process.env.PORT,
