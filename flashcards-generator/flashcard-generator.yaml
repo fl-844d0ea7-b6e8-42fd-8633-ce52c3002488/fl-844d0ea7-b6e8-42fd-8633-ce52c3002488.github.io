@@ -2,4 +2,4 @@ runtime: nodejs10
 service: default
 handlers:
   - url: /
-    script: dist/
+    script: auto
