@@ -3,10 +3,6 @@ const webpack = require("webpack");
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const production = process.env.NODE_ENV === 'production'
 
-const fileNameTemplate = ext => (production ?
-  `[name].[hash].min.${ext}` :
-  `[name].${ext}`)
-
 const SRC_DIR = __dirname
 const DIST_BUILD_DIR = path.resolve(__dirname, './dist')
 
@@ -38,7 +34,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "dist/"),
     publicPath: "/dist/",
-    filename: fileNameTemplate('js')
+    filename: 'bundle.js'
   },
   plugins: [
     new webpack.EnvironmentPlugin(
