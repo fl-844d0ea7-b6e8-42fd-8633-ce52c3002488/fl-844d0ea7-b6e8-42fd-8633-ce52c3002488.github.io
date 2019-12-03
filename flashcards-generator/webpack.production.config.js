@@ -4,7 +4,9 @@ const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const common = require('./webpack.config.js')
 const merge = require('webpack-merge')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
+const FLASHCARDS_VAULT_HOSTNAME = process.env.FLASHCARDS_VAULT_HOSTNAME
 const production = process.env.NODE_ENV === 'production'
 const SRC_DIR = __dirname
 
@@ -52,12 +54,21 @@ module.exports = merge(common, {
     }),
     new FaviconsWebpackPlugin('./public/flashcards.png'),
     new webpack.EnvironmentPlugin(
-      ['NODE_ENV', 'FLASHCARDS_VAULT_HOSTNAME']
-    ),
-    new webpack.optimize.UglifyJsPlugin({
-      comments: false,
-      drop_console: true,
-      warnings: false
-    })
-  ]
+      [
+        'NODE_ENV',
+        {'FLASHCARDS_VAULT_HOSTNAME': FLASHCARDS_VAULT_HOSTNAME}
+      ]
+    )
+  ],
+  optimization: {
+    minimizer: [
+      new UglifyJsPlugin({
+        uglifyOptions: {
+          compress: {
+            drop_console: true
+          }
+        }
+      })
+    ]
+  }
 })
