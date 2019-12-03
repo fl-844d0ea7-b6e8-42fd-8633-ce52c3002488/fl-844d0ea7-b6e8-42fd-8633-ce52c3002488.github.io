@@ -8,6 +8,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const production = process.env.NODE_ENV === 'production'
 const SRC_DIR = __dirname
 
+const fileNameTemplate = ext => (production ?
+  `[name].[hash].min.${ext}` :
+  `[name].${ext}`)
+
 module.exports = merge(common, {
   mode: production ? 'production' : "development",
   module: {
@@ -32,7 +36,7 @@ module.exports = merge(common, {
   output: {
     path: path.resolve(__dirname, "dist/"),
     publicPath: "/",
-    filename: "bundle.js"
+    filename: fileNameTemplate(js)
   },
   devServer: {
     port: process.env.PORT,

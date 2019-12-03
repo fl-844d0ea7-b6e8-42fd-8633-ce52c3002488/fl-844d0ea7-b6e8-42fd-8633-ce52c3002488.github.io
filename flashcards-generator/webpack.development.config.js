@@ -5,10 +5,6 @@ const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 
 const production = process.env.NODE_ENV === 'production'
 
-const fileNameTemplate = ext => (production ?
-  `[name].[hash].min.${ext}` :
-  `[name].${ext}`)
-
 const DIST_BUILD_DIR = path.resolve(__dirname, './dist')
 
 module.exports = merge(common, {
