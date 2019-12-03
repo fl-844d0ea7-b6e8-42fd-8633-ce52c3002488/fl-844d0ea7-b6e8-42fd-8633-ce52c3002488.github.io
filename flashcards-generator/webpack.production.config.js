@@ -35,7 +35,8 @@ module.exports = merge(common, {
     filename: "bundle.js"
   },
   devServer: {
-    port: process.env.PORT
+    port: process.env.PORT,
+    compress: true,
   },
   plugins: [
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
