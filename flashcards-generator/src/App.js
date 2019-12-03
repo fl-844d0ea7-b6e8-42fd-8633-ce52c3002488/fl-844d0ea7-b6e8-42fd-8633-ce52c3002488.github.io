@@ -8,8 +8,6 @@ import Footer from './common/Footer'
 
 import "./App.css";
 
-const ENV = process.env.NODE_ENV
-
 const App = () => {
   return (
     <div className="App">

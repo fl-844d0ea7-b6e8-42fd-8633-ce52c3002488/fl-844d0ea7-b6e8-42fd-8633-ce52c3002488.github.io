@@ -41,7 +41,6 @@ module.exports = {
     filename: fileNameTemplate('js')
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
     new webpack.EnvironmentPlugin(
       ['NODE_ENV', 'FLASHCARDS_VAULT_HOSTNAME']
     )
