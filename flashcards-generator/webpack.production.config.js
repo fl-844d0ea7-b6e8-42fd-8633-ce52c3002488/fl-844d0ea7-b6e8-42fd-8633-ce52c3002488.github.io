@@ -49,7 +49,7 @@ module.exports = merge(common, {
     new webpack.optimize.AggressiveMergingPlugin(),
     new HtmlWebpackPlugin({
       hash: true,
-      filename: './dist/index.html',
+      filename: 'dist/index.html',
       title: "Flashcards App",
       template: 'index.html',
       pageHeader: "Testing Page Header"

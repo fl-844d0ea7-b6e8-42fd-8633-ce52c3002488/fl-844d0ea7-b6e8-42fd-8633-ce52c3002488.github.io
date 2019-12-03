@@ -6,4 +6,4 @@ basic_scaling:
   idle_timeout: 5m
 handlers:
   - url: /
-    script: auto
+    static_files: dist/index.html
