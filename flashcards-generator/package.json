@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start-local": "env-cmd -e debug webpack-dev-server --config webpack.development.config.js",
-    "start": "env-cmd -e dev webpack-dev-server --config webpack.production.config.js",
+    "start": "env-cmd -e dev webpack-dev-server --config webpack.production.config.js --host 0.0.0.0 --disable-host-check",
     "build": "env-cmd -e dev webpack -p --progress --config webpack.production.config.js",
     "test": "cypress open",
     "teardown": "export PGPASSWORD=testpassword; psql -h localhost -U postgres -p 54320 -d postgres -e -f cypress/fixtures/delete_test_entries.sql",
