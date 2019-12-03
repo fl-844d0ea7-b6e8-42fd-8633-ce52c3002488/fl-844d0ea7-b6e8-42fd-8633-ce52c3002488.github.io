@@ -25,7 +25,7 @@ jobs:
     - name: Gcloud Setup
       run: gcloud config set account ${{ secrets.FLASHCARDS_SERVICE_ACCOUNT }}
     - name: Deploy to gcloud app engine
-      uses: actions/gcloud/cli@master
+      uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
       env:
         CLOUDSDK_CORE_PROJECT: ${{ secrets.FLASHCARDS_APP_PROJECT_NAME }}
       with:
@@ -53,7 +53,7 @@ jobs:
     - name: Gcloud Setup
       run: gcloud config set account ${{ secrets.FLASHCARDS_SERVICE_ACCOUNT }}
     - name: Deploy to gcloud app engine
-      uses: actions/gcloud/cli@master
+      uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
       env:
         CLOUDSDK_CORE_PROJECT: ${{ secrets.FLASHCARDS_APP_PROJECT_NAME }}
       with:
