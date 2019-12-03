@@ -26,10 +26,9 @@ jobs:
       run: gcloud config set account ${{ secrets.FLASHCARDS_SERVICE_ACCOUNT }}
     - name: Deploy to gcloud app engine
       uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
-      env:
-        CLOUDSDK_CORE_PROJECT: ${{ secrets.FLASHCARDS_APP_PROJECT_NAME }}
       with:
-        args: app deploy ./flashcards-generator/flashcard-generator.yaml
+        service_account_key: ${{ secrets.GCLOUD_AUTH_64 }}
+    - run: gcloud app deploy ./flashcards-generator/flashcard-generator.yaml
 
   build-and-deploy-flashcards-vault:
     runs-on: ubuntu-latest
@@ -56,4 +55,4 @@ jobs:
       uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
       with:
         service_account_key: ${{ secrets.GCLOUD_AUTH_64 }}
-    - run : app deploy ./flashcards-vault/flashcard-vault.yaml
+    - run : gcloud app deploy ./flashcards-vault/flashcard-vault.yaml
