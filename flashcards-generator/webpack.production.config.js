@@ -3,11 +3,10 @@ const webpack = require("webpack");
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const common = require('./webpack.config.js')
 const merge = require('webpack-merge')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const production = process.env.NODE_ENV === 'production'
 const SRC_DIR = __dirname
-
-console.log(`Looking at source: ${SRC_DIR}`)
 
 module.exports = merge(common, {
   mode: production ? 'production' : "development",
@@ -39,6 +38,12 @@ module.exports = merge(common, {
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.optimize.AggressiveMergingPlugin(),
+    new HtmlWebpackPlugin({
+      hash: true,
+      filename: './dist/index.html',
+      title: "Flashcards App",
+      pageHeader: "Testing Page Header"
+    }),
     new FaviconsWebpackPlugin('./public/flashcards.png'),
     new webpack.EnvironmentPlugin(
       ['NODE_ENV', 'FLASHCARDS_VAULT_HOSTNAME']
