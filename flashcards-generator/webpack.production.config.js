@@ -57,6 +57,11 @@ module.exports = merge(common, {
     new FaviconsWebpackPlugin('./public/flashcards.png'),
     new webpack.EnvironmentPlugin(
       ['NODE_ENV', 'FLASHCARDS_VAULT_HOSTNAME']
-    )
+    ),
+    new webpack.optimize.UglifyJsPlugin({
+      comments: false,
+      drop_console: true,
+      warnings: false
+    })
   ]
 })
