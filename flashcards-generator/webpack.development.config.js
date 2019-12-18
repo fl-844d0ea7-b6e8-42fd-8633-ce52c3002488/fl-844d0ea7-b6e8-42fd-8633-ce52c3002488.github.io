@@ -1,19 +1,20 @@
 const path = require("path");
 const webpack = require("webpack");
 const common = require('./webpack.config')
-const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
-
-const production = process.env.NODE_ENV === 'production'
-
-const DIST_BUILD_DIR = path.resolve(__dirname, './dist')
+const merge = require('webpack-merge')
 
 module.exports = merge(common, {
   devServer: {
     contentBase: path.join(__dirname, "public/"),
     port: 3000,
-    publicPath: "http://localhost:3000/dist/",
+    publicPath: "http://localhost:3000/",
     hotOnly: true,
-    historyApiFallback: true
+    historyApiFallback: true,
+  },
+  output: {
+    path: path.resolve(__dirname, "dist/"),
+    publicPath: "dist/",
+    filename: "bundle.js"
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),

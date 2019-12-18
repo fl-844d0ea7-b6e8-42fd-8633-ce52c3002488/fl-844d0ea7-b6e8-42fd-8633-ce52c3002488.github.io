@@ -7,9 +7,6 @@ const fileNameTemplate = ext => (production ?
   `[name].[hash].min.${ext}` :
   `[name].${ext}`)
 
-const SRC_DIR = __dirname
-const DIST_BUILD_DIR = path.resolve(__dirname, './dist')
-
 module.exports = {
   entry: "./src/index.js",
   mode: "development",
@@ -34,11 +31,6 @@ module.exports = {
   },
   resolve: {
     extensions: ["*", ".js", ".jsx"]
-  },
-  output: {
-    path: path.resolve(__dirname, "dist/"),
-    publicPath: "/dist/",
-    filename: fileNameTemplate('js')
   },
   plugins: [
     new webpack.EnvironmentPlugin(
