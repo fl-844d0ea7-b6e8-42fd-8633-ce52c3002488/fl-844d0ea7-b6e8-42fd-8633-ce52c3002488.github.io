@@ -34,6 +34,7 @@ const CreateTopicsForm = ({handleNewTopic}) => {
         }
 
     }
+
     const handleTopicColourChange = ({ hex }) => {
         setTopicColour(hex)
     }

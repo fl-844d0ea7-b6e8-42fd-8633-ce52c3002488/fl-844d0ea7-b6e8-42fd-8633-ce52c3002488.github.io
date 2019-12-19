@@ -30,7 +30,7 @@ jobs:
         service_account_key: ${{ secrets.GCLOUD_AUTH_64 }}
     - run: gcloud app deploy ./flashcards-generator/flashcard-generator.yaml --project ${{ secrets.FLASHCARDS_APP_PROJECT_NAME }}
 
-  build-and-deploy-flashcards-vault:
+  Deploy-flashcards-vault:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
@@ -40,12 +40,6 @@ jobs:
     - name: install dependencies
       working-directory: ./flashcards-vault
       run: npm install
-    - name: Run npm build
-      working-directory: ./flashcards-vault
-      env:
-        DB_CONNECTION: ${{ secrets.DB_CONNECTION }}
-        FLASHCARDS_VAULT_HOSTNAME: ${{ secrets.DEV_FLASHCARDS_VAULT_HOSTNAME }}
-      run: npm run build
     - name: Setup GCP Login
       uses: actions/gcloud/auth@master
       env:

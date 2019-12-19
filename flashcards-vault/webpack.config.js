@@ -1,9 +1,10 @@
 const path = require("path");
 const webpack = require("webpack");
-const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
+
+const DB_CONNECTION = process.env.DB_CONNECTION
 
 module.exports = {
-  entry: "./src/index.js",
+  entry: "./app.js",
   mode: "development",
   module: {
     rules: [{
@@ -27,23 +28,13 @@ module.exports = {
   resolve: {
     extensions: ["*", ".js", ".jsx"]
   },
-  output: {
-    path: path.resolve(__dirname, "dist/"),
-    publicPath: "/dist/",
-    filename: "bundle.js"
-  },
-  devServer: {
-    contentBase: path.join(__dirname, "public/"),
-    port: 3000,
-    publicPath: "http://localhost:3000/dist/",
-    hotOnly: true,
-    historyApiFallback: true
-  },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new FaviconsWebpackPlugin('./public/flashcards.png'),
     new webpack.EnvironmentPlugin(
-      ['NODE_ENV', 'DB_CONNECTION']
+      [
+        'NODE_ENV',
+        { 'DB_CONNECTION': DB_CONNECTION }
+      ]
     )
   ]
 };
