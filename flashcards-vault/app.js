@@ -12,8 +12,8 @@ express()
   .use(cors())
   .get('/healthcheck', (_, response) => response.send())
   .use('/v1', routes)
-  .get('/', (req, res) => { res.send('Hiiiiiiiiiiii')})
-  .listen(port, '0.0.0.0', (err) => {
+  .get('/', (req, res) => { res.status(200).send('Hiiiiiiiiiiii')})
+  .listen(port, (err) => {
     if (err) {
       logger.error(err)
       return

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start-local": "env-cmd debug babel-node app.js",
-    "start": "env-cmd dev babel-node app.js",
+    "start": "env-cmd -e dev babel-node app.js",
     "build": "env-cmd dev webpack --mode=production --progress --config webpack.config.js"
   },
   "devDependencies": {
