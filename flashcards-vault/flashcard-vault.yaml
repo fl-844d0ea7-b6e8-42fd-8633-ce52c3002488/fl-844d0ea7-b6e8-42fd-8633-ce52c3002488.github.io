@@ -1,8 +1,8 @@
 runtime: nodejs
 env: standard
 service: flashcard-vault
-handlers:
-- url: /.*
-script: auto
 env_variables:
   DB_CONNECTION: ${{ secrets.DB_CONNECTION }}
+handlers:
+- url: /.*
+  script: auto
