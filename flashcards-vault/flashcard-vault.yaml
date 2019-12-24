@@ -3,4 +3,4 @@ env: standard
 service: flashcard-vault
 handlers:
 - url: /.*
-script: auto
+  script: auto
