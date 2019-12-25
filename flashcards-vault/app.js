@@ -4,7 +4,7 @@ import logger from './logging/logger'
 import requestLogger from './logging/requestLogger'
 import cors from 'cors'
 
-require('@google-cloud/debug-agent').start();
+// require('@google-cloud/debug-agent').start();
 
 const port = process.env.PORT || 8080
 
