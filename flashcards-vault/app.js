@@ -9,7 +9,7 @@ require('@google-cloud/debug-agent').start();
 const port = process.env.PORT || 8080
 
 express()
-  .use(requestLogger)
+  // .use(requestLogger)
   .use(json())
   .use(cors())
   .get('/healthcheck', (_, response) => response.send())
@@ -17,8 +17,8 @@ express()
   .get('/', (req, res) => { res.status(200).send('Hiiiiiiiiiiii')})
   .listen(port, (err) => {
     if (err) {
-      logger.error(err)
+      // logger.error(err)
       return
     }
-    logger.info(`Started. Listening on port ${port}.`)
+    // logger.info(`Started. Listening on port ${port}.`)
   })
