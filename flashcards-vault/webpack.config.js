@@ -1,6 +1,5 @@
 const path = require("path");
 const webpack = require("webpack");
-const production = procqess.env.NODE_ENV === 'production'
 
 const fileNameTemplate = ext => (production ?
   `[name].[hash].min.${ext}` :
