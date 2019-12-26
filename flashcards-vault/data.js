@@ -1,5 +1,5 @@
 import { Pool } from 'pg'
-// // // // import { logInfo, logError } from './logging/logger'
+import { logInfo, logError } from './logging/logger'
 
 const connectionString = process.env.DB_CONNECTION
 
