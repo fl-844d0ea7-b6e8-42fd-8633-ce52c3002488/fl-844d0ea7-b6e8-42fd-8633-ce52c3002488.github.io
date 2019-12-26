@@ -3,7 +3,7 @@ import { Pool } from 'pg'
 
 const connectionString = process.env.DB_CONNECTION
 
-// logInfo(`Connecting to: ${connectionString}`)
+logInfo(`Connecting to: ${connectionString}`)
 const postgresPool = new Pool({
     connectionString: connectionString,
 })
@@ -12,7 +12,7 @@ export const getFlashcardByName = async ( name ) => new Promise(
     (resolve, reject) => {
         postgresPool.connect((connectError, client, release) => {
             if (connectError) {
-                // logError("Error connecting to the DB", connectError.stack)
+                logError("Error connecting to the DB", connectError.stack)
                 reject( new Error("Connection sadness"))
                 return
             }
@@ -22,15 +22,15 @@ export const getFlashcardByName = async ( name ) => new Promise(
                 values: [name]
             }
 
-            // logInfo("Performing query", query.text)
+            logInfo("Performing query", query.text)
             client.query(query, (queryError, result) => {
                 release()
                 if (queryError) {
-                    // logError(queryError.stack)
+                    logError(queryError.stack)
                     reject(new Error("Postgres sadness :("))
                     return
                 }
-                // logInfo("Received result", {count: result.rows})
+                logInfo("Received result", {count: result.rows})
                 resolve(result.rows[0].count)
             })
         })
@@ -41,7 +41,7 @@ export const getTopicCountByName = async ( name ) => new Promise(
     (resolve, reject) => {
         postgresPool.connect((connectError, client, release) => {
             if (connectError) {
-                // logError("Error connecting to the DB", connectError.stack)
+                logError("Error connecting to the DB", connectError.stack)
                 reject( new Error("Connection sadness"))
                 return
             }
@@ -51,15 +51,15 @@ export const getTopicCountByName = async ( name ) => new Promise(
                 values: [name]
             }
 
-            // logInfo("Performing query", query.text)
+            logInfo("Performing query", query.text)
             client.query(query, (queryError, result) => {
                 release()
                 if (queryError) {
-                    // logError(queryError.stack)
+                    logError(queryError.stack)
                     reject(new Error("Postgres sadness :("))
                     return
                 }
-                // logInfo("Received result", {count: result.rows})
+                logInfo("Received result", {count: result.rows})
                 resolve(result.rows[0].count)
             })
         })
@@ -68,10 +68,10 @@ export const getTopicCountByName = async ( name ) => new Promise(
 
 export const getTopicsByName = async ( name ) => new Promise(
     (resolve, reject) => {
-        // logInfo("Making connectiong to database")
+        logInfo("Making connectiong to database")
         postgresPool.connect((connectError, client, release) => {
             if (connectError) {
-                // logError("Error connecting to the DB", connectError.stack)
+                logError("Error connecting to the DB", connectError.stack)
                 reject( new Error("Connection sadness"))
                 return
             }
@@ -81,15 +81,15 @@ export const getTopicsByName = async ( name ) => new Promise(
                 values: [name]
             }
 
-            // logInfo("Performing query", query.text)
+            logInfo("Performing query", query.text)
             client.query(query, (queryError, result) => {
                 release()
                 if (queryError) {
-                    // logError(queryError.stack)
+                    logError(queryError.stack)
                     reject(new Error("Postgres sadness :("))
                     return
                 }
-                // logInfo("Received result", {count: result.rows})
+                logInfo("Received result", {count: result.rows})
                 resolve(result.rows)
             })
         })
@@ -100,7 +100,7 @@ export const insertFlashcard = async (term, definition, topic, name) => new Prom
     (resolve, reject) => {
         postgresPool.connect((connectError, client, release) => {
             if (connectError) {
-                // logError("Error connecting to the DB", connectError.stack)
+                logError("Error connecting to the DB", connectError.stack)
                 reject( new Error("Connection sadness"))
                 return
             }
@@ -110,7 +110,7 @@ export const insertFlashcard = async (term, definition, topic, name) => new Prom
                 values: [term, definition, topic, name]
             }
 
-            // logInfo(`Making query: ${query.text}`)
+            logInfo(`Making query: ${query.text}`)
 
             client.query(query, (queryError, result) => {
                 release()
@@ -127,22 +127,22 @@ export const insertFlashcard = async (term, definition, topic, name) => new Prom
 
 export const insertTopic = async (name, colour) => new Promise(
     (resolve, reject) => {
-        // logInfo("Connecting to database to insert topic")
+        logInfo("Connecting to database to insert topic")
         postgresPool.connect((connectError, client, release) => {
             if (connectError) {
-                // logError("Error connecting to the DB", connectError.stack)
+                logError("Error connecting to the DB", connectError.stack)
                 reject( new Error("Connection sadness"))
                 return
             }
 
-            // logInfo("Connected to Data successfully")
+            logInfo("Connected to Data successfully")
 
             const query = {
                 text: 'INSERT INTO flashcards_app.topics(name, colour, created, updated) VALUES($1, $2, NOW(), NOW())',
                 values: [name, colour]
             }
 
-            // logInfo(`Making query ${query.text}`)
+            logInfo(`Making query ${query.text}`)
 
             client.query(query, (queryError, result) => {
                 release()
@@ -150,7 +150,7 @@ export const insertTopic = async (name, colour) => new Promise(
                     reject(new Error("Postgres sadness :("))
                     return
                 }
-                // logInfo(`Received result: ${result.rowCount}`)
+                logInfo(`Received result: ${result.rowCount}`)
                 resolve(result.rowCount)
             })
         })
@@ -159,10 +159,10 @@ export const insertTopic = async (name, colour) => new Promise(
 
 export const removeFlashcard = async (id) => new Promise(
     (resolve, reject) => {
-        // logInfo("Connecting to database to delete flashcard")
+        logInfo("Connecting to database to delete flashcard")
         postgresPool.connect((connectError, client, release) => {
             if (connectError) {
-                // logError("Error connecting to the DB", connectError.stack)
+                logError("Error connecting to the DB", connectError.stack)
                 reject( new Error("Connection sadness"))
                 return
             }
@@ -175,7 +175,7 @@ export const removeFlashcard = async (id) => new Promise(
             client.query(query, (queryError, result) => {
                 release()
                 if (queryError) {
-                    // logError(queryError.stack)
+                    logError(queryError.stack)
                     reject(new Error("Postgres sadness :("))
                     return
                 }
@@ -187,10 +187,10 @@ export const removeFlashcard = async (id) => new Promise(
 
 export const removeTopic = async (id) => new Promise(
     (resolve, reject) => {
-        // logInfo("Connecting to database to delete topic")
+        logInfo("Connecting to database to delete topic")
         postgresPool.connect((connectError, client, release) => {
             if (connectError) {
-                // logError("Error connecting to the DB", connectError.stack)
+                logError("Error connecting to the DB", connectError.stack)
                 reject( new Error("Connection sadness"))
                 return
             }
@@ -203,7 +203,7 @@ export const removeTopic = async (id) => new Promise(
             client.query(query, (queryError, result) => {
                 release()
                 if (queryError) {
-                    // logError(queryError.stack)
+                    logError(queryError.stack)
                     reject(new Error("Postgres sadness :("))
                     return
                 }
@@ -215,10 +215,10 @@ export const removeTopic = async (id) => new Promise(
 
 export const getTopics = async () => new Promise(
     (resolve, reject) => {
-        // logInfo("Connecting to database to get topics")
+        logInfo("Connecting to database to get topics")
         postgresPool.connect((connectError, client, release) => {
             if (connectError) {
-                // logError("Error connecting to the DB", connectError.stack)
+                logError("Error connecting to the DB", connectError.stack)
                 reject( new Error("Connection sadness"))
                 return
             }
@@ -230,7 +230,7 @@ export const getTopics = async () => new Promise(
             client.query(query, (queryError, result) => {
                 release()
                 if (queryError) {
-                    // logError(queryError.stack)
+                    logError(queryError.stack)
                     reject(new Error("Postgres sadness :("))
                     return
                 }
@@ -248,10 +248,10 @@ export const getFlashcards = async (searchTerms) => new Promise(
             return Object.values(searchTerms).every((val) => (val === null || val === ''))
         }
 
-        // logInfo("Received request to get flashcards")
+        logInfo("Received request to get flashcards")
         postgresPool.connect((connectError, client, release) => {
             if (connectError) {
-                // logError("Error connecting to the DB", connectError.stack)
+                logError("Error connecting to the DB", connectError.stack)
                 reject( new Error("Connection sadness"))
                 return
             }
@@ -262,7 +262,7 @@ export const getFlashcards = async (searchTerms) => new Promise(
             }
 
             if (!hasEmptyValues(searchTerms)){
-                // logInfo("Building query parameters")
+                logInfo("Building query parameters")
                 let whereClause = ' WHERE '
                 Object.entries(searchTerms).map(([column, value], index) => {
                     // console.log(`${index}: ${column} => ${value}`)
@@ -281,20 +281,20 @@ export const getFlashcards = async (searchTerms) => new Promise(
                         }
                     }
                 })
-                // logInfo(`Built ${whereClause}`)
+                logInfo(`Built ${whereClause}`)
                 query.text += whereClause
-                // logInfo("Query values: ", query.values)
+                logInfo("Query values: ", query.values)
             }
 
-            // logInfo("Preparing to make query", {queryText: query.text})
+            logInfo("Preparing to make query", {queryText: query.text})
             client.query(query, (queryError, result) => {
                 release()
                 if (queryError) {
-                    // logError('Error occurred', queryError.stack)
+                    logError('Error occurred', queryError.stack)
                     reject(new Error("Postgres sadness :("))
                     return
                 }
-                // logInfo("Received successfuly result", {result} )
+                logInfo("Received successfuly result", {result} )
                 resolve(result.rows)
             })
         })
@@ -306,7 +306,7 @@ export const updateFlashcardDefinition = async (id, definition) => new Promise(
     (resolve, reject) => {
         postgresPool.connect((connectError, client, release) => {
             if (connectError) {
-                // logError("Error connecting to the DB", connectError.stack)
+                logError("Error connecting to the DB", connectError.stack)
                 reject(new Error("Connection sadness"))
                 return
             }
@@ -324,7 +324,7 @@ export const updateFlashcardDefinition = async (id, definition) => new Promise(
             client.query(query, (queryError, result) => {
                 release()
                 if (queryError) {
-                    // logError(queryError.stack)
+                    logError(queryError.stack)
                     reject(new Error("Postgres sadness :("))
                     return
                 }
@@ -338,7 +338,7 @@ export const updateTopicByName = async (id, name) => new Promise(
     (resolve, reject) => {
         postgresPool.connect((connectError, client, release) => {
             if (connectError) {
-                // logError("Error connecting to the DB", connectError.stack)
+                logError("Error connecting to the DB", connectError.stack)
                 reject(new Error("Connection sadness"))
                 return
             }
@@ -356,7 +356,7 @@ export const updateTopicByName = async (id, name) => new Promise(
             client.query(query, (queryError, result) => {
                 release()
                 if (queryError) {
-                    // logError(queryError.stack)
+                    logError(queryError.stack)
                     reject(new Error("Postgres sadness :("))
                     return
                 }
