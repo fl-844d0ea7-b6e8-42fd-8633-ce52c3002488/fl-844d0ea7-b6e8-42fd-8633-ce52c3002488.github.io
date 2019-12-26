@@ -1,5 +1,4 @@
 import express, { json } from 'express'
-import routes from './routes'
 import logger from './logging/logger'
 import requestLogger from './logging/requestLogger'
 import cors from 'cors'
