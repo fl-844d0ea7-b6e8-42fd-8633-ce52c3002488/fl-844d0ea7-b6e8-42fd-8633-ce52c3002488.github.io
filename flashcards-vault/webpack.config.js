@@ -6,7 +6,7 @@ const fileNameTemplate = ext => (production ?
   `[name].${ext}`)
 
 module.exports = {
-  entry: "./src/index.js",
+  entry: "./app.js",
   mode: "development",
   module: {
     rules: [{
