@@ -40,6 +40,11 @@ jobs:
     - name: install dependencies
       working-directory: ./flashcards-vault
       run: npm install
+    - name: Run npm build
+      working-directory: ./flashcards-vault
+      env:
+        FLASHCARDS_VAULT_HOSTNAME: ${{ secrets.DB_CONNECTION }}
+      run: npm run build
     - name: Setup GCP Login
       uses: actions/gcloud/auth@master
       env:
