@@ -19,14 +19,6 @@ module.exports = {
           presets: ["@babel/env"]
         }
       },
-      {
-        test: /\.css$/,
-        use: ["style-loader", "css-loader"]
-      },
-      {
-        test: /\.jpe?g$|\.ico$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$|\.wav$|\.mp3$/,
-        loader: 'file-loader?name=[name].[ext]'
-      }
     ]
   },
   resolve: {
@@ -39,6 +31,5 @@ module.exports = {
         'FLASHCARDS_VAULT_HOSTNAME'
       ]
     ),
-    new webpack.optimize.ModuleConcatenationPlugin()
   ]
 };
