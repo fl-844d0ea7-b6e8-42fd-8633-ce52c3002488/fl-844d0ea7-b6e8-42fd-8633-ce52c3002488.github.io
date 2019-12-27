@@ -29,7 +29,6 @@ module.exports = {
         'DB_CONNECTION'
       ]
     ),
-    new webpack.optimize.ModuleConcatenationPlugin()
   ],
   output: {
       path: path.resolve(__dirname, "dist/"),
