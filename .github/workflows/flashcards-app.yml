@@ -50,7 +50,7 @@ jobs:
       working-directory: ./flashcards-vault
       env:
         DB_CONNECTION: ${{ secrets.DB_CONNECTION }}
-      run: npm run builds
+      run: npm run build
     - name: Deploy to gcloud app engine
       uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
       with:
