@@ -1,7 +1,8 @@
 runtime: nodejs10
 service: flashcard-vault
 instance_class: B2
-env_variables: DB_CONNECTION
+env_variables:
+  DB_CONNECTION: DB_CONNECTION
 basic_scaling:
   max_instances: 10
   idle_timeout: 5m
