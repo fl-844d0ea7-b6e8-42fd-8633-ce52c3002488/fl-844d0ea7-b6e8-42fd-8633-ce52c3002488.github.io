@@ -8,6 +8,7 @@ const fileNameTemplate = ext => (production ?
 module.exports = {
   entry: "./app.js",
   mode: "development",
+  target: "node",
   module: {
     rules: [{
         test: /\.(js|jsx)$/,
@@ -35,9 +36,9 @@ module.exports = {
       publicPath: "/",
       filename: 'bundle.js'
     },
-    devServer: {
-      port: process.env.PORT,
-      host: '0.0.0.0',
-      compress: true,
-    },
+  devServer: {
+    port: process.env.PORT,
+    host: '0.0.0.0',
+    compress: true,
+  },
 };
