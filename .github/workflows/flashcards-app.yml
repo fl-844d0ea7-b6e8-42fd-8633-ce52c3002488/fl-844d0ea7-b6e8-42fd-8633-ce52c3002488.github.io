@@ -46,13 +46,10 @@ jobs:
         GCLOUD_AUTH: ${{ secrets.GCLOUD_AUTH_64 }}
     - name: Gcloud Setup
       run: gcloud config set account ${{ secrets.FLASHCARDS_SERVICE_ACCOUNT }}
-    - name: Run npm build
-      working-directory: ./flashcards-vault
-      env:
-        DB_CONNECTION: ${{ secrets.DB_CONNECTION }}
-      run: npm run build
     - name: Deploy to gcloud app engine
       uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
       with:
         service_account_key: ${{ secrets.GCLOUD_AUTH_64 }}
+      env:
+        DB_CONNECTION: ${{ secrets.DB_CONNECTION }}
     - run : gcloud app deploy ./flashcards-vault/flashcard-vault.yaml --project ${{ secrets.FLASHCARDS_APP_PROJECT_NAME }}
