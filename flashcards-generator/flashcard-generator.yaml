@@ -1,4 +1,4 @@
-runtime: nodejs12
+runtime: nodejs10
 service: default
 instance_class: B2
 basic_scaling:
