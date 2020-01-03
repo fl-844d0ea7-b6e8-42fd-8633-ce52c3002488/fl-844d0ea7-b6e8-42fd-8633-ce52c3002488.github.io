@@ -1,14 +1,12 @@
 const path = require("path");
-const webpack = require("webpack");
-
-const fileNameTemplate = ext => (production ?
-  `[name].[hash].min.${ext}` :
-  `[name].${ext}`)
+var webpack = require("webpack")
+var nodeExternals = require('webpack-node-externals');
 
 module.exports = {
   entry: "./app.js",
   mode: "development",
   target: "node",
+  externals: [nodeExternals()],
   module: {
     rules: [{
         test: /\.(js|jsx)$/,
@@ -21,7 +19,7 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ["*", ".js", ".jsx"]
+    extensions: ["*", ".js"]
   },
   plugins: [
     new webpack.EnvironmentPlugin(
@@ -32,13 +30,7 @@ module.exports = {
     ),
   ],
   output: {
-      path: path.resolve(__dirname, "dist/"),
-      publicPath: "/",
-      filename: 'bundle.js'
-    },
-  devServer: {
-    port: process.env.PORT,
-    host: '0.0.0.0',
-    compress: true,
+    path: path.resolve(__dirname, "dist/"),
+    filename: 'bundle.js'
   },
 };
