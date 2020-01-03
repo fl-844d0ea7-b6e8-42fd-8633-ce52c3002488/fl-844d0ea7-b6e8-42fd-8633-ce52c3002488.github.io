@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start-local": "env-cmd debug babel-node app.js",
-    "start": "env-cmd dev babel-node dist/bundle.js",
+    "start": "env-cmd dev node dist/bundle.js",
     "build": "env-cmd dev webpack --mode=production --progress --config webpack.config.js"
   },
   "devDependencies": {
@@ -22,7 +22,6 @@
     "@babel/plugin-syntax-import-meta": "^7.7.4",
     "@babel/preset-env": "^7.7.7",
     "axios": "^0.19.0",
-    "babel-loader": "^8.0.6",
     "babel-plugin-module-resolver": "^4.0.0",
     "cors": "^2.8.5",
     "env-cmd": "^8.0.2",
