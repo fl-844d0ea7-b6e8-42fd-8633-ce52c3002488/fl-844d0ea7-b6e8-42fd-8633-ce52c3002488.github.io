@@ -12,7 +12,7 @@ express()
   .use(json())
   .use(cors())
   .get('/healthcheck', (_, response) => response.send())
-  // .use('/v1', routes)
+  .use('/v1', routes)
   .get('/', (req, res) => { res.status(200).send('Hiiiiiiiiiiii')})
   .listen(port, (err) => {
     if (err) {
