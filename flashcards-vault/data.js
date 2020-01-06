@@ -3,6 +3,8 @@ import { logInfo, logError } from './logging/logger'
 
 const connectionString = process.env.DB_CONNECTION
 
+logInfo(`Connecting to: ${connectionString}`)
+
 const postgresPool = new Pool({
     connectionString: connectionString,
 })
