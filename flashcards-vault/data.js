@@ -10,7 +10,7 @@ const postgresPool = new Pool({
     user,
     password,
     database,
-    socketPath
+    host: socketPath
 })
 
 export const getFlashcardByName = async ( name ) => new Promise(
