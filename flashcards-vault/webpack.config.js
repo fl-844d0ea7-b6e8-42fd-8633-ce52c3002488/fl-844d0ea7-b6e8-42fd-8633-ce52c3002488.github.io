@@ -22,7 +22,11 @@ module.exports = {
     new webpack.EnvironmentPlugin(
       [
         'NODE_ENV',
-        'DB_CONNECTION'
+        'DB_USER',
+        'DB_PASSWORD',
+        'DB_NAME',
+        'DB_SOCKET',
+        'DB_PORT'
       ]
     ),
   ],
