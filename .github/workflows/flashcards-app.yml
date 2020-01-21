@@ -18,10 +18,6 @@ jobs:
       env:
         FLASHCARDS_VAULT_HOSTNAME: ${{ secrets.FLASHCARDS_VAULT_HOSTNAME }}
       run: npm run build
-    - name: Setup GCP Login
-      uses: actions/gcloud/auth@master
-      env:
-        GCLOUD_AUTH: ${{ secrets.GCLOUD_AUTH_64 }}
     - name: Gcloud Setup
       run: gcloud config set account ${{ secrets.FLASHCARDS_SERVICE_ACCOUNT }}
     - name: Deploy to gcloud app engine
@@ -40,10 +36,6 @@ jobs:
     - name: install dependencies
       working-directory: ./flashcards-vault
       run: npm install
-    - name: Setup GCP Login
-      uses: actions/gcloud/auth@master
-      env:
-        GCLOUD_AUTH: ${{ secrets.GCLOUD_AUTH_64 }}
     - name: Gcloud Setup
       run: gcloud config set account ${{ secrets.FLASHCARDS_SERVICE_ACCOUNT }}
     - name: Run npm build
