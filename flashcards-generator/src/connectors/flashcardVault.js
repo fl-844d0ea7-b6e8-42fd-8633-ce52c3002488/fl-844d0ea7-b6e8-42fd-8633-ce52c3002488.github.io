@@ -2,6 +2,8 @@ import axios from 'axios';
 
 const FLASHCARD_VAULT_HOSTNAME = process.env.FLASHCARDS_VAULT_HOSTNAME
 
+console.log(`FLASHCARSD_VAULT: ${FLASHCARD_VAULT_HOSTNAME}`)
+
 const parseSearchTerm = (string) => {
   if (string === "" || string === null){
     return string
