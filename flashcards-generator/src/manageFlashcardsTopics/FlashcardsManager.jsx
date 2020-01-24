@@ -21,7 +21,7 @@ const FlashcardsViewer = () => {
     const [showSuccess, setShowSuccess] = useState(false)
 
     const parseCardsList = (cardsArray) => {
-        const topics = cardsArray.map((item) => { return item.topic_name })
+        const topics = cardsArray && cardsArray.map((item) => { return item.topic_name })
         //  research this
         let uniqueTopics = topics.filter((v, i, a) => a.indexOf(v) === i)
 
@@ -94,7 +94,6 @@ const FlashcardsViewer = () => {
                         else{
                             newObject[topic] = filteredArray
                         }
-
                         setCardsList({ ...cardsList, ...newObject })
                     }
                 })

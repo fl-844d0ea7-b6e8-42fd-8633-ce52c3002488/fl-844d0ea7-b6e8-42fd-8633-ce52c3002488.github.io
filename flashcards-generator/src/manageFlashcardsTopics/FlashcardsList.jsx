@@ -5,7 +5,7 @@ import CardColumns from 'react-bootstrap/CardColumns'
 
 const FlashcardsList = ({ cardsList, handleDelete }) => {
 
-    return (
+    return cardsList && (
         Object.entries(cardsList).map(([topic, cardArray]) => (
             <div key={topic+"-section"}>
                 <h4>

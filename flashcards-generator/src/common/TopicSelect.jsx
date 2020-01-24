@@ -16,7 +16,7 @@ const TopicSelect = ({ fieldHelpText, newTopicCreated, value, handleTopicChange,
     useEffect(() => {
         const fetchData = async () => {
             const result = await getTopics()
-            if (result) {
+            if (result && result.data) {
                 setTopicOptionsList(
                     result.data.map(({ topic_id, name, colour }) => {
                         return {
@@ -27,6 +27,7 @@ const TopicSelect = ({ fieldHelpText, newTopicCreated, value, handleTopicChange,
                     })
                 )
             }
+
         }
         fetchData()
     }, [newTopicCreated])
