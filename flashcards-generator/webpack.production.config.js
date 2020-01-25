@@ -7,6 +7,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 const FLASHCARDS_VAULT_HOSTNAME = process.env.FLASHCARDS_VAULT_HOSTNAME
+const NODE_ENV = process.env.NODE_ENV
 const production = process.env.NODE_ENV === 'production'
 const SRC_DIR = __dirname
 
@@ -50,10 +51,10 @@ module.exports = merge(common, {
     }),
     new FaviconsWebpackPlugin('./public/flashcards.png'),
     new webpack.EnvironmentPlugin(
-      [
-        'NODE_ENV',
-        {'FLASHCARDS_VAULT_HOSTNAME': FLASHCARDS_VAULT_HOSTNAME}
-      ]
+      {
+        'NODE_ENV': NODE_ENV,
+        'FLASHCARDS_VAULT_HOSTNAME': FLASHCARDS_VAULT_HOSTNAME
+      }
     )
   ],
   optimization: {
