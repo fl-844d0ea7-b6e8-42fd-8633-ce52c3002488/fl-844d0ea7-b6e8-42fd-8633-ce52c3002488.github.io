@@ -22,10 +22,6 @@ module.exports = merge(common, {
           include: [SRC_DIR]
         }
       },
-      {
-        test: /\.jpe?g$|\.ico$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$|\.wav$|\.mp3$/,
-        loader: 'file-loader?name=[name].[ext]'
-      }
     ]
   },
   resolve: {
