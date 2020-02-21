@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button'
 import ColourPicker from '../common/ColourPicker';
 import FormInput from '../common/FormInput';
 import FormAlert from '../common/FormAlert';
-import { insertTopic } from '../connectors/flashcardVault';
+import { insertTopic } from '../connectors/serverData';
 
 
 const CreateTopicsForm = ({handleNewTopic}) => {

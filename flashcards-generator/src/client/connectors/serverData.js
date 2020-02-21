@@ -1,9 +1,5 @@
 import axios from 'axios';
 
-const FLASHCARD_VAULT_HOSTNAME = process.env.FLASHCARDS_VAULT_HOSTNAME
-
-console.log(`FLASHCARSD_VAULT: ${FLASHCARD_VAULT_HOSTNAME}`)
-
 const parseSearchTerm = (string) => {
   if (string === "" || string === null){
     return string
@@ -20,7 +16,7 @@ export const insertFlashcard = async (name, topic, term, definition) => {
     term = term.toLowerCase()
 
     try {
-        const resp = await axios.post(`${FLASHCARD_VAULT_HOSTNAME}/v1/createFlashcard`, {
+        const resp = await axios.post(`/api/createFlashcard`, {
             data: {
               name, topic, term, definition,
             },
@@ -41,12 +37,13 @@ export const getFlashcards = async (name, topic_id, term) => {
 
 
     try {
-        const resp = await axios.post(`${FLASHCARD_VAULT_HOSTNAME}/v1/list`, {
+        const resp = await axios.post(`/api/list`, {
             searchTerms: {
               name, topic_id, term,
             },
         });
         console.log('Request was successful, returning results');
+        console.log('Data: oooooooo')
         return { data: resp.data };
     } catch (error) {
         console.log(error);
@@ -54,11 +51,10 @@ export const getFlashcards = async (name, topic_id, term) => {
     }
 };
 
-
 export const updateFlashcard = async (id, term, definition) => {
   console.log('Making POST request to Flashcards Vault update flashcards');
   try {
-    const resp = await axios.post("${FLASHCARD_VAULT_HOSTNAME}/v1/update/${id}", {
+    const resp = await axios.post(`/api/update/${id}`, {
       data: { definition, term },
     });
     console.log('Request was successful, returning results');
@@ -72,7 +68,7 @@ export const updateFlashcard = async (id, term, definition) => {
 export const deleteFlashcard = async (id) => {
   console.log('Making DELETE request to Flashcards Vault');
   try {
-    const resp = await axios.delete("${FLASHCARD_VAULT_HOSTNAME}/v1/delete/${id}");
+    const resp = await axios.delete(`/api/delete/${id}`);
     console.log('Request was successful, returning results');
     return {
       data: resp.data
@@ -88,7 +84,7 @@ export const deleteFlashcard = async (id) => {
 export const insertTopic = async (name, colour) => {
   console.log('Making POST request to Flashcards Vault to insert TOPIC');
   try {
-    const resp = await axios.post(`${FLASHCARD_VAULT_HOSTNAME}/v1/createTopic`, {
+    const resp = await axios.post(`/api/createTopic`, {
       data: {
         name,
         colour,
@@ -105,8 +101,9 @@ export const insertTopic = async (name, colour) => {
 export const getTopics = async () => {
   console.log('Making GET request to Flashcards Vault get TOPICS');
   try {
-    const resp = await axios.get(`${FLASHCARD_VAULT_HOSTNAME}/v1/listTopics`);
+    const resp = await axios.get(`/api/listTopics`);
     console.log('Request was successful, returning results');
+    console.log('Oooog results: ', resp.data)
     return {
       data: resp.data
     };
@@ -117,10 +114,10 @@ export const getTopics = async () => {
 };
 
 export const getTopicsByName = async ( topic ) => {
-  console.log('Making GET request to Flashcards Vault get TOPICS');
+  console.log('Making GET request to Flashcards Vault get TOPICS by name');
   try {
     const parsedTopic = parseSearchTerm(topic)
-    const resp = await axios.get(`${FLASHCARD_VAULT_HOSTNAME}/v1/getTopics?topic=${parsedTopic}`);
+    const resp = await axios.get(`/api/getTopics?topic=${parsedTopic}`);
     console.log('Request was successful, returning results');
     return { data: resp.data };
   } catch (error) {
@@ -133,7 +130,7 @@ export const getTopicsByName = async ( topic ) => {
 export const updateTopicName = async (id, name) => {
   console.log('Making POST request to Flashcards Vault to update topic name');
   try {
-    const resp = await axios.post("${FLASHCARD_VAULT_HOSTNAME}/v1/updateTopicName/${id}", {
+    const resp = await axios.post(`/api/updateTopicName/${id}`, {
       data: { name },
     });
     console.log('Request was successful, returning results');
@@ -147,7 +144,7 @@ export const updateTopicName = async (id, name) => {
 export const deleteTopic = async (id) => {
   console.log('Making DELETE request to Flashcards Vault for topic');
   try {
-    const resp = await axios.delete("${FLASHCARD_VAULT_HOSTNAME}/v1/deleteTopic/${id}");
+    const resp = await axios.delete(`/api/deleteTopic/${id}`);
     console.log('Request was successful, returning results');
     return { data: resp.data };
   } catch (error) {
@@ -155,4 +152,3 @@ export const deleteTopic = async (id) => {
     return { error };
   }
 };
-

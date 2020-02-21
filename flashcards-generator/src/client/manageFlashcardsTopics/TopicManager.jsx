@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button'
 import FormInput from '../common/FormInput'
 import FormAlert from '../common/FormAlert'
 import CardColumns from 'react-bootstrap/CardColumns'
-import { getTopicsByName, getTopics, deleteTopic } from '../connectors/flashcardVault'
+import { getTopicsByName, getTopics, deleteTopic } from '../connectors/serverData'
 import TopicCard from './TopicCard'
 
 const TopicManager = () => {
@@ -36,6 +36,7 @@ const TopicManager = () => {
                 console.log("Setting topic list")
                 setShowError(false)
                 setShowSuccess(false)
+                console.log('Daaaata', resp.data)
                 setTopicsList(resp.data)
             }
 
@@ -60,6 +61,7 @@ const TopicManager = () => {
         } else {
             setError("How rude. We didn't get a response!")
             setShowError(true)
+            setTopicsList([])
         }
     }
 
@@ -120,15 +122,18 @@ const TopicManager = () => {
             </Form>
             <br />
             <CardColumns>
-                {topicsList.map(({ topic_id, name, colour }, _) => (
-                    <TopicCard
-                        key={`${topic_id}_${name}`}
-                        id={topic_id}
-                        name={name}
-                        colour={colour}
-                        handleDelete={handleDelete}
-                    />
-                ))}
+                {topicsList
+                    ?   topicsList.map(({ topic_id, name, colour }, _) => (
+                            <TopicCard
+                                key={`${topic_id}_${name}`}
+                                id={topic_id}
+                                name={name}
+                                colour={colour}
+                                handleDelete={handleDelete}
+                            />
+                        ))
+                    : null
+                }
             </CardColumns>
         </div>
     )

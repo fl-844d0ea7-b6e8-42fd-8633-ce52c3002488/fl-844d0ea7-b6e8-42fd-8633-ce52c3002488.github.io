@@ -5,7 +5,7 @@ import Alert from 'react-bootstrap/Alert'
 import FormAlert from '../common/FormAlert'
 import FormInput from '../common/FormInput'
 import TopicSelect from '../common/TopicSelect'
-import { insertFlashcard } from '../connectors/flashcardVault'
+import { insertFlashcard } from '../connectors/serverData'
 
 const CreateFlashcardsForm = ({ newTopicCreated }) => {
 
