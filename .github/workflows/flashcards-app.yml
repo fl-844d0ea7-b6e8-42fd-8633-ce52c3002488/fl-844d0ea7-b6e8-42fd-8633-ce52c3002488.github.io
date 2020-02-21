@@ -2,6 +2,8 @@ name: Build and deploy Flashcards App on push
 
 on:
   push:
+    branches:
+    - master
 jobs:
   build-and-deploy-flashcards-generator:
     runs-on: ubuntu-latest
@@ -18,36 +20,8 @@ jobs:
       env:
         FLASHCARDS_VAULT_HOSTNAME: ${{ secrets.FLASHCARDS_VAULT_HOSTNAME }}
       run: npm run build
-    - name: Gcloud Setup
-      run: gcloud config set account ${{ secrets.FLASHCARDS_SERVICE_ACCOUNT }}
-    - name: Deploy to gcloud app engine
-      uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+    - name: Build and Deploy
+      uses: JamesIves/github-pages-deploy-action@3.2.1
       with:
-        service_account_key: ${{ secrets.GCLOUD_AUTH_64 }}
-    - run: gcloud app deploy ./flashcards-generator/flashcard-generator.yaml --project ${{ secrets.FLASHCARDS_APP_PROJECT_NAME }}
-
-  Deploy-flashcards-vault:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v1
-    - name: Clear cache
-      working-directory: ./flashcards-vault
-      run: rm -rf node_modules && npm cache clean --force
-    - name: install dependencies
-      working-directory: ./flashcards-vault
-      run: npm install
-    - name: Gcloud Setup
-      run: gcloud config set account ${{ secrets.FLASHCARDS_SERVICE_ACCOUNT }}
-    - name: Run npm build
-      working-directory: ./flashcards-vault
-      env:
-        DB_USER: ${{ secrets.DB_USER }}
-        DB_SOCKET: ${{ secrets.DB_SOCKET }}
-        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-        DB_NAME: ${{ secrets.DB_NAME }}
-      run: npm run build
-    - name: Deploy to gcloud app engine
-      uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
-      with:
-        service_account_key: ${{ secrets.GCLOUD_AUTH_64 }}
-    - run : gcloud app deploy ./flashcards-vault/flashcard-vault.yaml --project ${{ secrets.FLASHCARDS_APP_PROJECT_NAME }}
+        BRANCH: gh-pages
+        FOLDER: dist
