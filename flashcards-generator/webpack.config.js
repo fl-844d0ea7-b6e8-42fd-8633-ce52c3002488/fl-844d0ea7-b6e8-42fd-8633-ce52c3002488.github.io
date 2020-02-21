@@ -1,39 +1,59 @@
-const path = require("path");
-const webpack = require("webpack");
+const webpack = require('webpack')
+const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+
 const production = process.env.NODE_ENV === 'production'
 
+const SRC_DIR = __dirname
+const CLIENT_DIR = path.resolve(SRC_DIR, 'client')
+const PUBLIC_DIR = path.resolve(SRC_DIR, 'public')
+
+const fileNameTemplate = ext => (production ?
+  `[name].[chunkhash].min.${ext}` :
+  `[name].${ext}`)
+
+
 module.exports = {
-  entry: "./src/index.js",
-  mode: "development",
+  entry: ['./src/client/index.js'],
+  mode: production ? 'production' : 'development',
+  devServer: { historyApiFallback: true },
+  devtool: 'inline-source-map',
+  output: {
+    path: CLIENT_DIR,
+    publicPath: '/',
+    filename: fileNameTemplate('js')
+  },
   module: {
     rules: [{
-        test: /\.(js|jsx)$/,
-        exclude: /(node_modules|bower_components)/,
-        loader: "babel-loader",
-        options: {
-          presets: ["@babel/env"]
-        }
+      test: /\.jsx?$/,
+      exclude: /(node_modules)/,
+      loader: 'babel-loader',
+      include: [SRC_DIR],
+      options: {
+        presets: ['@babel/preset-env'],
+        envName: 'client',
       },
-      {
-        test: /\.css$/,
-        use: ["style-loader", "css-loader"]
-      },
-      {
-        test: /\.jpe?g$|\.ico$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$|\.wav$|\.mp3$/,
-        loader: 'file-loader?name=[name].[ext]'
-      }
-    ]
+    },
+    {
+      test: /\.css$/,
+      use: ['style-loader', 'css-loader'],
+    },
+    {
+      test: /\.jpe?g$|\.ico$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$|\.wav$|\.mp3$/,
+      loader: 'file-loader?name=[name].[ext]',
+    },
+    ],
   },
   resolve: {
-    extensions: ["*", ".js", ".jsx"]
+    extensions: ['.js', '.jsx'],
   },
   plugins: [
-    new webpack.EnvironmentPlugin(
-      [
-        'NODE_ENV',
-        'FLASHCARDS_VAULT_HOSTNAME'
-      ]
-    ),
-    new webpack.optimize.ModuleConcatenationPlugin()
+    new webpack.EnvironmentPlugin([ 'NODE_ENV' ]),
+    new webpack.optimize.ModuleConcatenationPlugin(),
+    new HtmlWebpackPlugin({
+      template: path.resolve(PUBLIC_DIR, 'index.html'),
+      filename: 'index.html',
+      inject: 'body',
+    }),
   ]
-};
+}
