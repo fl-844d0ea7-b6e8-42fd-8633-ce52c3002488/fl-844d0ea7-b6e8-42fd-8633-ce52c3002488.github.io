@@ -28,19 +28,7 @@ module.exports = merge(common, {
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.optimize.AggressiveMergingPlugin(),
-    new HtmlWebpackPlugin({
-      hash: true,
-      filename: 'dist/index.html',
-      title: 'Flashcards App',
-      template: 'index.html',
-      pageHeader: 'Testing Page Header',
-    }),
-    // new FaviconsWebpackPlugin('./public/flashcards.png'),
-    new webpack.EnvironmentPlugin(
-      {
-        NODE_ENV,
-      },
-    ),
+    new webpack.EnvironmentPlugin({NODE_ENV}),
   ],
   optimization: {
     minimizer: [
