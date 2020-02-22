@@ -7,12 +7,6 @@ const database = process.env.DB_NAME
 const host = process.env.DB_SOCKET
 const connectionString = process.env.DB_CONNECTION
 
-console.log(`User: ${user}`)
-console.log(`password: ${password}`)
-console.log(`database: ${database}`)
-console.log(`host: ${host}`)
-console.log(`connectionString: ${connectionString}`)
-
 const postgresPool = connectionString
     ? new Pool({ connectionString })
     : new Pool({ user, password, database, host })
