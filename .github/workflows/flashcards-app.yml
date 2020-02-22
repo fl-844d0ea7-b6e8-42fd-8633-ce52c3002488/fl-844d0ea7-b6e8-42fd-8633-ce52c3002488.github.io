@@ -21,7 +21,7 @@ jobs:
         FLASHCARDS_VAULT_HOSTNAME: ${{ secrets.FLASHCARDS_VAULT_HOSTNAME }}
       run: npm run build
     - name: Build and Deploy
-      uses: JamesIves/github-pages-deploy-action/v3
+      uses: JamesIves/github-pages-deploy-action@releases/v3
       with:
         BRANCH: gh-pages
         FOLDER: flashcards-generator/dist
