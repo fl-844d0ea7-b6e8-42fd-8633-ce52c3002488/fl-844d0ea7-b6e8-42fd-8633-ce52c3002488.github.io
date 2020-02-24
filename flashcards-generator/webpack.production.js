@@ -28,17 +28,6 @@ module.exports = merge(common, {
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.optimize.AggressiveMergingPlugin(),
-    new webpack.EnvironmentPlugin({NODE_ENV}),
-  ],
-  optimization: {
-    minimizer: [
-      new UglifyJsPlugin({
-        uglifyOptions: {
-          compress: {
-            drop_console: true,
-          },
-        },
-      }),
-    ],
-  },
+    "transform-remove-console"
+  ]
 })

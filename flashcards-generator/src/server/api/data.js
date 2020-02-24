@@ -1,15 +1,12 @@
 import { Pool } from 'pg'
 import { logInfo, logError } from '../logging/logger'
 
-const user = process.env.DB_USER
-const password = process.env.DB_PASSWORD
-const database = process.env.DB_NAME
-const host = process.env.DB_SOCKET
 const connectionString = process.env.DB_CONNECTION
 
-const postgresPool = connectionString
-    ? new Pool({ connectionString })
-    : new Pool({ user, password, database, host })
+const postgresPool = new Pool({
+    connectionString,
+    connectionTimeoutMillis: 10000,
+})
 
 
 export const getFlashcardByName = async ( name ) => new Promise(

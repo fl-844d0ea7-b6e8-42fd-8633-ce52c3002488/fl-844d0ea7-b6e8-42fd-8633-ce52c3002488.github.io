@@ -48,7 +48,10 @@ module.exports = {
     extensions: ['.js', '.jsx'],
   },
   plugins: [
-    new webpack.EnvironmentPlugin([ 'NODE_ENV' ]),
+    new webpack.EnvironmentPlugin([
+      'NODE_ENV',
+      'DB_CONNECTION'
+    ]),
     new webpack.optimize.ModuleConcatenationPlugin(),
     new HtmlWebpackPlugin({
       template: path.resolve(PUBLIC_DIR, 'index.html'),

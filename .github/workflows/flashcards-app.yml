@@ -18,7 +18,7 @@ jobs:
     - name: Run npm build
       working-directory: ./flashcards-generator
       env:
-        FLASHCARDS_VAULT_HOSTNAME: ${{ secrets.FLASHCARDS_VAULT_HOSTNAME }}
+        DB_CONNECTION: ${{ secrets.DB_CONNECTION }}
       run: npm run build
     - name: Build and Deploy
       uses: JamesIves/github-pages-deploy-action@releases/v3
