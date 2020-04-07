@@ -2,8 +2,6 @@ const path = require('path')
 const webpack = require('webpack')
 // const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const merge = require('webpack-merge')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const common = require('./webpack.config.js')
 
 const { NODE_ENV } = process.env
@@ -28,6 +26,8 @@ module.exports = merge(common, {
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.optimize.AggressiveMergingPlugin(),
-    "transform-remove-console"
+    ["transform-remove-console", {
+      "exclude": ["error", "warn"]
+    }]
   ]
 })
