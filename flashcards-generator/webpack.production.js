@@ -25,9 +25,6 @@ module.exports = merge(common, {
   plugins: [
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new webpack.optimize.ModuleConcatenationPlugin(),
-    new webpack.optimize.AggressiveMergingPlugin(),
-    ["transform-remove-console", {
-      "exclude": ["error", "warn"]
-    }]
+    new webpack.optimize.AggressiveMergingPlugin()
   ]
 })
