@@ -26,7 +26,7 @@ jobs:
             function_name: list-topics
             zip_file: list-topics/function.zip
         - name: Update Lambda to use layer
-          run: aws lambda update-function-configuration --function-name list-topics- --layers ${LAMBDA_LAYER}
+          run: aws lambda update-function-configuration --function-name list-topics --layers ${LAMBDA_LAYER}
           env:
             AWS_ACCESS_KEY_ID: ${{ secrets.LAMBDA_DEPLOYER_ACCESS_KEY }}
             AWS_SECRET_ACCESS_KEY: ${{ secrets.LAMBDA_DEPLOYER_SECRET_KEY }}
