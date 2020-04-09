@@ -31,4 +31,4 @@ jobs:
             AWS_ACCESS_KEY_ID: ${{ secrets.LAMBDA_DEPLOYER_ACCESS_KEY }}
             AWS_SECRET_ACCESS_KEY: ${{ secrets.LAMBDA_DEPLOYER_SECRET_KEY }}
             AWS_DEFAULT_REGION: ${{ secrets.LAMBDA_DEPLOYER_REGION }}
-            LAMBDA_LAYER:  ${{ NODE_LAMBDA_LAYER_ARN }}
+            LAMBDA_LAYER:  ${{ secrets.NODE_LAMBDA_LAYER_ARN }}
