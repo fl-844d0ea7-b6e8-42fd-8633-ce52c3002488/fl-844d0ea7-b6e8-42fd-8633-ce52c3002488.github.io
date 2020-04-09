@@ -11,6 +11,7 @@ jobs:
       name: deploy lambda from source
       runs-on: ubuntu-latest
       steps:
+        - uses: chrislennon/action-aws-cli@v1.1
         - name: checkout source code
           uses: actions/checkout@v1
         - name: Zip lambda code
@@ -25,5 +26,4 @@ jobs:
             function_name: list-topics
             zip_file: list-topics/function.zip
         - name: Update Lambda to use layer
-          uses: chrislennon/action-aws-cli@v1.1
           run: aws lambda update-function-configuration --function-name list-topics- --layers [node-dependencies-layer]
