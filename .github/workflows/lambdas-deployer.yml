@@ -26,4 +26,4 @@ jobs:
             function_name: list-topics
             zip_file: list-topics/function.zip
         - name: Update Lambda to use layer
-          run: aws lambda update-function-configuration --function-name list-topics- --layers [node-dependencies-layer]
+          run: aws lambda update-function-configuration --function-name list-topics- --layers node-dependencies-layer
