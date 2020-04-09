@@ -14,7 +14,7 @@ jobs:
 
       - name: Download dependencies
         working-directory: ./lambdas/layers
-        run: npm ci /dependencies
+        run: mkdir ../../dependencies && npm ci ../../dependencies
 
       - name: Package lambda layer
         run: zip -r ./node-depedencies-layer.zip ./dependencies/*
