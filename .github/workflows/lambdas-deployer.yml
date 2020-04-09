@@ -12,11 +12,14 @@ jobs:
       steps:
         - name: checkout source code
           uses: actions/checkout@v1
-        - name: default deploy
+        - name: Zip lambda code
+          run: |
+            mkdir list-topics/ && zip list-topics/function.zip ./lambdas/list-topics
+        - name: Deploy packaged lambda
           uses: appleboy/lambda-action@master
           with:
-            aws_access_key_id: ${{ secrets. LAMBDA_DEPLOYER_ACCESS_KEY }}
-            aws_secret_access_key: ${{ secrets. LAMBDA_DEPLOYER_SECRET_KEY }}
-            aws_region: ${{ secrets. LAMBDA_DEPLOYER_REGION }}
+            aws_access_key_id: ${{ secrets.LAMBDA_DEPLOYER_ACCESS_KEY }}
+            aws_secret_access_key: ${{ secrets.LAMBDA_DEPLOYER_SECRET_KEY }}
+            aws_region: ${{ secrets.LAMBDA_DEPLOYER_REGION }}
             function_name: list-topics
-            source: lambdas/list-topic-lambda/index.js
+            zip_file: list-topics/function.zip
