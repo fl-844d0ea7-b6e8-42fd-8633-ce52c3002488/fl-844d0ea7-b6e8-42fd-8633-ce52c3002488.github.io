@@ -1,9 +1,11 @@
 name: Deploy and update node dependencies lambda layer
+
 on:
   push:
     branches:
     - feature-19/port-endpoint-to-lambda
     - master
+
 jobs:
   download-package-and-publish-depdencies:
     name: Download lambda dependencies
@@ -13,8 +15,7 @@ jobs:
       - uses: chrislennon/action-aws-cli@v1.1
 
       - name: Download dependencies
-        working-directory: ./lambdas
-        run: npm ci
+        run: cd lambdas/layers && npm ci
 
       - name: Package lambda layer
         run: zip -r ./node-depedencies-layer.zip ./lambdas/layers/
