@@ -19,4 +19,4 @@ jobs:
             aws_secret_access_key: ${{ secrets. LAMBDA_DEPLOYER_SECRET_KEY }}
             aws_region: ${{ secrets. LAMBDA_DEPLOYER_REGION }}
             function_name: list-topics
-            source: lambdas/list-topic-lambda/
+            source: lambdas/list-topic-lambda/index.js
