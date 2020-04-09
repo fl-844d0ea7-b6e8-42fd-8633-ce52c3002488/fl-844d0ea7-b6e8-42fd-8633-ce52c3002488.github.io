@@ -14,10 +14,10 @@ jobs:
 
       - name: Download dependencies
         working-directory: ./lambdas/layers
-        run: mkdir ../../dependencies && npm ci ../../dependencies
+        run: npm ci
 
       - name: Package lambda layer
-        run: zip -r ./node-depedencies-layer.zip ./dependencies/*
+        run: zip -r ./node-depedencies-layer.zip ./lambdas/layers/
 
       - name: Publish Lambda Layer
         run: aws lambda publish-layer-version --layer-name  node-depedencies-layer --description "Lambda layer for all node-dependencies" --license-info "MIT"--zip-file fileb://node-depedencies-layer.zip --compatible-runtimes nodejs10.x nodejs12.x
