@@ -9,9 +9,9 @@ jobs:
     name: Download lambda dependencies
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/setup-node@v1
       - name: Download dependencies
         working-directory: ./lambdas/layers
-        uses: actions/setup-node@v1
         run: npm ci /dependencies
 
   package-layer:
