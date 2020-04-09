@@ -15,7 +15,7 @@ jobs:
       - uses: chrislennon/action-aws-cli@v1.1
 
       - name: Download dependencies
-        run: cd lambdas/layers && npm ci
+        run: cd ./lambdas/layers && npm ci
 
       - name: Package lambda layer
         run: zip -r ./node-depedencies-layer.zip ./lambdas/layers/
