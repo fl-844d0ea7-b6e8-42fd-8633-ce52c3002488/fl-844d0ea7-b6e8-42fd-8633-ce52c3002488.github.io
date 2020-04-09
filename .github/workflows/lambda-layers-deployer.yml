@@ -1,0 +1,27 @@
+name: Deploy and update node dependencies lambda layer
+on:
+  push:
+    branches:
+    - feature-19/port-endpoint-to-lambda
+    - master
+jobs:
+  download-dependencies:
+    name: Download lambda dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v1
+      - run: npm ci ./dependencies
+
+  package-layer:
+    name: Package lambda layer
+    runs-on: ubuntu-latest
+    steps:
+      - run: zip ./node-depedencies-layer.zip ./dependencies/* -r
+
+  publish-layer:
+    runs-on: ubuntu-latest
+    name: download and setup AWS CLI
+    steps:
+      - uses: chrislennon/action-aws-cli@v1.1
+      - run: aws lambda publish-layer-version --layer-name  node-depedencies-layer --description "Lambda layer for all node-dependencies" \
+            --license-info "MIT"--zip-file fileb://node-depedencies-layer.zip --compatible-runtimes nodejs10.x nodejs12.x

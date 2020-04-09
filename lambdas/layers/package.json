@@ -1,0 +1,10 @@
+{
+  "name": "Package for node lambda layer",
+  "version": "1.0.0",
+  "description": "",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "node-pg": "^1.0.1"
+  }
+}
