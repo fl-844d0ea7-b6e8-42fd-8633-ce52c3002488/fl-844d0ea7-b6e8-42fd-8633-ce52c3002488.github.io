@@ -1,0 +1,22 @@
+name: Build and Deploy lambda functions on push
+
+on:
+  push:
+    branches:
+    - feature-19/port-endpoint-to-lambda
+    - master
+jobs:
+  deploy_list_topics_lambda:
+      name: deploy lambda from source
+      runs-on: ubuntu-latest
+      steps:
+        - name: checkout source code
+          uses: actions/checkout@v1
+        - name: default deploy
+          uses: appleboy/lambda-action@master
+          with:
+            aws_access_key_id: ${{ secrets. LAMBDA_DEPLOYER_ACCESS_KEY }}
+            aws_secret_access_key: ${{ secrets. LAMBDA_DEPLOYER_SECRET_KEY }}
+            aws_region: ${{ secrets. LAMBDA_DEPLOYER_REGION }}
+            function_name: list-topics
+            source: lambdas/list-topic-lambda.js
