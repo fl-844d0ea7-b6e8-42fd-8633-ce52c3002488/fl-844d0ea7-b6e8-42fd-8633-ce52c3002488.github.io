@@ -29,6 +29,6 @@ jobs:
           run: aws lambda update-function-configuration --function-name list-topics- --layers node-dependencies-layer
           env:
             AWS_ACCESS_KEY_ID: ${{ secrets.LAMBDA_DEPLOYER_ACCESS_KEY }}
-            SECRET_ACCESS_KEY: ${{ secrets.LAMBDA_DEPLOYER_SECRET_KEY }}
+            AWS_SECRET_ACCESS_KEY: ${{ secrets.LAMBDA_DEPLOYER_SECRET_KEY }}
             REGION: ${{ secrets.LAMBDA_DEPLOYER_REGION }}
 
