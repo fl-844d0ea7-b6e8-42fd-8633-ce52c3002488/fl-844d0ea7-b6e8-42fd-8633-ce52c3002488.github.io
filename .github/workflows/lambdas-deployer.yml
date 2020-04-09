@@ -5,6 +5,7 @@ on:
     branches:
     - feature-19/port-endpoint-to-lambda
     - master
+
 jobs:
   deploy_list_topics_lambda:
       name: deploy lambda from source
@@ -23,3 +24,6 @@ jobs:
             aws_region: ${{ secrets.LAMBDA_DEPLOYER_REGION }}
             function_name: list-topics
             zip_file: list-topics/function.zip
+        - name: Update Lambda to use layer
+          uses: chrislennon/action-aws-cli@v1.1
+          run: aws lambda update-function-configuration --function-name list-topics- --layers [node-dependencies-layer]
