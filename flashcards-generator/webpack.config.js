@@ -50,7 +50,9 @@ module.exports = {
   plugins: [
     new webpack.EnvironmentPlugin([
       'NODE_ENV',
-      'DB_CONNECTION'
+      'DB_CONNECTION',
+      'API_KEY',
+      'API_HOSTNAME'
     ]),
     new webpack.optimize.ModuleConcatenationPlugin(),
     new HtmlWebpackPlugin({

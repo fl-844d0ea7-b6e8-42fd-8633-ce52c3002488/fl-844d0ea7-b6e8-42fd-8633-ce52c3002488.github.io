@@ -4,6 +4,7 @@ on:
   push:
     branches:
     - master
+    - feature-19/port-endpoint-to-lambda
 jobs:
   build-and-deploy-flashcards-generator:
     runs-on: ubuntu-latest
@@ -19,6 +20,8 @@ jobs:
       working-directory: ./flashcards-generator
       env:
         DB_CONNECTION: ${{ secrets.DB_CONNECTION }}
+        API_HOSTNAME: ${{ secrets.API_HOSTNAME }}
+        API_KEY: ${{ secrets.API_KEY }}
       run: npm run build
     - name: Build and Deploy
       uses: JamesIves/github-pages-deploy-action@releases/v3

@@ -43,7 +43,6 @@ app
     }
     else {
       req.url = '/' // Let the middleware handle it
-      console.log('sfkhsdfhuidshfiushfuihsdui')
       app.handle(req, res)
     }
   })
