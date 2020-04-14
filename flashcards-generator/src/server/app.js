@@ -15,7 +15,7 @@ const app = express()
 app
   .use(helmet())
   .use(requestLogger)
-
+  .use('/api', api)
 
 if (production) {
   app.use(
@@ -35,7 +35,6 @@ if (production) {
 }
 
 app
-  .use('/api', api)
   .get('/healthcheck', (_, response) => response.send())
   .get('*', (req, res) => {
     if (production) {
