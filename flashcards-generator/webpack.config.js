@@ -17,7 +17,6 @@ module.exports = {
   entry: ['./src/client/index.js'],
   mode: production ? 'production' : 'development',
   devServer: { historyApiFallback: true },
-  devtool: 'inline-source-map',
   output: {
     path: CLIENT_DIR,
     publicPath: '/',
