@@ -103,7 +103,8 @@ export const insertTopic = async (name, colour) => {
 export const getTopics = async () => {
   console.log('Making GET request to Flashcards Vault get TOPICS');
   try {
-    const url = getAbsoluteUrl('/getTopics')
+    const url = getAbsoluteUrl('getTopics')
+    console.log('Making request to: ', url)
     const resp = await axios.get(url);
     console.log('Request was successful, returning results');
     return {
