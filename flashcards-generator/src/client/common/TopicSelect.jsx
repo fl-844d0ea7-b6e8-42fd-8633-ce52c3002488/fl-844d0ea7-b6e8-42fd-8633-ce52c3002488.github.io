@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Select from 'react-select';
 import { faSquareFull } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { getTopics } from '../connectors/apiLambdas'
+import { getTopics } from '../connectors/serverData'
 import Form from 'react-bootstrap/Form'
 
 const TopicSelect = ({ fieldHelpText, newTopicCreated, value, handleTopicChange, handleCreateTopic }) => {

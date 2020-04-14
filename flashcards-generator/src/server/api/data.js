@@ -8,7 +8,6 @@ const postgresPool = new Pool({
     connectionTimeoutMillis: 10000,
 })
 
-
 export const getFlashcardByName = async ( name ) => new Promise(
     (resolve, reject) => {
         postgresPool.connect((connectError, client, release) => {
@@ -214,32 +213,6 @@ export const removeTopic = async (id) => new Promise(
     }
 )
 
-export const getTopics = async () => new Promise(
-    (resolve, reject) => {
-        logInfo("Connecting to database to get topics")
-        postgresPool.connect((connectError, client, release) => {
-            if (connectError) {
-                logError("Error connecting to the DB", connectError.stack)
-                reject( new Error("Connection sadness"))
-                return
-            }
-
-            const query = {
-                text: 'SELECT topic_id, name, colour FROM flashcards_app.topics'
-            }
-
-            client.query(query, (queryError, result) => {
-                release()
-                if (queryError) {
-                    logError(queryError.stack)
-                    reject(new Error("Postgres sadness :("))
-                    return
-                }
-                resolve(result.rows)
-            })
-        })
-    }
-)
 
 export const getFlashcards = async (searchTerms) => new Promise(
     (resolve, reject) => {

@@ -101,9 +101,9 @@ export const insertTopic = async (name, colour) => {
 export const getTopics = async () => {
   console.log('Making GET request to Flashcards Vault get TOPICS');
   try {
-    const resp = await axios.get(`/api/listTopics`);
+    const resp = await axios.get(`/api/getTopics`);
     console.log('Request was successful, returning results');
-    console.log('Oooog results: ', resp.data)
+    console.log('Oooomg results: ', resp.data)
     return {
       data: resp.data
     };
@@ -125,7 +125,6 @@ export const getTopicsByName = async ( topic ) => {
     return { error };
   }
 };
-
 
 export const updateTopicName = async (id, name) => {
   console.log('Making POST request to Flashcards Vault to update topic name');
