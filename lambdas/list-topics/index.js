@@ -1,13 +1,12 @@
 const https = require('https')
 const pg = require('pg')
-const {
-  Client
-} = require('pg')
+const { Client } = require('pg')
 
 const client = new Client({
   connectionString: process.env.DB_CONN
 })
 
+const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN
 
 const getTopics = async () => new Promise(
   (resolve, reject) => {
@@ -41,9 +40,22 @@ exports.handler = async function (event) {
     return {
       "body": JSON.stringify(topics),
       "statusCode": 200,
-      "isBase64Encoded": false
+      "isBase64Encoded": false,
+      "headers": {
+        "Access-Control-Allow-Origin": ALLOWED_ORIGIN,
+        "Access-Control-Allow-Methods": "OPTIONS,GET"
+      }
     }
   } catch (e) {
     console.error(e)
+    return {
+      "body": "",
+      "statusCode": 503,
+      "isBase64Encoded": false,
+      "headers": {
+        "Access-Control-Allow-Origin": ALLOWED_ORIGIN,
+        "Access-Control-Allow-Methods": "OPTIONS,GET"
+      }
+    }
   }
 }
