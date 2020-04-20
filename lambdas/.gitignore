@@ -1,0 +1,5 @@
+layers/nodejs/*
+layers/python/*
+node_modules/
+node-dependencies-layer.zip
+python-dependencies-layer.zip

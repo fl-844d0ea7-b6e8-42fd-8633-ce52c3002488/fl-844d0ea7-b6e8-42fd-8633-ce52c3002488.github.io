@@ -1,0 +1,52 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  flashcard-app
+
+  SAM yaml to deploy API Gateway and Lambdas for flashcard application
+
+Globals:
+  Function:
+    Timeout: 3
+    Runtime: nodejs12.x
+    Environment:
+      Variables:
+        DB_CONN: postgres://postgres:testpassword@flashcards-postgres:54320/postgres?currentSchema=flashcards_app
+        ALLOWED_ORIGIN: http://localhost:3002
+  Api:
+    Cors:
+      AllowMethods: "'OPTIONS,GET,POST,PUT,DELETE'"
+      AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
+
+Resources:
+  APIGateway:
+    Type: AWS::Serverless::Api
+    Auth:
+      ApiKeyRequired: true
+      UsagePlan:
+        UsagePlanName: backend-usage-plan
+        ApiStages:
+          - v1
+        CreateUsagePlan: SHARED
+        Description: Usage plan for the lambdas in the backend
+        Quota:
+          Limit: 10000
+          Period: MONTH
+        Throttle:
+          BurstLimit: 200
+          RateLimit: 100
+    Properties:
+      StageName: testing
+
+  # ------------- TOPIC APIs ----------------- #
+  ListTopics:
+    Type: AWS::Serverless::Function
+    FunctionName: ListTopics
+    Properties:
+      Handler: list-topics/index.handler
+      Events:
+        event:
+          Type: Api
+          Properties:
+            Path: /api/listTopics
+            Method: GET

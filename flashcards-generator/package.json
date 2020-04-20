@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "This is a react app connected to another component",
   "scripts": {
-    "start-local": "env-cmd -e debug webpack-dev-server --config webpack.development.js",
     "start": "env-cmd -e debug nodemon --exec babel-node src/server/app.js",
     "build": "env-cmd -e dev webpack -p --mode=production --progress --config webpack.production.js",
     "test": "cypress open",

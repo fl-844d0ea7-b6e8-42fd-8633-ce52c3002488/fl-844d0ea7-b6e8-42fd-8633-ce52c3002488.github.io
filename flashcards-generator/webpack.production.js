@@ -4,11 +4,11 @@ const webpack = require('webpack')
 const merge = require('webpack-merge')
 const common = require('./webpack.config.js')
 
-const { NODE_ENV } = process.env
 const production = process.env.NODE_ENV === 'production'
 
 module.exports = merge(common, {
   mode: production ? 'production' : 'development',
+  devtool: 'source-map',
   resolve: {
     extensions: ['*', '.js', '.jsx'],
   },
@@ -16,11 +16,6 @@ module.exports = merge(common, {
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
     filename: 'bundle.js',
-  },
-  devServer: {
-    port: process.env.PORT,
-    host: '0.0.0.0',
-    compress: true,
   },
   plugins: [
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),

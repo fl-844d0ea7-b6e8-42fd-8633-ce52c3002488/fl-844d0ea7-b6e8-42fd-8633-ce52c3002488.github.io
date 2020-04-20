@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+export const getAbsoluteUrl = relativeUrl => `${window.location.protocol}//${window.location.host}/api/${relativeUrl}`
+
 const parseSearchTerm = (string) => {
   if (string === "" || string === null){
     return string
@@ -101,9 +103,10 @@ export const insertTopic = async (name, colour) => {
 export const getTopics = async () => {
   console.log('Making GET request to Flashcards Vault get TOPICS');
   try {
-    const resp = await axios.get(`/api/listTopics`);
+    const url = getAbsoluteUrl('getTopics')
+    console.log('Making request to: ', url)
+    const resp = await axios.get(url);
     console.log('Request was successful, returning results');
-    console.log('Oooog results: ', resp.data)
     return {
       data: resp.data
     };
@@ -125,7 +128,6 @@ export const getTopicsByName = async ( topic ) => {
     return { error };
   }
 };
-
 
 export const updateTopicName = async (id, name) => {
   console.log('Making POST request to Flashcards Vault to update topic name');

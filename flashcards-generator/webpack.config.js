@@ -17,7 +17,6 @@ module.exports = {
   entry: ['./src/client/index.js'],
   mode: production ? 'production' : 'development',
   devServer: { historyApiFallback: true },
-  devtool: 'inline-source-map',
   output: {
     path: CLIENT_DIR,
     publicPath: '/',
@@ -50,7 +49,9 @@ module.exports = {
   plugins: [
     new webpack.EnvironmentPlugin([
       'NODE_ENV',
-      'DB_CONNECTION'
+      'DB_CONNECTION',
+      'API_KEY',
+      'API_HOSTNAME',
     ]),
     new webpack.optimize.ModuleConcatenationPlugin(),
     new HtmlWebpackPlugin({
