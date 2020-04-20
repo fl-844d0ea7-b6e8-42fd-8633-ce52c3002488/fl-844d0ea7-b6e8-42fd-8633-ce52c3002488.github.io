@@ -5,11 +5,12 @@
   "scripts": {
     "start": "env-cmd -e debug nodemon --exec babel-node src/server/app.js",
     "build": "env-cmd -e dev webpack -p --mode=production --progress --config webpack.production.js",
-    "test": "cypress open",
     "teardown": "export PGPASSWORD=testpassword; psql -h localhost -U postgres -p 54320 -d postgres -e -f cypress/fixtures/delete_test_entries.sql",
     "setup-topics": "export PGPASSWORD=testpassword; psql -h localhost -U postgres -p 54320 -d postgres -e -f cypress/fixtures/insert_test_topics.sql",
     "lint": "eslint --ext .jsx --ext .js src/",
-    "fix": "eslint --ext .jsx --ext .js --fix src/"
+    "fix": "eslint --ext .jsx --ext .js --fix src/",
+    "cy:run": "cypress run",
+    "test": "start-server-and-test start http://localhost:3002 cy:run"
   },
   "keywords": [],
   "author": "",
@@ -26,13 +27,14 @@
     "babel-plugin-module-resolver": "^4.0.0",
     "babel-plugin-transform-remove-console": "^6.9.4",
     "babel-plugin-transform-runtime": "^6.23.0",
-    "cypress": "^4.3.0",
+    "cypress": "^4.4.0",
     "eslint": "^6.5.1",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.16.0",
     "eslint-plugin-react-hooks": "^1.7.0",
+    "start-server-and-test": "^1.11.0",
     "uglifyjs-webpack-plugin": "^2.2.0"
   },
   "dependencies": {
