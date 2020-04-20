@@ -12,6 +12,11 @@ Globals:
     Environment:
       Variables:
         DB_CONN: postgres://postgres:testpassword@flashcards-postgres:54320/postgres?currentSchema=flashcards_app
+        ALLOWED_ORIGIN: http://localhost:3002
+  Api:
+    Cors:
+      AllowMethods: "'OPTIONS,GET,POST,PUT,DELETE'"
+      AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
 
 Resources:
   APIGateway:
@@ -32,6 +37,7 @@ Resources:
           RateLimit: 100
     Properties:
       StageName: testing
+
   # ------------- TOPIC APIs ----------------- #
   ListTopics:
     Type: AWS::Serverless::Function
@@ -43,4 +49,4 @@ Resources:
           Type: Api
           Properties:
             Path: /api/listTopics
-            Method: get
+            Method: GET

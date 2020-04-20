@@ -51,7 +51,7 @@ module.exports = {
       'NODE_ENV',
       'DB_CONNECTION',
       'API_KEY',
-      'API_HOSTNAME'
+      'API_HOSTNAME',
     ]),
     new webpack.optimize.ModuleConcatenationPlugin(),
     new HtmlWebpackPlugin({
