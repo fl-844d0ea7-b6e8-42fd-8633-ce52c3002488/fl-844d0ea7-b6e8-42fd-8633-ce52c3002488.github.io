@@ -6,7 +6,7 @@ const API_KEY = process.env.API_KEY
 const config = {
   headers: {
     'Content-Type': 'application/json',
-    'x-api-key': API_KEY
+    'X-Api-Key': API_KEY
   }
 }
 
