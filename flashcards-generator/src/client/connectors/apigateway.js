@@ -11,7 +11,7 @@ const config = {
 }
 
 export const getTopics = async () => {
-  console.log(`Making GET request to Flashcards Vault get TOPICS apikey: ${API_KEY}`);
+  console.log('Making GET request to Flashcards Vault get TOPICS');
 
   try {
     const resp = await axios.get(`${API_HOSTNAME}/api/listTopics`, config);
