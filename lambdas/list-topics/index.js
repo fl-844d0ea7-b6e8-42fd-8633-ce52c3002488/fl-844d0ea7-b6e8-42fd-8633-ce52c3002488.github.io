@@ -8,7 +8,22 @@ const client = new Client({
 
 const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN
 
-const getTopics = async () => new Promise(
+exports.handler = async function (event) {
+  console.log("Received request")
+
+  try {
+    const topics = await getTopics()
+
+    console.log("Received data: ", topics)
+    return getReturnBody(200, topics)
+  } catch (e) {
+    console.error(e)
+    return getReturnBody(503, "")
+  }
+}
+
+async function getTopics() {
+  return new Promise(
   (resolve, reject) => {
     const query = {
       text: 'SELECT topic_id, name, colour FROM flashcards_app.topics'
@@ -29,33 +44,17 @@ const getTopics = async () => new Promise(
       client.end()
     })
   })
+}
 
-exports.handler = async function (event) {
-  console.log("Received request")
-
-  try {
-    const topics = await getTopics()
-
-    console.log("Received data: ", topics)
-    return {
-      "body": JSON.stringify(topics),
-      "statusCode": 200,
-      "isBase64Encoded": false,
-      "headers": {
-        "Access-Control-Allow-Origin": ALLOWED_ORIGIN,
-        "Access-Control-Allow-Methods": "OPTIONS,GET"
-      }
-    }
-  } catch (e) {
-    console.error(e)
-    return {
-      "body": "",
-      "statusCode": 503,
-      "isBase64Encoded": false,
-      "headers": {
-        "Access-Control-Allow-Origin": ALLOWED_ORIGIN,
-        "Access-Control-Allow-Methods": "OPTIONS,GET"
-      }
+function getReturnBody(statusCode, body) {
+  return {
+    "body": JSON.stringify(body),
+    "statusCode": statusCode,
+    "isBase64Encoded": false,
+    "headers": {
+      "Access-Control-Allow-Origin": ALLOWED_ORIGIN,
+      "Access-Control-Allow-Methods": "OPTIONS,GET"
     }
   }
+
 }
