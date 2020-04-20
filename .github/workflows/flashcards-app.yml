@@ -4,7 +4,6 @@ on:
   push:
     branches:
     - master
-    - feature-19/port-endpoint-to-lambda
 jobs:
   build-and-deploy-flashcards-generator:
     runs-on: ubuntu-latest
