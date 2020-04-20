@@ -22,7 +22,6 @@ jobs:
         DB_CONNECTION: ${{ secrets.DB_CONNECTION }}
         API_HOSTNAME: ${{ secrets.API_HOSTNAME }}
         API_KEY: ${{ secrets.API_KEY }}
-        ALLOWED_ORIGIN: darren1ch.github.io
       run: npm run build
     - name: Build and Deploy
       uses: JamesIves/github-pages-deploy-action@releases/v3
