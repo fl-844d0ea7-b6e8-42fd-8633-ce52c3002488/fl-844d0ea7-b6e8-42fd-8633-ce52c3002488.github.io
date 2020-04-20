@@ -1,4 +1,5 @@
 {
     "chromeWebSecurity": false,
-    "ignoreTestFiles": "*.spec.js"
+    "ignoreTestFiles": "*.spec.js",
+    "baseUrl": "http://localhost:3002"
 }
