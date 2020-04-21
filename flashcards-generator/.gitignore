@@ -206,3 +206,7 @@ node_modules/
 *.Specs_*.html
 
 flamegraph.html
+
+# Cypress
+screenshots/
+*.mp4

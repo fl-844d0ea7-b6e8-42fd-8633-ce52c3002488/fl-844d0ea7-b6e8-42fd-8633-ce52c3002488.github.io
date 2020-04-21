@@ -1,0 +1,1 @@
+INSERT INTO flashcards_app.topics (name, colour) VALUES ('TestTopic', '#ff0');

@@ -1,11 +1,6 @@
 describe('The Create Flashcards/Topic page', function () {
-    before(() => {
-        cy.log("Deleting test entries")
-        cy.exec("npm run teardown")
-    })
-
     it('Allows me to switch between topic and flashcard tabs', function() {
-        cy.visit("http://localhost:3000/create/")
+        cy.visit(`/create/`)
 
         cy.get('nav').within(() => {
             cy.contains('Create Topics').click()
@@ -14,9 +9,9 @@ describe('The Create Flashcards/Topic page', function () {
     })
 })
 
-describe('The Create Topics Tab', function() {
+describe.skip('The Create Topics Tab', function() {
     it('Allows me to create a new topic', function () {
-        cy.visit("http://localhost:3000/create/")
+        cy.visit("/create/")
 
         cy.contains('Create Topics').click()
 
@@ -40,7 +35,7 @@ describe('The Create Topics Tab', function() {
     })
 
     it('Allows me to create multiple new topics', function () {
-        cy.visit("http://localhost:3000/create/")
+        cy.visit("/create/")
 
         cy.contains('Create Topics').click()
 
@@ -82,7 +77,7 @@ describe('The Create Topics Tab', function() {
     })
 
     it('Does not allow me to create topics with the same name', function () {
-        cy.visit("http://localhost:3000/create/")
+        cy.visit("/create/")
 
         cy.contains('Create Topics').click()
 
@@ -106,7 +101,7 @@ describe('The Create Topics Tab', function() {
     })
 
     it('Does not allow me to leave the topic field blank', function () {
-        cy.visit("http://localhost:3000/create/")
+        cy.visit("/create/").as('getTopics')
 
         cy.contains('Create Topics').click()
 
@@ -116,12 +111,11 @@ describe('The Create Topics Tab', function() {
                 .blur()
 
             cy.contains("Please enter a value for the topic name")
-
         })
     })
 
     it('Does not allow me to create a topic without a name', function () {
-        cy.visit("http://localhost:3000/create/")
+        cy.visit("/create/")
 
         cy.contains('Create Topics').click()
 
@@ -135,8 +129,52 @@ describe('The Create Topics Tab', function() {
 })
 
 describe('The Create Flashcard Tab', function () {
+    before(() => {
+        cy.log("Adding test topics into db")
+        cy.exec("npm run setup-topics")
+    })
+
+    it('Allows me input a name for a flashcard', function () {
+        cy.visit("/create/")
+
+        cy.get('form').within(() => {
+            cy.get('input[name="flashcardName"]')
+                .type("TestFlashcard")
+                .should('have.value', 'TestFlashcard')
+        })
+    })
+
+    it('Allows me to input a term for a flashcard', function () {
+        cy.visit("/create/")
+
+        cy.get('form').within(() => {
+
+            cy.get('input[name="flashcardTerm"]')
+                .type("TestTerm")
+                .should('have.value', 'TestTerm')
+        })
+    })
+
+    it.only('Allows me to select a topic for a flashcard', () => {
+        cy.server()
+        cy.route('GET', '**/api/listTopics').as('listTopics')
+
+        cy.visit("/create/")
+
+        cy.get('form').within(() => {
+
+            cy.wait('@listTopics')
+
+            cy.get('input[id="flashcardTopicsSearch"]')
+                .click({ force: true })
+                .type('TestTopic {enter}')
+            })
+
+            cy.contains('TestTopic')
+    })
+
     it('Allows me create a new Flashcard', function () {
-        cy.visit("http://localhost:3000/create/")
+        cy.visit("/create/")
 
         cy.get('form').within(() => {
             cy.get('input[name="flashcardName"]')
@@ -166,7 +204,7 @@ describe('The Create Flashcard Tab', function () {
     })
 
     it('Does not allow me to create a new Flashcard with the same name', function () {
-        cy.visit("http://localhost:3000/create/")
+        cy.visit("/create/")
 
         cy.get('form').within(() => {
             cy.get('input[name="flashcardName"]')
@@ -193,7 +231,7 @@ describe('The Create Flashcard Tab', function () {
     })
 
     it('Allows me create multiple new Flashcards in succession', function () {
-        cy.visit("http://localhost:3000/create/")
+        cy.visit("/create/")
 
         cy.get('form').within(() => {
             cy.get('input[name="flashcardName"]')
@@ -244,7 +282,7 @@ describe('The Create Flashcard Tab', function () {
     })
 
     it('Allows me to create a topic and then a flashcard related to it', function () {
-        cy.visit("http://localhost:3000/create/")
+        cy.visit("/create/")
 
         cy.contains('Create Topics').click()
 
@@ -297,7 +335,7 @@ describe('The Create Flashcard Tab', function () {
     })
 
     it('Warns me when if the name field is empty', function () {
-        cy.visit("http://localhost:3000/create/")
+        cy.visit("/create/")
 
         cy.get('form').within(() => {
             cy.get('input[name="flashcardName"]')
@@ -309,7 +347,7 @@ describe('The Create Flashcard Tab', function () {
     })
 
     it('Warns me when if the term field is empty', function () {
-        cy.visit("http://localhost:3000/create/")
+        cy.visit("/create/")
 
         cy.get('form').within(() => {
             cy.get('input[name="flashcardTerm"]')
@@ -321,7 +359,7 @@ describe('The Create Flashcard Tab', function () {
     })
 
     it('Warns me when if the definition field is empty', function () {
-        cy.visit("http://localhost:3000/create/")
+        cy.visit("/create/")
 
         cy.get('form').within(() => {
             cy.get('textarea[name="flashcardDefinition"]')
@@ -333,7 +371,7 @@ describe('The Create Flashcard Tab', function () {
     })
 
     it('Does not allow me to create a flashcard without a definition', function () {
-        cy.visit("http://localhost:3000/create/")
+        cy.visit("/create/")
 
         cy.get('form').within(() => {
             cy.get('input[name="flashcardName"]')
@@ -362,7 +400,7 @@ describe('The Create Flashcard Tab', function () {
     })
 
     it('Does not allow me to create a flashcard without a term', function () {
-        cy.visit("http://localhost:3000/create/")
+        cy.visit("/create/")
 
         cy.get('form').within(() => {
             cy.get('input[name="flashcardName"]')
@@ -390,7 +428,7 @@ describe('The Create Flashcard Tab', function () {
     })
 
     it('Does not allow me to create a flashcard without a name', function () {
-        cy.visit("http://localhost:3000/create/")
+        cy.visit("/create/")
 
         cy.get('form').within(() => {
             cy.get('input[name="flashcardName"]')

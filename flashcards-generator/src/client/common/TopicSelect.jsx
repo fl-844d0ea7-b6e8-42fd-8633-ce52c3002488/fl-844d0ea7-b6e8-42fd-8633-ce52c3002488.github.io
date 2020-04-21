@@ -8,6 +8,7 @@ import Form from 'react-bootstrap/Form'
 const TopicSelect = ({ fieldHelpText, newTopicCreated, value, handleTopicChange, handleCreateTopic }) => {
 
     const [topicOptionsList, setTopicOptionsList] = useState([])
+    const [isLoading, setIsLoading] = useState(false)
 
     String.prototype.toProperCase = function () {
         return this.replace(/\w\S*/g, txt => {
@@ -15,6 +16,7 @@ const TopicSelect = ({ fieldHelpText, newTopicCreated, value, handleTopicChange,
     };
 
     useEffect(() => {
+        setIsLoading(true)
         const fetchData = async () => {
             const result = await getTopics()
             if (result && result.data) {
@@ -28,7 +30,7 @@ const TopicSelect = ({ fieldHelpText, newTopicCreated, value, handleTopicChange,
                     })
                 )
             }
-
+            setIsLoading(false)
         }
         fetchData()
     }, [newTopicCreated])
@@ -50,6 +52,7 @@ const TopicSelect = ({ fieldHelpText, newTopicCreated, value, handleTopicChange,
                 inputId="flashcardTopicsSearch"
                 required
                 isClearable
+                isLoading={isLoading}
                 formatOptionLabel={topicOption}
                 options={topicOptionsList}
                 onChange={handleTopicChange}
