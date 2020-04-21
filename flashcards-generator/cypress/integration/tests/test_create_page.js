@@ -9,7 +9,7 @@ describe('The Create Flashcards/Topic page', function () {
     })
 })
 
-describe.skip('The Create Topics Tab', function() {
+describe('The Create Topics Tab', function() {
     it('Allows me to create a new topic', function () {
         cy.visit("/create/")
 
@@ -155,7 +155,7 @@ describe('The Create Flashcard Tab', function () {
         })
     })
 
-    it.only('Allows me to select a topic for a flashcard', () => {
+    it('Allows me to select a topic for a flashcard', () => {
         cy.server()
         cy.route('GET', '**/api/listTopics').as('listTopics')
 
@@ -174,6 +174,9 @@ describe('The Create Flashcard Tab', function () {
     })
 
     it('Allows me create a new Flashcard', function () {
+        cy.server()
+        cy.route('GET', '**/api/listTopics').as('listTopics')
+
         cy.visit("/create/")
 
         cy.get('form').within(() => {
@@ -185,9 +188,13 @@ describe('The Create Flashcard Tab', function () {
                 .type("TestTerm")
                 .should('have.value', 'TestTerm')
 
+            cy.wait('@listTopics')
+
             cy.get('input[id="flashcardTopicsSearch"]')
                 .click({ force: true})
                 .type('TestTopic {enter}')
+
+            cy.contains('TestTopic')
 
             cy.contains('Tort')
                 .click()
@@ -204,6 +211,9 @@ describe('The Create Flashcard Tab', function () {
     })
 
     it('Does not allow me to create a new Flashcard with the same name', function () {
+        cy.server()
+        cy.route('GET', '**/api/listTopics').as('listTopics')
+
         cy.visit("/create/")
 
         cy.get('form').within(() => {
@@ -215,9 +225,12 @@ describe('The Create Flashcard Tab', function () {
                 .type("TestTerm")
                 .should('have.value', 'TestTerm')
 
+            cy.wait('@listTopics')
+
             cy.get('input[id="flashcardTopicsSearch"]')
             .click({ force: true })
                 .type("TestTopic {enter}")
+            cy.contains('TestTopic')
 
             cy.get('textarea[name="flashcardDefinition"]')
                 .type("TestDefinition")
@@ -231,6 +244,9 @@ describe('The Create Flashcard Tab', function () {
     })
 
     it('Allows me create multiple new Flashcards in succession', function () {
+        cy.server()
+        cy.route('GET', '**/api/listTopics').as('listTopics')
+
         cy.visit("/create/")
 
         cy.get('form').within(() => {
@@ -242,9 +258,12 @@ describe('The Create Flashcard Tab', function () {
                 .type("TestTerm")
                 .should('have.value', 'TestTerm')
 
+            cy.wait('@listTopics')
+
             cy.get('input[id="flashcardTopicsSearch"]')
                 .click({ force: true})
                 .type("TestTopic {enter}")
+            cy.contains('TestTopic')
 
             cy.get('textarea[name="flashcardDefinition"]')
                 .type("TestDefinition")
@@ -282,6 +301,9 @@ describe('The Create Flashcard Tab', function () {
     })
 
     it('Allows me to create a topic and then a flashcard related to it', function () {
+        cy.server()
+        cy.route('GET', '**/api/listTopics').as('listTopics')
+
         cy.visit("/create/")
 
         cy.contains('Create Topics').click()
@@ -314,6 +336,8 @@ describe('The Create Flashcard Tab', function () {
             cy.get('input[name="flashcardTerm"]')
                 .type("TestingTerm")
                 .should('have.value', 'TestingTerm')
+
+            cy.wait('@listTopics')
 
             cy.get('input[id="flashcardTopicsSearch"]')
                 .click({
