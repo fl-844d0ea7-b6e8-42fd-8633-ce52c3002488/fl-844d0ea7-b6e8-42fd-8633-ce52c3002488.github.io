@@ -53,7 +53,6 @@ const TopicSelect = ({ fieldHelpText, newTopicCreated, value, handleTopicChange,
                 required
                 isClearable
                 isLoading={isLoading}
-                loadingMessage={{ inputValue: "Loading..." }}
                 formatOptionLabel={topicOption}
                 options={topicOptionsList}
                 onChange={handleTopicChange}
