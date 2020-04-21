@@ -6,7 +6,7 @@ const parseSearchTerm = (string) => {
   if (string === "" || string === null){
     return string
   }
-  return `%${string.toLowerCase()}%`
+  return `%${string}%`
 }
 
 /* Flashcard queries */
@@ -45,7 +45,7 @@ export const getFlashcards = async (name, topic_id, term) => {
             },
         });
         console.log('Request was successful, returning results');
-        console.log('Data: oooooooo')
+        console.log('Data: oooooooo', resp.data)
         return { data: resp.data };
     } catch (error) {
         console.log(error);
