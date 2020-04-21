@@ -1,6 +1,6 @@
 describe('Basic functionality of the Test Flashcard Page', function () {
     it('Opens the Test Flashcards Page', function () {
-        cy.visit("http://localhost:3000/test/")
+        cy.visit("/test/")
 
         cy.contains('Test').click()
 
@@ -8,7 +8,7 @@ describe('Basic functionality of the Test Flashcard Page', function () {
     })
 
     it('Allows me to view all Flashcards', function () {
-        cy.visit("http://localhost:3000/test/")
+        cy.visit("/test/")
 
         cy.get('form').within(() => {
             cy.contains('Submit')
@@ -19,7 +19,7 @@ describe('Basic functionality of the Test Flashcard Page', function () {
     })
 
     it('Allows me to view Flashcards by topic', function () {
-        cy.visit("http://localhost:3000/test/")
+        cy.visit("/test/")
 
         cy.get('form').within(() => {
             cy.get('input[id="flashcardTopicsSearch"]')
@@ -33,7 +33,7 @@ describe('Basic functionality of the Test Flashcard Page', function () {
     })
 
     it('Allows me to view Flashcards by name', function () {
-        cy.visit("http://localhost:3000/test/")
+        cy.visit("/test/")
 
         cy.get('form').within(() => {
             cy.get('input[name="flashcardName"]')
@@ -47,7 +47,7 @@ describe('Basic functionality of the Test Flashcard Page', function () {
     })
 
     it('Allows me to toggle between test options', function () {
-        cy.visit("http://localhost:3000/test/")
+        cy.visit("/test/")
 
         cy.contains("Test Manually").click()
 
@@ -66,7 +66,7 @@ describe('Basic functionality of the Test Flashcard Page', function () {
 
 describe('Manual testing functionality of the Test Flashcard Page', function () {
     it('Hides definitions when Test Manually option is selected', function() {
-        cy.visit("http://localhost:3000/test/")
+        cy.visit("/test/")
 
         cy.contains("Test Manually").click()
 
@@ -84,7 +84,7 @@ describe('Manual testing functionality of the Test Flashcard Page', function () 
     })
 
     it('Shows a definition when definition area is clicked', function() {
-        cy.visit("http://localhost:3000/test/")
+        cy.visit("/test/")
 
         cy.contains("Test Manually").click()
 

@@ -1,6 +1,6 @@
 describe('The Manage Flashcards Tab', function () {
     it('Opens the Management Page', function () {
-        cy.visit("http://localhost:3000/home/")
+        cy.visit("/home/")
 
         cy.contains('Manage').click()
 
@@ -8,7 +8,7 @@ describe('The Manage Flashcards Tab', function () {
     })
 
     it('Allows me to view all Flashcards', function () {
-        cy.visit("http://localhost:3000/view/")
+        cy.visit("/view/")
 
         cy.contains('Manage Flashcards').click()
 
@@ -24,7 +24,7 @@ describe('The Manage Flashcards Tab', function () {
     })
 
     it('Allows me to view Flashcards by topic', function () {
-        cy.visit("http://localhost:3000/view/")
+        cy.visit("/view/")
 
         const searchTopic = 'TestTopic'
         cy.get('input[id="flashcardTopicsSearch"]')
@@ -42,7 +42,7 @@ describe('The Manage Flashcards Tab', function () {
     })
 
     it('Allows me to view Flashcards by name', function () {
-        cy.visit("http://localhost:3000/view/")
+        cy.visit("/view/")
 
         const flashcardName = "Test"
         cy.get('form').within(() => {
@@ -60,7 +60,7 @@ describe('The Manage Flashcards Tab', function () {
     })
 
     it('Allows me to view Flashcards by term', function () {
-        cy.visit("http://localhost:3000/view/")
+        cy.visit("/view/")
 
         cy.get('form').within(() => {
             cy.get('input[name="flashcardTerm"]')
@@ -76,7 +76,7 @@ describe('The Manage Flashcards Tab', function () {
     })
 
     it('Allows me to delete a Flashcard', function () {
-        cy.visit("http://localhost:3000/view/")
+        cy.visit("/view/")
 
         cy.get('form').within(() => {
             cy.get('input[name="flashcardName"]')
@@ -100,7 +100,7 @@ describe('The Manage Flashcards Tab', function () {
     })
 
     it('Allows me to edit a Flashcard', function () {
-        cy.visit("http://localhost:3000/view/")
+        cy.visit("/view/")
 
         cy.get('form').within(() => {
             cy.get('input[name="flashcardName"]')
@@ -123,7 +123,7 @@ describe('The Manage Flashcards Tab', function () {
     })
 
     it('Allows me view a flashcard with the colour associated to its topic', function () {
-        cy.visit("http://localhost:3000/view/")
+        cy.visit("/view/")
 
         cy.contains('Submit')
             .click()
@@ -136,7 +136,7 @@ describe('The Manage Flashcards Tab', function () {
     })
 
     it('Allows me search flashcards based on topic and name', function () {
-        cy.visit("http://localhost:3000/view/")
+        cy.visit("/view/")
 
         cy.get('input[id="flashcardTopicsSearch"]')
             .click({
@@ -157,7 +157,7 @@ describe('The Manage Flashcards Tab', function () {
     })
 
     it('Allows me search flashcards based on topic and term', function () {
-        cy.visit("http://localhost:3000/view/")
+        cy.visit("/view/")
 
         cy.get('input[id="flashcardTopicsSearch"]')
             .click({
@@ -178,7 +178,7 @@ describe('The Manage Flashcards Tab', function () {
     })
 
     it('Allows me search flashcards based on name and term', function () {
-        cy.visit("http://localhost:3000/view/")
+        cy.visit("/view/")
 
         cy.get('input[name="flashcardName"]')
             .click({
@@ -201,14 +201,14 @@ describe('The Manage Flashcards Tab', function () {
 
 describe('The Manage Topics Tab', function () {
     it('Allows me to switch to the manage topics tab', function () {
-        cy.visit("http://localhost:3000/view")
+        cy.visit("/view")
 
         cy.contains("Manage Topics")
             .click()
     })
 
     it('Allows me to view all topics', function () {
-        cy.visit("http://localhost:3000/view")
+        cy.visit("/view")
 
         cy.contains("Manage Topics")
             .click()
