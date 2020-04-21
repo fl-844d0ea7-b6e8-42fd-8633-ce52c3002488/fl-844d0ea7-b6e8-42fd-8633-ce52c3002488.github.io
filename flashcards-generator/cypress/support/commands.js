@@ -23,7 +23,7 @@
 //
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
-afterEach(()=> {
+before(()=> {
   cy.log("Deleting test entries")
   cy.exec("npm run teardown")
 })

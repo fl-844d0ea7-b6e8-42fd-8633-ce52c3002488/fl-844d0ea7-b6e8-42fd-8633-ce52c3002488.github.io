@@ -101,7 +101,7 @@ describe.skip('The Create Topics Tab', function() {
     })
 
     it('Does not allow me to leave the topic field blank', function () {
-        cy.visit("/create/")
+        cy.visit("/create/").as('getTopics')
 
         cy.contains('Create Topics').click()
 
@@ -111,7 +111,6 @@ describe.skip('The Create Topics Tab', function() {
                 .blur()
 
             cy.contains("Please enter a value for the topic name")
-
         })
     })
 
@@ -156,15 +155,22 @@ describe('The Create Flashcard Tab', function () {
         })
     })
 
-    it('Allows me to select a topic for a flashcard', () => {
+    it.only('Allows me to select a topic for a flashcard', () => {
+        cy.server()
+        cy.route('GET', '**/api/listTopics').as('listTopics')
+
         cy.visit("/create/")
 
         cy.get('form').within(() => {
 
-        cy.get('input[id="flashcardTopicsSearch"]')
-            .click({ force: true })
-            .type('TestTopic {enter}')
-        })
+            cy.wait('@listTopics')
+
+            cy.get('input[id="flashcardTopicsSearch"]')
+                .click({ force: true })
+                .type('TestTopic {enter}')
+            })
+
+            cy.contains('TestTopic')
     })
 
     it('Allows me create a new Flashcard', function () {
