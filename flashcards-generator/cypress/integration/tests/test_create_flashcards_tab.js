@@ -9,131 +9,7 @@ describe('The Create Flashcards/Topic page', function () {
     })
 })
 
-describe('The Create Topics Tab', function() {
-    it('Allows me to create a new topic', function () {
-        cy.visit("/create/")
-
-        cy.contains('Create Topics').click()
-
-        cy.get('div[id="colourPicker"]').within(() => {
-            cy.get('input:first')
-                .click()
-                .clear()
-                .type('F1FD01')
-        })
-
-        cy.get('form').within(() => {
-            cy.get('input[name="flashcardTopic"]')
-                .type("TestTopic")
-                .should('have.value', 'TestTopic')
-
-            cy.get('button').last()
-                .click()
-        })
-
-        cy.contains('Successfully added topic: TestTopic :)')
-    })
-
-    it('Allows me to create multiple new topics', function () {
-        cy.visit("/create/")
-
-        cy.contains('Create Topics').click()
-
-        cy.get('div[id="colourPicker"]').within(() => {
-            cy.get('input:first')
-                .click()
-                .clear()
-                .type('FF0000')
-        })
-
-        cy.get('form').within(() => {
-            cy.get('input[name="flashcardTopic"]')
-                .type("TestTopic2")
-                .should('have.value', 'TestTopic2')
-
-            cy.get('button').last()
-                .click()
-        })
-
-        cy.contains('Successfully added topic: TestTopic2 :)')
-
-        cy.get('div[id="colourPicker"]').within(() => {
-            cy.get('input:first')
-                .click()
-                .clear()
-                .type('F000F')
-        })
-
-        cy.get('form').within(() => {
-            cy.get('input[name="flashcardTopic"]')
-                .type("TestTopic3")
-                .should('have.value', 'TestTopic3')
-
-            cy.get('button').last()
-                .click()
-        })
-
-        cy.contains('Successfully added topic: TestTopic3 :)')
-    })
-
-    it('Does not allow me to create topics with the same name', function () {
-        cy.visit("/create/")
-
-        cy.contains('Create Topics').click()
-
-        cy.get('div[id="colourPicker"]').within(() => {
-            cy.get('input:first')
-                .click()
-                .clear()
-                .type('00FF00')
-        })
-
-        cy.get('form').within(() => {
-            cy.get('input[name="flashcardTopic"]')
-                .type("TestTopic2")
-                .should('have.value', 'TestTopic2')
-
-            cy.get('button').last()
-                .click()
-        })
-
-        cy.contains('That topic already exists apparently')
-    })
-
-    it('Does not allow me to leave the topic field blank', function () {
-        cy.visit("/create/").as('getTopics')
-
-        cy.contains('Create Topics').click()
-
-        cy.get('form').within(() => {
-            cy.get('input[name="flashcardTopic"]')
-                .click()
-                .blur()
-
-            cy.contains("Please enter a value for the topic name")
-        })
-    })
-
-    it('Does not allow me to create a topic without a name', function () {
-        cy.visit("/create/")
-
-        cy.contains('Create Topics').click()
-
-        cy.get('form').within(() => {
-            cy.get('button').last()
-                .click()
-        })
-
-        cy.contains("Please ensure all mandatory fields are filled")
-    })
-})
-
 describe('The Create Flashcard Tab', function () {
-    before(() => {
-        cy.log("Adding test topics into db")
-        cy.exec("npm run setup-topics")
-    })
-
     it('Allows me input a name for a flashcard', function () {
         cy.visit("/create/")
 
@@ -156,9 +32,6 @@ describe('The Create Flashcard Tab', function () {
     })
 
     it('Allows me to select a topic for a flashcard', () => {
-        cy.server()
-        cy.route('GET', '**/api/listTopics').as('listTopics')
-
         cy.visit("/create/")
 
         cy.get('form').within(() => {
@@ -174,9 +47,6 @@ describe('The Create Flashcard Tab', function () {
     })
 
     it('Allows me create a new Flashcard', function () {
-        cy.server()
-        cy.route('GET', '**/api/listTopics').as('listTopics')
-
         cy.visit("/create/")
 
         cy.get('form').within(() => {
@@ -211,9 +81,6 @@ describe('The Create Flashcard Tab', function () {
     })
 
     it('Does not allow me to create a new Flashcard with the same name', function () {
-        cy.server()
-        cy.route('GET', '**/api/listTopics').as('listTopics')
-
         cy.visit("/create/")
 
         cy.get('form').within(() => {
@@ -244,9 +111,6 @@ describe('The Create Flashcard Tab', function () {
     })
 
     it('Allows me create multiple new Flashcards in succession', function () {
-        cy.server()
-        cy.route('GET', '**/api/listTopics').as('listTopics')
-
         cy.visit("/create/")
 
         cy.get('form').within(() => {
@@ -301,9 +165,6 @@ describe('The Create Flashcard Tab', function () {
     })
 
     it('Allows me to create a topic and then a flashcard related to it', function () {
-        cy.server()
-        cy.route('GET', '**/api/listTopics').as('listTopics')
-
         cy.visit("/create/")
 
         cy.contains('Create Topics').click()
@@ -317,14 +178,16 @@ describe('The Create Flashcard Tab', function () {
 
         cy.get('form').within(() => {
             cy.get('input[name="flashcardTopic"]')
-                .type("Testing")
-                .should('have.value', 'Testing')
+                .type("NewestTestTopic")
+                .should('have.value', 'NewestTestTopic')
 
             cy.get('button').last()
                 .click()
         })
 
-        cy.contains('Successfully added topic: Testing :)')
+        cy.wait("@createTopic")
+
+        cy.contains('Successfully added topic: NewestTestTopic :)')
 
         cy.contains('Create Flashcards').click()
 

@@ -24,6 +24,16 @@
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 before(()=> {
-  cy.log("Deleting test entries")
+  cy.log("Adding test flashcards into db")
   cy.exec("npm run teardown")
+  cy.exec("npm run setup-flashcards")
+})
+
+beforeEach(() => {
+  cy.log('Setting up server and route listeners')
+  cy.server()
+  cy.route('**/api/listTopics').as('listTopics')
+  cy.route('POST', '**/api/list').as('listFlashcards')
+  cy.route('DELETE', '**/api/delete/*').as('delete')
+  cy.route('POST', '**/api/createTopic').as("createTopic")
 })

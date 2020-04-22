@@ -16,7 +16,8 @@ export const getTopics = async () => {
   try {
     const resp = await axios.get(`${API_HOSTNAME}/api/listTopics`, config);
 
-    console.log('Request was successful, returning results');
+    console.log('Received response with status: ', resp.status);
+
     return {
       data: resp.data
     };

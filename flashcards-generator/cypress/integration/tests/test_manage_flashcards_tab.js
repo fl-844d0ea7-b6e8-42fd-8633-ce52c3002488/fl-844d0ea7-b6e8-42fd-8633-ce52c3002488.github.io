@@ -1,14 +1,14 @@
 describe('The Manage Flashcards Tab', function () {
     it('Opens the Management Page', function () {
-        cy.visit("http://localhost:3000/home/")
+        cy.visit("/home/")
 
         cy.contains('Manage').click()
 
-        cy.url().should('include', '/view')
+        cy.url().should('include', '/manage')
     })
 
-    it('Allows me to view all Flashcards', function () {
-        cy.visit("http://localhost:3000/view/")
+    it('Allows me to view mutiple groups of Flashcards', function () {
+        cy.visit("/manage/")
 
         cy.contains('Manage Flashcards').click()
 
@@ -17,16 +17,18 @@ describe('The Manage Flashcards Tab', function () {
                 .click()
         })
 
-        cy.wait(1000)
+        cy.wait('@listFlashcards')
 
         cy.get('div[id="TestTopic-card-columns"]')
         cy.get('div[id="Testing-card-columns"]')
     })
 
     it('Allows me to view Flashcards by topic', function () {
-        cy.visit("http://localhost:3000/view/")
+        cy.visit("/manage/")
 
-        const searchTopic = 'TestTopic'
+        const searchTopic = 'Testing'
+        cy.wait('@listTopics')
+
         cy.get('input[id="flashcardTopicsSearch"]')
             .click({
                 force: true
@@ -36,15 +38,16 @@ describe('The Manage Flashcards Tab', function () {
         cy.contains('Submit')
             .click()
 
-        cy.wait(1000)
+        cy.wait('@listFlashcards')
 
-        cy.get(`div[id="${searchTopic}-card-columns"]`).children().should('have.length', 3)
+        cy.get(`div[id="${searchTopic}-card-columns"]`).children().should('have.length',2)
     })
 
     it('Allows me to view Flashcards by name', function () {
-        cy.visit("http://localhost:3000/view/")
+        cy.visit("/manage/")
 
-        const flashcardName = "Test"
+        const flashcardName = "TestFlashcardName"
+
         cy.get('form').within(() => {
             cy.get('input[name="flashcardName"]')
                 .type(`${flashcardName}`)
@@ -53,58 +56,58 @@ describe('The Manage Flashcards Tab', function () {
                 .click()
         })
 
-        cy.wait(1000)
+        cy.wait("@listFlashcards")
 
-        cy.get('div[class="card-columns"]').children().should('have.length', 4)
+        cy.get('div[class="card-columns"]').children().should('have.length', 1)
 
     })
 
     it('Allows me to view Flashcards by term', function () {
-        cy.visit("http://localhost:3000/view/")
+        cy.visit("/manage/")
 
         cy.get('form').within(() => {
             cy.get('input[name="flashcardTerm"]')
-                .type("Testing")
+                .type("TestFlashcardTerm")
 
             cy.contains('Submit')
                 .click()
         })
 
-        cy.wait(1000)
+        cy.wait("@listFlashcards")
 
-        cy.get('div[class="card-columns"]').children().should('have.length', 2)
+        cy.get('div[class="card-columns"]').children().should('have.length', 1)
     })
 
     it('Allows me to delete a Flashcard', function () {
-        cy.visit("http://localhost:3000/view/")
+        cy.visit("/manage/")
 
         cy.get('form').within(() => {
             cy.get('input[name="flashcardName"]')
-                .type("Test")
+                .type("TestFlashcardName")
 
             cy.contains('Submit')
                 .click()
         })
 
-        cy.wait(1000)
+        cy.wait("@listFlashcards")
 
-        cy.get('div[class="card-columns"]').children().should('have.length', 4)
+        cy.get('div[class="card-columns"]').children().should('have.length', 1)
 
         cy.get('div[class="card-columns"] div:first').within(() => {
             cy.get('svg[data-icon="trash"]').click()
         })
 
-        cy.wait(1000)
+        cy.wait('@delete')
 
-        cy.get('div[class="card-columns"]').children().should('have.length', 3)
+        cy.get('div[class="card-columns"]').children().should('have.length', 0)
     })
 
     it('Allows me to edit a Flashcard', function () {
-        cy.visit("http://localhost:3000/view/")
+        cy.visit("/manage/")
 
         cy.get('form').within(() => {
             cy.get('input[name="flashcardName"]')
-                .type("Test")
+                .type("TestingFlashcardName")
 
             cy.contains('Submit')
                 .click()
@@ -123,12 +126,12 @@ describe('The Manage Flashcards Tab', function () {
     })
 
     it('Allows me view a flashcard with the colour associated to its topic', function () {
-        cy.visit("http://localhost:3000/view/")
+        cy.visit("/manage/")
 
         cy.contains('Submit')
             .click()
 
-        cy.wait(1000)
+        cy.wait("@listFlashcards")
 
         cy.get('div[class="card-columns"]').first().within(() => {
             cy.get('div[class="card-header"]').first()
@@ -136,7 +139,13 @@ describe('The Manage Flashcards Tab', function () {
     })
 
     it('Allows me search flashcards based on topic and name', function () {
-        cy.visit("http://localhost:3000/view/")
+        cy.log('Adding test data into db')
+        cy.exec('npm run teardown')
+        cy.exec('npm run setup-flashcards')
+
+        cy.visit("/manage/")
+
+        cy.wait('@listTopics')
 
         cy.get('input[id="flashcardTopicsSearch"]')
             .click({
@@ -146,18 +155,18 @@ describe('The Manage Flashcards Tab', function () {
 
         cy.get('input[name="flashcardName"]')
             .click({ force: true })
-            .type("2")
+            .type("TestFlashcardName")
 
         cy.contains('Submit')
             .click()
 
-        cy.wait(1000)
+        cy.wait("@listFlashcards")
 
         cy.get('div[class="card-columns"]').children().should('have.length', 1)
     })
 
     it('Allows me search flashcards based on topic and term', function () {
-        cy.visit("http://localhost:3000/view/")
+        cy.visit("/manage/")
 
         cy.get('input[id="flashcardTopicsSearch"]')
             .click({
@@ -167,18 +176,18 @@ describe('The Manage Flashcards Tab', function () {
 
         cy.get('input[name="flashcardTerm"]')
             .click({ force: true })
-            .type("testing{enter}")
+            .type("Testing{enter}")
 
         cy.contains('Submit')
             .click()
 
-        cy.wait(1000)
+        cy.wait("@listFlashcards")
 
         cy.get('div[class="card-columns"]').children().should('have.length', 1)
     })
 
     it('Allows me search flashcards based on name and term', function () {
-        cy.visit("http://localhost:3000/view/")
+        cy.visit("/manage/")
 
         cy.get('input[name="flashcardName"]')
             .click({
@@ -188,39 +197,13 @@ describe('The Manage Flashcards Tab', function () {
 
         cy.get('input[name="flashcardTerm"]')
             .click({ force: true })
-            .type("testing {enter}")
+            .type("Testing {enter}")
 
         cy.contains('Submit')
             .click()
 
-        cy.wait(1000)
+        cy.wait("@listFlashcards")
 
-        cy.get('div[class="card-columns"]').children().should('have.length', 2)
+        cy.get('div[class="card-columns"]').children().should('have.length', 1)
     })
 })
-
-describe('The Manage Topics Tab', function () {
-    it('Allows me to switch to the manage topics tab', function () {
-        cy.visit("http://localhost:3000/view")
-
-        cy.contains("Manage Topics")
-            .click()
-    })
-
-    it('Allows me to view all topics', function () {
-        cy.visit("http://localhost:3000/view")
-
-        cy.contains("Manage Topics")
-            .click()
-
-        cy.get('form[id="topicsForm"]').within(() => {
-            cy.contains('Submit')
-                .click()
-        })
-
-        cy.wait(1000)
-
-        cy.get('div[class="card-columns"]').children().should('have.length', 4)
-    })
-})
-
