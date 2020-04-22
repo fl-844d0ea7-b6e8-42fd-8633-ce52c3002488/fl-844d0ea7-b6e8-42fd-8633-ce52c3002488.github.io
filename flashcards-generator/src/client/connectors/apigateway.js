@@ -18,8 +18,6 @@ export const getTopics = async () => {
 
     console.log('Received response with status: ', resp.status);
 
-    console.log(resp)
-
     return {
       data: resp.data
     };
