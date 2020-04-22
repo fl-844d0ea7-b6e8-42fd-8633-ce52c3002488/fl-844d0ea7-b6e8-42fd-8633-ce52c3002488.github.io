@@ -10,16 +10,22 @@ describe('Basic functionality of the Test Flashcard Page', function () {
     it('Allows me to view all Flashcards', function () {
         cy.visit("/test/")
 
+        cy.wait('@listTopics')
+
         cy.get('form').within(() => {
             cy.contains('Submit')
                 .click()
         })
 
-        cy.get('div[class="card-deck"]').children()
+        cy.wait('@listFlashcards')
+
+        cy.get('div[class="card-columns"]').children()
     })
 
     it('Allows me to view Flashcards by topic', function () {
         cy.visit("/test/")
+
+        cy.wait('@listTopics')
 
         cy.get('form').within(() => {
             cy.get('input[id="flashcardTopicsSearch"]')
@@ -29,7 +35,9 @@ describe('Basic functionality of the Test Flashcard Page', function () {
                 .click()
         })
 
-        cy.get('div[class="card-deck"]').children()
+        cy.wait('@listFlashcards')
+
+        cy.get('div[class="card-columns"]').children()
     })
 
     it('Allows me to view Flashcards by name', function () {
@@ -43,7 +51,9 @@ describe('Basic functionality of the Test Flashcard Page', function () {
                 .click()
         })
 
-        cy.get('div[class="card-deck"]').children().should('have.length', 3)
+        cy.wait('@listFlashcards')
+
+        cy.get('div[class="card-columns"]').children().should('have.length', 2)
     })
 
     it('Allows me to toggle between test options', function () {
@@ -78,7 +88,9 @@ describe('Manual testing functionality of the Test Flashcard Page', function () 
                 .click()
         })
 
-        cy.get('div[class="card-deck"]:first').within(() => {
+        cy.wait('@listFlashcards')
+
+        cy.get('div[class="card-columns"]:first').within(() => {
             cy.get('p[class="card-text"]').should('be.empty')
         })
     })
@@ -96,7 +108,9 @@ describe('Manual testing functionality of the Test Flashcard Page', function () 
                 .click()
         })
 
-        cy.get('div[class="card-deck"]:first').within(() => {
+        cy.wait('@listFlashcards')
+
+        cy.get('div[class="card-columns"]:first').within(() => {
             cy.get('div[class="card-body"]:first').click()
             cy.get('div[class="card-body"]:first').within(() => {
                 cy.get('p[class="card-text"]').should('not.be.empty')

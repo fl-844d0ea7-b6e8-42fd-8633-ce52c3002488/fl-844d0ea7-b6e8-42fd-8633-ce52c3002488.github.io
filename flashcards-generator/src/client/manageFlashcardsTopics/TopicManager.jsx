@@ -4,7 +4,8 @@ import Button from 'react-bootstrap/Button'
 import FormInput from '../common/FormInput'
 import FormAlert from '../common/FormAlert'
 import CardColumns from 'react-bootstrap/CardColumns'
-import { getTopicsByName, getTopics, deleteTopic } from '../connectors/serverData'
+import { getTopicsByName, deleteTopic } from '../connectors/serverData'
+import { getTopics } from '../connectors/apigateway'
 import TopicCard from './TopicCard'
 
 const TopicManager = () => {

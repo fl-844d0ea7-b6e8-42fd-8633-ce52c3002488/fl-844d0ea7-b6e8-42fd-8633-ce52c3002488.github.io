@@ -147,6 +147,7 @@ export const insertTopic = async (name, colour) => new Promise(
             client.query(query, (queryError, result) => {
                 release()
                 if (queryError) {
+                    logError(queryError)
                     reject(new Error("Postgres sadness :("))
                     return
                 }

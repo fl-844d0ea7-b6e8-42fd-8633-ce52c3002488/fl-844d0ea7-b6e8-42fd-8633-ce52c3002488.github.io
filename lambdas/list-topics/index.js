@@ -35,7 +35,7 @@ async function getTopics() {
 
     client.query(query, (queryError, result) => {
       if (queryError) {
-        console.log(queryError.stack)
+        console.log(queryError)
         reject(new Error("Postgres sadness :("))
         client.end()
         return
