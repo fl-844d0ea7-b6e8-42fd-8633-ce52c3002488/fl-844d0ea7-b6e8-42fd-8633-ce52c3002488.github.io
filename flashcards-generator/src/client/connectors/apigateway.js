@@ -26,3 +26,21 @@ export const getTopics = async () => {
     return { error };
   }
 };
+
+export const insertTopic = async (name, colour) => {
+  console.log('Making POST request to Flashcards Vault to insert TOPIC');
+
+  try {
+    const resp = await axios.post(
+      `${API_HOSTNAME}/api/createTopic`,
+      { data: { name, colour } },
+      config,
+    );
+
+    console.log(`Got a resp from inserting: ${resp}`);
+    return resp;
+  } catch (error) {
+    console.log(error);
+    return { error };
+  }
+};
