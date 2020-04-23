@@ -7,11 +7,11 @@ Description: >
 
 Globals:
   Function:
-    Timeout: 3
+    Timeout: 10
     Runtime: nodejs12.x
     Environment:
       Variables:
-        DB_CONN: postgres://postgres:testpassword@flashcards-postgres:54320/postgres?currentSchema=flashcards_app
+        DB_CONN: postgres://postgres:testpassword@host.docker.internal:54320/postgres?currentSchema=flashcards_app
         ALLOWED_ORIGIN: http://localhost:3002
   Api:
     Cors:
@@ -50,3 +50,14 @@ Resources:
           Properties:
             Path: /api/listTopics
             Method: GET
+  CreateTopic:
+    Type: AWS::Serverless::Function
+    FunctionName: CreateTopic
+    Properties:
+      Handler: create-topic/index.handler
+      Events:
+        event:
+          Type: Api
+          Properties:
+            Path: /api/createTopic
+            Method: POST
