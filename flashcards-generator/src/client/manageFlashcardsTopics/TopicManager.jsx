@@ -19,6 +19,7 @@ const TopicManager = () => {
     const [topicsList, setTopicsList] = useState([])
 
     const handleTopicSearch = async () => {
+        // TODO: REFACTOR THIS HORRIBLE ASS THING
         console.log("Handling Topic Search")
         let resp
 
@@ -47,7 +48,7 @@ const TopicManager = () => {
                 setTopicsList([])
             }
 
-            if (resp && resp.error && resp.error.response && resp.error.response.status) {
+            if (resp && resp.error && resp.error.response) {
                 switch (resp.error.response.status) {
                     case 404:
                         setError("Couldn't get any results for that query")
@@ -58,6 +59,9 @@ const TopicManager = () => {
                 setShowError(true)
                 setShowSuccess(false)
                 setTopicsList([])
+            }
+            else {
+                setError("Awww crap, we didn't get a response...")
             }
         } else {
             setError("How rude. We didn't get a response!")

@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button'
 import ColourPicker from '../common/ColourPicker';
 import FormInput from '../common/FormInput';
 import FormAlert from '../common/FormAlert';
-import { insertTopic } from '../connectors/serverData';
+import { insertTopic } from '../connectors/apigateway';
 
 
 const CreateTopicsForm = ({handleNewTopic}) => {
@@ -62,7 +62,7 @@ const CreateTopicsForm = ({handleNewTopic}) => {
             handleNewTopic()
         }
 
-        if (resp && resp.error) {
+        if (resp && resp.error && resp.error.response) {
             setIsLoading(false)
             setShowError(true)
 
@@ -74,6 +74,9 @@ const CreateTopicsForm = ({handleNewTopic}) => {
                     setError("Oooooh... That's like real bad... Something real bad")
                     break
             }
+        }
+        else {
+            setError("Awww poop. No response at all :( - please try again, have mercy")
         }
     }
 

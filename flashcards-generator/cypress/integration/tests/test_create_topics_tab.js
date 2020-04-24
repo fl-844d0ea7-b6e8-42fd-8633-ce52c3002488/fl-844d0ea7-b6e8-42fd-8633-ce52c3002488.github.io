@@ -11,7 +11,6 @@ describe('The Create Topics Tab', function () {
         .type('F1FD01')
     })
 
-    cy.wait('@listTopics')
 
     cy.get('form').within(() => {
       cy.get('input[name="flashcardTopic"]')
@@ -22,11 +21,15 @@ describe('The Create Topics Tab', function () {
         .click()
     })
 
+    cy.wait('@createTopic')
+
     cy.contains('Successfully added topic: NewTestTopic :)')
   })
 
   it('Allows me to create multiple new topics', function () {
     cy.visit("/create/")
+
+    cy.wait('@listTopics')
 
     cy.contains('Create Topics').click()
 
@@ -46,6 +49,8 @@ describe('The Create Topics Tab', function () {
         .click()
     })
 
+    cy.wait('@createTopic')
+
     cy.contains('Successfully added topic: TestTopic2 :)')
 
     cy.get('div[id="colourPicker"]').within(() => {
@@ -64,35 +69,15 @@ describe('The Create Topics Tab', function () {
         .click()
     })
 
+    cy.wait('@createTopic')
+
     cy.contains('Successfully added topic: TestTopic3 :)')
   })
 
-  it('Does not allow me to create topics with the same name', function () {
+  it('Does not allow me to leave the topic field blank', function () {
     cy.visit("/create/")
 
-    cy.contains('Create Topics').click()
-
-    cy.get('div[id="colourPicker"]').within(() => {
-      cy.get('input:first')
-        .click()
-        .clear()
-        .type('00FF00')
-    })
-
-    cy.get('form').within(() => {
-      cy.get('input[name="flashcardTopic"]')
-        .type("TestTopic2")
-        .should('have.value', 'TestTopic2')
-
-      cy.get('button').last()
-        .click()
-    })
-
-    cy.contains('That topic already exists apparently')
-  })
-
-  it('Does not allow me to leave the topic field blank', function () {
-    cy.visit("/create/").as('getTopics')
+    cy.wait('@listTopics')
 
     cy.contains('Create Topics').click()
 

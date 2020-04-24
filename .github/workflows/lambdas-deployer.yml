@@ -4,6 +4,7 @@ on:
   push:
     branches:
     - master
+    - GH-22/migrate-create-topic-to-lambda
 
 jobs:
   deploy_list_topics_lambda:
@@ -26,6 +27,32 @@ jobs:
             zip_file: list-topics/function.zip
         - name: Update Lambda to use layer
           run: aws lambda update-function-configuration --function-name list-topics --layers ${LAMBDA_LAYER}
+          env:
+            AWS_ACCESS_KEY_ID: ${{ secrets.LAMBDA_DEPLOYER_ACCESS_KEY }}
+            AWS_SECRET_ACCESS_KEY: ${{ secrets.LAMBDA_DEPLOYER_SECRET_KEY }}
+            AWS_DEFAULT_REGION: ${{ secrets.LAMBDA_DEPLOYER_REGION }}
+            LAMBDA_LAYER:  ${{ secrets.NODE_LAMBDA_LAYER_ARN }}
+
+  deploy_create_topics_lambda:
+      name: deploy lambda from source
+      runs-on: ubuntu-latest
+      steps:
+        - uses: chrislennon/action-aws-cli@v1.1
+        - name: checkout source code
+          uses: actions/checkout@v1
+        - name: Zip lambda code
+          run: |
+            mkdir create-topics/ && zip -r -j create-topics/function.zip ./lambdas/create-topics
+        - name: Deploy packaged lambda
+          uses: appleboy/lambda-action@master
+          with:
+            aws_access_key_id: ${{ secrets.LAMBDA_DEPLOYER_ACCESS_KEY }}
+            aws_secret_access_key: ${{ secrets.LAMBDA_DEPLOYER_SECRET_KEY }}
+            aws_region: ${{ secrets.LAMBDA_DEPLOYER_REGION }}
+            function_name: create-topics
+            zip_file: create-topics/function.zip
+        - name: Update Lambda to use layer
+          run: aws lambda update-function-configuration --function-name create-topics --layers ${LAMBDA_LAYER}
           env:
             AWS_ACCESS_KEY_ID: ${{ secrets.LAMBDA_DEPLOYER_ACCESS_KEY }}
             AWS_SECRET_ACCESS_KEY: ${{ secrets.LAMBDA_DEPLOYER_SECRET_KEY }}

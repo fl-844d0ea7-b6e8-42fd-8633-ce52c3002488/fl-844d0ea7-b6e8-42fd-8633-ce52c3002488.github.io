@@ -1,5 +1,3 @@
-const https = require('https')
-const pg = require('pg')
 const { Client } = require('pg')
 
 const client = new Client({

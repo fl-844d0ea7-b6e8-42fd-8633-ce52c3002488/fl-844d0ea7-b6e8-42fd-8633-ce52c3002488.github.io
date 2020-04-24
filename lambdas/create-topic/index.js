@@ -9,11 +9,20 @@ const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN
 exports.handler = async function (event) {
   console.log("Received request")
 
+  const { data } = JSON.parse(event.body)
+  const { name, colour } = data
+
+  if (!name || !colour){
+    return getReturnBody(400, "")
+  }
+
   try {
-    const dbResponse = await insertTopic()
+    const dbResponse = await insertTopic(name, colour)
 
     return getReturnBody(200, dbResponse)
+
   } catch (e) {
+    console.log("Error occured")
     console.error(e)
     return getReturnBody(503, "")
   }

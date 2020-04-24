@@ -80,36 +80,6 @@ describe('The Create Flashcard Tab', function () {
         })
     })
 
-    it('Does not allow me to create a new Flashcard with the same name', function () {
-        cy.visit("/create/")
-
-        cy.get('form').within(() => {
-            cy.get('input[name="flashcardName"]')
-                .type("TestFlashcard")
-                .should('have.value', 'TestFlashcard')
-
-            cy.get('input[name="flashcardTerm"]')
-                .type("TestTerm")
-                .should('have.value', 'TestTerm')
-
-            cy.wait('@listTopics')
-
-            cy.get('input[id="flashcardTopicsSearch"]')
-            .click({ force: true })
-                .type("TestTopic {enter}")
-            cy.contains('TestTopic')
-
-            cy.get('textarea[name="flashcardDefinition"]')
-                .type("TestDefinition")
-                .should('have.value', 'TestDefinition')
-
-            cy.contains('Submit')
-                .click()
-
-            cy.contains("Sorry! You've already got a flashcard with that name")
-        })
-    })
-
     it('Allows me create multiple new Flashcards in succession', function () {
         cy.visit("/create/")
 
