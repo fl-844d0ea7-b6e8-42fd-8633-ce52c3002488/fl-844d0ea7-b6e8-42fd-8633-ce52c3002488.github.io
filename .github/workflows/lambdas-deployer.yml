@@ -42,17 +42,17 @@ jobs:
           uses: actions/checkout@v1
         - name: Zip lambda code
           run: |
-            mkdir create-topics/ && zip -r -j create-topics/function.zip ./lambdas/create-topics
+            mkdir create-topic/ && zip -r -j create-topic/function.zip ./lambdas/create-topic
         - name: Deploy packaged lambda
           uses: appleboy/lambda-action@master
           with:
             aws_access_key_id: ${{ secrets.LAMBDA_DEPLOYER_ACCESS_KEY }}
             aws_secret_access_key: ${{ secrets.LAMBDA_DEPLOYER_SECRET_KEY }}
             aws_region: ${{ secrets.LAMBDA_DEPLOYER_REGION }}
-            function_name: create-topics
-            zip_file: create-topics/function.zip
+            function_name: create-topic
+            zip_file: create-topic/function.zip
         - name: Update Lambda to use layer
-          run: aws lambda update-function-configuration --function-name create-topics --layers ${LAMBDA_LAYER}
+          run: aws lambda update-function-configuration --function-name create-topic --layers ${LAMBDA_LAYER}
           env:
             AWS_ACCESS_KEY_ID: ${{ secrets.LAMBDA_DEPLOYER_ACCESS_KEY }}
             AWS_SECRET_ACCESS_KEY: ${{ secrets.LAMBDA_DEPLOYER_SECRET_KEY }}
