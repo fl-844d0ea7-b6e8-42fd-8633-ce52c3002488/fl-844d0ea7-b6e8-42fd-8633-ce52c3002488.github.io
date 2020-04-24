@@ -6,6 +6,10 @@ const common = require('./webpack.config.js')
 
 const production = process.env.NODE_ENV === 'production'
 
+const fileNameTemplate = ext => (production ?
+  `[name].[chunkhash].min.${ext}` :
+  `[name].${ext}`)
+
 module.exports = merge(common, {
   mode: production ? 'production' : 'development',
   devtool: 'source-map',
@@ -15,7 +19,7 @@ module.exports = merge(common, {
   output: {
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
-    filename: 'bundle.js',
+    filename: fileNameTemplate('js'),
   },
   plugins: [
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
