@@ -8,7 +8,7 @@ const production = process.env.NODE_ENV === 'production'
 
 module.exports = merge(common, {
   mode: production ? 'production' : 'development',
-  devtool: 'source-map',
+  devtool: 'inline-source-map',
   resolve: {
     extensions: ['*', '.js', '.jsx'],
   },

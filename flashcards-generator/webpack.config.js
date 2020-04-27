@@ -8,19 +8,15 @@ const SRC_DIR = __dirname
 const CLIENT_DIR = path.resolve(SRC_DIR, 'client')
 const PUBLIC_DIR = path.resolve(SRC_DIR, 'public')
 
-const fileNameTemplate = ext => (production ?
-  `[name].[chunkhash].min.${ext}` :
-  `[name].${ext}`)
-
-
 module.exports = {
   entry: ['./src/client/index.js'],
   mode: production ? 'production' : 'development',
   devServer: { historyApiFallback: true },
+  devtool: 'inline-source-map',
   output: {
     path: CLIENT_DIR,
     publicPath: '/',
-    filename: fileNameTemplate('js')
+    filename: 'bundle.js'
   },
   module: {
     rules: [{
