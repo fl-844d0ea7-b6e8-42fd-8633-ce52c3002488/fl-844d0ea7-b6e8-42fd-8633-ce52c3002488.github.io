@@ -29,12 +29,14 @@ async function getTopics() {
 
     console.log("Connecting to client")
 
-    client.connect()
-      .catch((error) => {
-        console.log("Error connecting to database")
-        console.error(error)
-        reject(new Error("DB Connection Error"))
-      })
+    client.connect(err => {
+      if (err){
+        console.error("Issue connecting to DB: ", err.stack)
+        reject(new Error("DB Connection error"))
+      } else {
+        console.log("Successfully connected to client and DB")
+      }
+    })
 
     client.query(query, (queryError, result) => {
       if (queryError) {

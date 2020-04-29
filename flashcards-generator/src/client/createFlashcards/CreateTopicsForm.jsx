@@ -39,6 +39,7 @@ const CreateTopicsForm = ({handleNewTopic}) => {
         setTopicColour(hex)
     }
 
+    // TODO: Refactor this thing plz
     const handleSubmit = async () => {
         setIsLoading(true)
         setShowError(false)
@@ -53,8 +54,9 @@ const CreateTopicsForm = ({handleNewTopic}) => {
 
         const resp = await insertTopic(topic, topicColour)
 
+        setIsLoading(false)
+
         if (resp && resp.data) {
-            setIsLoading(false)
             setSuccess(`Successfully added topic: ${topic} :)`)
             setShowSuccess(true)
             setTopic("")
@@ -63,7 +65,6 @@ const CreateTopicsForm = ({handleNewTopic}) => {
         }
 
         if (resp && resp.error && resp.error.response) {
-            setIsLoading(false)
             setShowError(true)
 
             switch (resp.error.response.status) {
@@ -73,9 +74,14 @@ const CreateTopicsForm = ({handleNewTopic}) => {
                 case 503:
                     setError("Oooooh... That's like real bad... Something real bad")
                     break
+                case 502:
+                    setError("Ah... Something took too long... Try again..?")
+                default:
+                    setError("Erm... Yeah, something wrong..?")
             }
         }
         else {
+            setShowError(true)
             setError("Awww poop. No response at all :( - please try again, have mercy")
         }
     }

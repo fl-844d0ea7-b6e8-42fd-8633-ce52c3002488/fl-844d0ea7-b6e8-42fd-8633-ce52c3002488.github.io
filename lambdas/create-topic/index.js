@@ -33,7 +33,14 @@ async function insertTopic (name, colour) {
     (resolve, reject) => {
       console.log("Connecting to database to insert topic")
 
-      client.connect()
+      client.connect(err => {
+        if (err) {
+          console.error("Issue connecting to DB: ", err.stack)
+          reject(new Error("DB Connection error"))
+        } else {
+          console.log("Successfully connected to client and DB")
+        }
+      })
 
       console.log("Connected to database successfully")
 
@@ -47,7 +54,7 @@ async function insertTopic (name, colour) {
       client.query(query, (queryError, result) => {
         if (queryError) {
           console.error(queryError)
-          reject(new Error("Postgres sadness :("))
+          reject(new Error("Query Error"))
           return
         }
         console.log(`Received result: ${result.rowCount}`)
