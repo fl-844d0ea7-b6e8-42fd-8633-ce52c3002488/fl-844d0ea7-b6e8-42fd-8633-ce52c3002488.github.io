@@ -4,7 +4,6 @@ on:
   push:
     branches:
     - master
-    - GH-22/migrate-create-topic-to-lambda
 
 jobs:
   build-and-deploy-flashcards-generator:

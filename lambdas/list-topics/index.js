@@ -29,12 +29,19 @@ async function getTopics() {
 
     console.log("Connecting to client")
 
-    client.connect()
+    client.connect(err => {
+      if (err){
+        console.error("Issue connecting to DB: ", err.stack)
+        reject(new Error("DB Connection error"))
+      } else {
+        console.log("Successfully connected to client and DB")
+      }
+    })
 
     client.query(query, (queryError, result) => {
       if (queryError) {
         console.log(queryError)
-        reject(new Error("Postgres sadness :("))
+        reject(new Error("Query error"))
         client.end()
         return
       }
