@@ -23,7 +23,7 @@ describe('The Create Topics Tab', function () {
 
     cy.wait('@createTopic')
 
-    cy.contains('Successfully added topic: NewTestTopic :)')
+    cy.get('[data-cy=successAlert]')
   })
 
   it('Allows me to create multiple new topics', function () {
@@ -51,7 +51,7 @@ describe('The Create Topics Tab', function () {
 
     cy.wait('@createTopic')
 
-    cy.contains('Successfully added topic: TestTopic2 :)')
+    cy.get('[data-cy=successAlert]')
 
     cy.get('div[id="colourPicker"]').within(() => {
       cy.get('input:first')
@@ -71,7 +71,7 @@ describe('The Create Topics Tab', function () {
 
     cy.wait('@createTopic')
 
-    cy.contains('Successfully added topic: TestTopic3 :)')
+    cy.get('[data-cy=successAlert]')
   })
 
   it('Does not allow me to leave the topic field blank', function () {
@@ -86,7 +86,7 @@ describe('The Create Topics Tab', function () {
         .click()
         .blur()
 
-      cy.contains("Please enter a value for the topic name")
+      cy.get('[data-cy=formInvalid]')
     })
   })
 
@@ -100,6 +100,26 @@ describe('The Create Topics Tab', function () {
         .click()
     })
 
-    cy.contains("Please ensure all mandatory fields are filled")
+    cy.get('[data-cy=dangerAlert]')
+  })
+
+  it('Does not allow me to create a topic without a colour', function () {
+    cy.visit("/create/")
+
+    cy.contains('Create Topics').click()
+
+    cy.get('form').within(() => {
+
+      cy.get('input[name="flashcardTopic"]')
+        .click()
+        .type("Testingsomething")
+
+      cy.get('button').last()
+        .click()
+    })
+
+    cy.get('[data-cy=formInvalid]')
   })
 })
+
+

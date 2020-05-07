@@ -28,7 +28,7 @@ const FormInput = ({
                 isInvalid={fieldIsInvalid}
                 value={fieldValue}
             />
-            <Form.Control.Feedback type="invalid">
+            <Form.Control.Feedback type="invalid" data-cy="formInvalid">
                 {fieldErrorMessage ? fieldErrorMessage : ""}
             </Form.Control.Feedback>
             <Form.Text className="text-muted">
