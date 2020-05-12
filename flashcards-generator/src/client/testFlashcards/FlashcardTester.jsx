@@ -33,14 +33,6 @@ const FlashcardsTester = () => {
     const [correctAnswers, setCorrectAnswers] = useState(0)
     const [finishedTest, setFinishedTest] = useState(false)
 
-    const createTestObject = (data) => {
-        const testObject = {}
-        data.map((card) => {
-            testObject[card.id] =  ''
-        })
-        setScoreObject(testObject)
-    }
-
     const handleSubmit = async () => {
         setLoading(true)
 
@@ -74,6 +66,14 @@ const FlashcardsTester = () => {
         }
     }
 
+    function createTestObject(data) {
+        const testObject = {}
+        data.map((card) => {
+            testObject[card.id] = ''
+        })
+        setScoreObject(testObject)
+    }
+
     const handleTestOptionChange = (optionValue) => {
         setTestOption(optionValue)
     }
@@ -82,13 +82,6 @@ const FlashcardsTester = () => {
         if (topic && topic.value) {
             setTopicId(topic.value)
         }
-    }
-
-    const updateScore = (data, answerType) => {
-        const count =  Object.values(data).reduce((n, val) => {
-            return n + (val===answerType)
-        }, 0)
-        return ((count / cardListSize) * 100).toFixed(2)
     }
 
     const handleScoreUpdate = ({id, status}) => {
@@ -108,6 +101,13 @@ const FlashcardsTester = () => {
             setShowSuccess(true)
             setFinishedTest(true)
         }
+    }
+
+    function updateScore(data, answerType) {
+        const count = Object.values(data).reduce((n, val) => {
+            return n + (val === answerType)
+        }, 0)
+        return ((count / cardListSize) * 100).toFixed(2)
     }
 
     return (

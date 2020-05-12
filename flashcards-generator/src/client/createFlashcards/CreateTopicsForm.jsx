@@ -11,8 +11,6 @@ const CreateTopicsForm = ({handleNewTopic}) => {
 
     const [topic, setTopic] = useState("");
     const [topicColour, setTopicColour] = useState("")
-    const [isLoading, setIsLoading] = useState(false)
-    const [showSuccess, setShowSuccess] = useState(false)
     const [successMessage, setSuccess] = useState("")
     const [errorMessage, setError] = useState("")
     const [showError, setShowError] = useState(false)
