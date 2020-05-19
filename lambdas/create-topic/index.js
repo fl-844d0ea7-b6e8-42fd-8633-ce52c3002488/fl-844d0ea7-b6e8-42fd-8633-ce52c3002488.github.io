@@ -9,10 +9,13 @@ const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN
 exports.handler = async function (event) {
   console.log("Received request")
 
+  console.log("Extracting from body")
   const { data } = JSON.parse(event.body)
   const { name, colour } = data
 
+  console.log("Validating request")
   if (!name || !colour){
+    console.log(`Invalid request: Received name (${name}) and colour (${colour})`)
     return getReturnBody(400, "")
   }
 

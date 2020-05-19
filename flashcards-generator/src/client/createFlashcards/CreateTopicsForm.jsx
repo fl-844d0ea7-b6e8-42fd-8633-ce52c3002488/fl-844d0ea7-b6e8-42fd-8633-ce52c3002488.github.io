@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
-import ColourPicker from '../common/ColourPicker';
+import FormColourPicker from '../common/FormColourPicker';
 import FormInput from '../common/FormInput';
 import FormAlert from '../common/FormAlert';
 import { insertTopic } from '../connectors/apigateway';
@@ -11,42 +11,20 @@ const CreateTopicsForm = ({handleNewTopic}) => {
 
     const [topic, setTopic] = useState("");
     const [topicColour, setTopicColour] = useState("")
-    const [isLoading, setIsLoading] = useState(false)
-    const [showSuccess, setShowSuccess] = useState(false)
     const [successMessage, setSuccess] = useState("")
     const [errorMessage, setError] = useState("")
     const [showError, setShowError] = useState(false)
+    const [isLoading, setLoading] = useState(false)
+    const [showSuccess, setShowSuccess] = useState(false)
     const [validFormInputs, setValidFormInputs] = useState(false)
-    const [formErrors, setFormErrors] = useState({topicName: ''})
+    const [formErrors, setFormErrors] = useState({topicName: '', topicColour: ''})
 
-    const validateFormInput = (e) => {
-        const isEmpty = (string) => {
-            return (string === null || string === "")
-        }
+    async function handleSubmit() {
 
-        if (e && isEmpty(e.target.value)) {
-            setFormErrors({ ...formErrors, topicName: "Please enter a value for the topic name" })
-            setValidFormInputs(false)
-        }
-        else {
-            setFormErrors({...formErrors, topicName: ''})
-            setValidFormInputs(true)
-        }
+        initialiseFormState()
 
-    }
-
-    const handleTopicColourChange = ({ hex }) => {
-        setTopicColour(hex)
-    }
-
-    // TODO: Refactor this thing plz
-    const handleSubmit = async () => {
-        setIsLoading(true)
-        setShowError(false)
-        setShowSuccess(false)
-
-        if (!validFormInputs){
-            setIsLoading(false)
+        if (!validFormInputs) {
+            setLoading(false)
             setError("Please ensure all mandatory fields are filled")
             setShowError(true)
             return
@@ -54,36 +32,66 @@ const CreateTopicsForm = ({handleNewTopic}) => {
 
         const resp = await insertTopic(topic, topicColour)
 
-        setIsLoading(false)
+        setLoading(false)
 
         if (resp && resp.data) {
-            setSuccess(`Successfully added topic: ${topic} :)`)
-            setShowSuccess(true)
-            setTopic("")
-            setTopicColour("")
-            handleNewTopic()
+            updateFormSuccessState()
+            return
         }
 
-        if (resp && resp.error && resp.error.response) {
+        if (resp && resp.error) {
             setShowError(true)
+
+            if (!resp.error.response) {
+                setError("Awww poop. No response at all :( - please try again, have mercy")
+                return
+            }
 
             switch (resp.error.response.status) {
                 case 409:
-                    setError("That topic already exists apparently")
+                    setError("A topic with that name already exists - please try again")
                     break
-                case 503:
-                    setError("Oooooh... That's like real bad... Something real bad")
-                    break
-                case 502:
-                    setError("Ah... Something took too long... Try again..?")
                 default:
-                    setError("Erm... Yeah, something wrong..?")
+                    setError("Something went wrong - please try again later")
+            }
+        }
+    }
+
+    function initialiseFormState() {
+        setLoading(true)
+        setShowError(false)
+        setShowSuccess(false)
+    }
+
+    function updateFormSuccessState() {
+        setSuccess(`Successfully added topic: ${topic} :)`)
+        setShowSuccess(true)
+        setTopic("")
+        setTopicColour("")
+        handleNewTopic()
+    }
+
+    function validateFormInput(event) {
+        if (event && isEmptyString(event.target.value)) {
+            setFormErrors({ ...formErrors, topicName: "Please enter a value for the topic name" })
+            setValidFormInputs(false)
+
+            if (isEmptyString(topicColour)) {
+                setFormErrors({...formErrors, topicColour: "Please pick a colour for the topic"})
             }
         }
         else {
-            setShowError(true)
-            setError("Awww poop. No response at all :( - please try again, have mercy")
+            setFormErrors({...formErrors, topicName: ''})
+            setValidFormInputs(true)
         }
+
+        function isEmptyString(string) {
+            return (string === null || string === "")
+        }
+    }
+
+    const handleTopicColourChange = ({ hex }) => {
+        setTopicColour(hex)
     }
 
     return (
@@ -101,13 +109,12 @@ const CreateTopicsForm = ({handleNewTopic}) => {
                 fieldValue={topic}
             />
 
-            <Form.Group>
-                <ColourPicker
-                    labelText={"Set Topic Colour"}
-                    handleTopicColourChange={handleTopicColourChange}
-                    colour={topicColour}
-                />
-            </Form.Group>
+            <FormColourPicker
+                fieldGroupControlId="formColourPicker"
+                fieldErrorMessage={formErrors.topicColour}
+                handleTopicColourChange={handleTopicColourChange}
+                topicColour={topicColour}
+            />
 
             <FormAlert
                 alertVariant="success"

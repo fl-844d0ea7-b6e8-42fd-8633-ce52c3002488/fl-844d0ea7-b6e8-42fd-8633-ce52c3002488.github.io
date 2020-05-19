@@ -9,6 +9,7 @@ const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN
 exports.handler = async function (event) {
   console.log("Received request")
 
+
   try {
     const topics = await getTopics()
 

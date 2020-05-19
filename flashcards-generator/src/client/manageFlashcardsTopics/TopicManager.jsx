@@ -19,8 +19,10 @@ const TopicManager = () => {
     const [topicsList, setTopicsList] = useState([])
 
     const handleTopicSearch = async () => {
-        // TODO: REFACTOR THIS HORRIBLE ASS THING
         console.log("Handling Topic Search")
+
+        initialiseFormLoadingState()
+
         let resp
 
         if (topic) {
@@ -31,43 +33,47 @@ const TopicManager = () => {
             resp = await getTopics()
         }
 
-        if (resp) {
-            setTopic("")
-            console.log(`Resp length: ${resp.data.length}`)
-            if (resp && resp.data && resp.data.length > 0) {
-                console.log("Setting topic list")
-                setShowError(false)
-                setShowSuccess(false)
-                console.log('Daaaata', resp.data)
-                setTopicsList(resp.data)
+        if (resp && resp.data) {
+            if (resp.data.length > 0) {
+                updateFormSuccessState(resp.data, "")
+            } else {
+                updateFormSuccessState([], "Query Successful - but no results were returned")
             }
-
-            if (resp && resp.data && resp.data.length === 0) {
-                setSuccess("Query Successful - but no results were returned")
-                setShowSuccess(true)
-                setTopicsList([])
-            }
-
-            if (resp && resp.error && resp.error.response) {
-                switch (resp.error.response.status) {
-                    case 404:
-                        setError("Couldn't get any results for that query")
-                        break;
-                    default:
-                        setError("Hory Shit - that's not what we expected...")
-                }
-                setShowError(true)
-                setShowSuccess(false)
-                setTopicsList([])
-            }
-            else {
-                setError("Awww crap, we didn't get a response...")
-            }
-        } else {
-            setError("How rude. We didn't get a response!")
-            setShowError(true)
-            setTopicsList([])
+            return
         }
+
+        if (resp && resp.error && resp.error.response) {
+            switch (resp.error.response.status) {
+                case 404:
+                    updateFormErrorState("Couldn't get any results for that query")
+                    break;
+                default:
+                    updateFormErrorState("Hory Shit - that's not what we expected...")
+            }
+            return
+        }
+        else {
+            updateFormErrorState("Awww crap, we didn't get a response...")
+        }
+    }
+
+    function initialiseFormLoadingState(){
+        setLoading(true)
+        setShowSuccess(false)
+        setShowError(false)
+        setTopicsList([])
+    }
+
+    function updateFormSuccessState(topicList, message) {
+        setSuccess(message)
+        setTopicsList(topicList)
+        setLoading(false)
+    }
+
+    function updateFormErrorState(message){
+        setShowError(true)
+        setError(message)
+        setLoading(false)
     }
 
     const handleDelete = async (id) => {

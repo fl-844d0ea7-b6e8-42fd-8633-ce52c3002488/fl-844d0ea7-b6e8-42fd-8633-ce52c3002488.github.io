@@ -83,11 +83,6 @@ const TopicCard = ({ id, name, colour, handleDelete }) => {
         }
     }
 
-    const titleCase = (str) => {
-        return str.toLowerCase().split(' ').map((word) => word.replace(word[0], word[0].toUpperCase())).join(' ');
-    }
-
-
     return (
         <Card id={id}>
             <Card.Body style={{ backgroundColor: colour, color: getAppropriateTextColour(colour) }}>

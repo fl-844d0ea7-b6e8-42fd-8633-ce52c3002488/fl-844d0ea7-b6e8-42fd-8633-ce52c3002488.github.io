@@ -13,6 +13,7 @@ const FormAlert = ({
             show={showAlert}
             onClose={onCloseEvent}
             dismissible
+            data-cy={`${alertVariant}Alert`}
         >
             <Alert.Heading>{message}</Alert.Heading>
         </Alert>

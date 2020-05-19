@@ -20,10 +20,6 @@ const CreateFlashcardsForm = ({ newTopicCreated }) => {
     const [showSuccess, setShowSuccess] = useState(false)
     const [formErrors, setFormErrors] = useState({ name: false, term: false, definition: false})
 
-    const hasValidFormInputs = () => {
-        return Object.values(formErrors).every((val) => (val === '' || val === false))
-    }
-
     const validateFormInput = (e) => {
         const isEmpty = (string) => {
             return (string === null || string === "")
@@ -58,44 +54,57 @@ const CreateFlashcardsForm = ({ newTopicCreated }) => {
     }
 
     const handleSubmit = async () => {
-        setLoading(true)
-        setShowSuccess(false)
-        setShowError(false)
+        initialiseFormState()
 
         if (!hasValidFormInputs() || !topicId){
-            setLoading(false)
-            setError("There are invalid fields - please check your data is correct")
-            setShowError(true)
+            updateFormErrorState("There are invalid fields - please check your data is correct")
             return
         }
 
         const resp = await insertFlashcard(name, topicId, term, definition)
 
         if (resp && resp.data) {
-            setLoading(false)
-            setSuccess(`Flashcard ${name} successfully added - feel free to add more!`)
-            setShowSuccess(true)
-            setTerm("")
-            setName("")
-            setDefinition("")
-            setTopicId("")
+            updateFormSuccessState()
         }
 
         if (resp && resp.error) {
             switch (resp.error.response.status) {
                 case 409:
-                    setError("Sorry! You've already got a flashcard with that name")
-                    setShowError(true)
-                    setLoading(false)
+                    updateFormErrorState("Sorry! You've already got a flashcard with that name")
                     break
                 case 503:
-                    setError("Shit really fucked up - like seriously...")
-                    setShowError(true)
-                    setLoading(false)
+                    updateFormErrorState("Shit really fucked up - like seriously...")
                     break
             }
         }
     }
+
+    function initialiseFormState(){
+        setLoading(true)
+        setShowSuccess(false)
+        setShowError(false)
+    }
+
+    function hasValidFormInputs() {
+        return Object.values(formErrors).every((val) => (val === '' || val === false))
+    }
+
+    function updateFormSuccessState() {
+        setLoading(false)
+        setSuccess(`Flashcard ${name} successfully added - feel free to add more!`)
+        setShowSuccess(true)
+        setTerm("")
+        setName("")
+        setDefinition("")
+        setTopicId("")
+    }
+
+    function updateFormErrorState(errorText) {
+        setError(errorText)
+        setShowError(true)
+        setLoading(false)
+    }
+
 
     const handleTopicChange = (topic) => {
         if (topic && topic.value){

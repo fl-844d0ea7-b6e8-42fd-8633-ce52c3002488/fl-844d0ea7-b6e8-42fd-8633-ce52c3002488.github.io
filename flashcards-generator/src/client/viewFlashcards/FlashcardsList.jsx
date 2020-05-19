@@ -7,7 +7,7 @@ const FlashcardsList = ({ cardsList }) => {
 
     return (
         Object.entries(cardsList).map(([topic, cardArray]) => (
-            <div key={topic+"-section"}>
+            <div key={`${topic}-section`}>
                 <h4>
                     <Badge pill variant="light">{topic}</Badge>
                 </h4>
