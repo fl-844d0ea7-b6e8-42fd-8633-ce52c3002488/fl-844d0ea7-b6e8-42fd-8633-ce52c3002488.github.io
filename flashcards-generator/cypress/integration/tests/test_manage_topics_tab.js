@@ -24,5 +24,54 @@ describe('The Manage Topics Tab', function () {
 
     cy.get('div[class="card-columns"]').children().should('have.length', 2)
   })
+
+  it.only('Does not allow me to delete a topic with flashcards associated to it', function () {
+    cy.visit("/manage")
+
+    cy.wait('@listTopics')
+
+    cy.contains("Manage Topics")
+      .click()
+
+    cy.get('form[id="topicsForm"]').within(() => {
+      cy.contains('Submit')
+        .click()
+    })
+
+    cy.wait('@listTopics')
+
+    cy.get('div[class="card-columns"]').first().within(() => {
+      cy.get("svg[data-icon='trash']").first().click()
+    })
+
+    cy.get('[data-cy=dangerAlert')
+    // cy.get('div[class="card-columns"]').children().should('have.length', 1)
+  })
+
+  it.only('Allows me to delete a topic without any flashcards related to it', function () {
+    cy.visit("/manage")
+
+    cy.wait('@listTopics')
+
+    cy.contains("Manage Topics")
+      .click()
+
+    cy.get('form[id="topicsForm"]').within(() => {
+      cy.get('[data-cy=topicName-formInput]')
+        .type('DeleteMe')
+
+      cy.contains('Submit')
+        .click()
+    })
+
+    cy.wait('@listTopics')
+
+    cy.get('div[class="card-columns"]').first().within(() => {
+      cy.get("svg[data-icon='trash']").first().click()
+    })
+
+    cy.get('[data-cy=successAlert]')
+    // cy.get('div[class="card-columns"]').children().should('have.length', 1)
+  })
 })
 

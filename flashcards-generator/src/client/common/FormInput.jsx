@@ -27,6 +27,7 @@ const FormInput = ({
                 onChange={fieldOnChangeEvent}
                 isInvalid={fieldIsInvalid}
                 value={fieldValue}
+                data-cy={`${fieldElementName}-formInput`}
             />
             <Form.Control.Feedback type="invalid" data-cy="formInvalid">
                 {fieldErrorMessage ? fieldErrorMessage : ""}
