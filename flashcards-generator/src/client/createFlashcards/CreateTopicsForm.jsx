@@ -14,6 +14,8 @@ const CreateTopicsForm = ({handleNewTopic}) => {
     const [successMessage, setSuccess] = useState("")
     const [errorMessage, setError] = useState("")
     const [showError, setShowError] = useState(false)
+    const [isLoading, setLoading] = useState(false)
+    const [showSuccess, setShowSuccess] = useState(false)
     const [validFormInputs, setValidFormInputs] = useState(false)
     const [formErrors, setFormErrors] = useState({topicName: '', topicColour: ''})
 
@@ -22,7 +24,7 @@ const CreateTopicsForm = ({handleNewTopic}) => {
         initialiseFormState()
 
         if (!validFormInputs) {
-            setIsLoading(false)
+            setLoading(false)
             setError("Please ensure all mandatory fields are filled")
             setShowError(true)
             return
@@ -30,7 +32,7 @@ const CreateTopicsForm = ({handleNewTopic}) => {
 
         const resp = await insertTopic(topic, topicColour)
 
-        setIsLoading(false)
+        setLoading(false)
 
         if (resp && resp.data) {
             updateFormSuccessState()
@@ -56,7 +58,7 @@ const CreateTopicsForm = ({handleNewTopic}) => {
     }
 
     function initialiseFormState() {
-        setIsLoading(true)
+        setLoading(true)
         setShowError(false)
         setShowSuccess(false)
     }
