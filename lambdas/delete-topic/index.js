@@ -60,3 +60,4 @@ function getReturnBody(statusCode, body) {
       "Access-Control-Allow-Methods": "OPTIONS,GET"
     }
   }
+}

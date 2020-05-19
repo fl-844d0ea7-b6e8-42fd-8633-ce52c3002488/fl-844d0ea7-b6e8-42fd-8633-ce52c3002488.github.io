@@ -83,58 +83,11 @@ export const deleteFlashcard = async (id) => {
 
 /* Topic Queries */
 
-export const insertTopic = async (name, colour) => {
-  console.log('Making POST request to Flashcards Vault to insert TOPIC');
-  try {
-    const resp = await axios.post(`/api/createTopic`, {
-      data: {
-        name,
-        colour,
-      },
-    });
-    console.log(`Got a resp from inserting: ${resp}`);
-    return resp;
-  } catch (error) {
-    console.log(error);
-    return { error };
-  }
-};
-
-export const getTopics = async () => {
-  console.log('Making GET request to Flashcards Vault get TOPICS');
-  try {
-    const url = getAbsoluteUrl('getTopics')
-    console.log('Making request to: ', url)
-    const resp = await axios.get(url);
-    console.log('Request was successful, returning results');
-    return {
-      data: resp.data
-    };
-  } catch (error) {
-    console.log(error);
-    return { error };
-  }
-};
-
 export const getTopicsByName = async ( topic ) => {
   console.log('Making GET request to Flashcards Vault get TOPICS by name');
   try {
     const parsedTopic = parseSearchTerm(topic)
     const resp = await axios.get(`/api/getTopics?topic=${parsedTopic}`);
-    console.log('Request was successful, returning results');
-    return { data: resp.data };
-  } catch (error) {
-    console.log(error);
-    return { error };
-  }
-};
-
-export const updateTopicName = async (id, name) => {
-  console.log('Making POST request to Flashcards Vault to update topic name');
-  try {
-    const resp = await axios.post(`/api/updateTopicName/${id}`, {
-      data: { name },
-    });
     console.log('Request was successful, returning results');
     return { data: resp.data };
   } catch (error) {
