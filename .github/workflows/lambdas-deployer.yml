@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy_list_topics_lambda:
-      name: deploy lambda from source
+      name: deploy list-topics lambda
       runs-on: ubuntu-latest
       steps:
         - uses: chrislennon/action-aws-cli@v1.1
@@ -33,7 +33,7 @@ jobs:
             LAMBDA_LAYER:  ${{ secrets.NODE_LAMBDA_LAYER_ARN }}
 
   deploy_create_topics_lambda:
-      name: deploy lambda from source
+      name: deploy create-topic lambda
       runs-on: ubuntu-latest
       steps:
         - uses: chrislennon/action-aws-cli@v1.1
@@ -52,6 +52,32 @@ jobs:
             zip_file: create-topic/function.zip
         - name: Update Lambda to use layer
           run: aws lambda update-function-configuration --function-name create-topic --layers ${LAMBDA_LAYER}
+          env:
+            AWS_ACCESS_KEY_ID: ${{ secrets.LAMBDA_DEPLOYER_ACCESS_KEY }}
+            AWS_SECRET_ACCESS_KEY: ${{ secrets.LAMBDA_DEPLOYER_SECRET_KEY }}
+            AWS_DEFAULT_REGION: ${{ secrets.LAMBDA_DEPLOYER_REGION }}
+            LAMBDA_LAYER:  ${{ secrets.NODE_LAMBDA_LAYER_ARN }}
+
+  deploy_delete_topic_lambda:
+      name: deploy delete-topic lambda
+      runs-on: ubuntu-latest
+      steps:
+        - uses: chrislennon/action-aws-cli@v1.1
+        - name: checkout source code
+          uses: actions/checkout@v1
+        - name: Zip lambda code
+          run: |
+            mkdir delete-topic/ && zip -r -j delete-topic/function.zip ./lambdas/delete-topic
+        - name: Deploy packaged lambda
+          uses: appleboy/lambda-action@master
+          with:
+            aws_access_key_id: ${{ secrets.LAMBDA_DEPLOYER_ACCESS_KEY }}
+            aws_secret_access_key: ${{ secrets.LAMBDA_DEPLOYER_SECRET_KEY }}
+            aws_region: ${{ secrets.LAMBDA_DEPLOYER_REGION }}
+            function_name: delete-topic
+            zip_file: delete-topic/function.zip
+        - name: Update Lambda to use layer
+          run: aws lambda update-function-configuration --function-name delete-topic --layers ${LAMBDA_LAYER}
           env:
             AWS_ACCESS_KEY_ID: ${{ secrets.LAMBDA_DEPLOYER_ACCESS_KEY }}
             AWS_SECRET_ACCESS_KEY: ${{ secrets.LAMBDA_DEPLOYER_SECRET_KEY }}

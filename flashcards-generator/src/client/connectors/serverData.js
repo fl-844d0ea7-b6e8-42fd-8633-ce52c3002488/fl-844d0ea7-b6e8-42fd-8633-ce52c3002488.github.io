@@ -142,15 +142,3 @@ export const updateTopicName = async (id, name) => {
     return { error };
   }
 };
-
-export const deleteTopic = async (id) => {
-  console.log('Making DELETE request to Flashcards Vault for topic');
-  try {
-    const resp = await axios.delete(`/api/deleteTopic/${id}`);
-    console.log('Request was successful, returning results');
-    return { data: resp.data };
-  } catch (error) {
-    console.log(error);
-    return { error };
-  }
-};
