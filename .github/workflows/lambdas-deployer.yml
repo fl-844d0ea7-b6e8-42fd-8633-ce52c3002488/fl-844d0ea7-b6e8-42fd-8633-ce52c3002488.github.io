@@ -4,7 +4,6 @@ on:
   push:
     branches:
     - master
-    - GH-23/migrate-delete-topics-to-lambda
 
 jobs:
   deploy_list_topics_lambda:
