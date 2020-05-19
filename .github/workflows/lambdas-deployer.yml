@@ -8,7 +8,7 @@ on:
 
 jobs:
   deploy_list_topics_lambda:
-      name: deploy lambda from source
+      name: deploy list-topics lambda
       runs-on: ubuntu-latest
       steps:
         - uses: chrislennon/action-aws-cli@v1.1
@@ -34,7 +34,7 @@ jobs:
             LAMBDA_LAYER:  ${{ secrets.NODE_LAMBDA_LAYER_ARN }}
 
   deploy_create_topics_lambda:
-      name: deploy lambda from source
+      name: deploy create-topic lambda
       runs-on: ubuntu-latest
       steps:
         - uses: chrislennon/action-aws-cli@v1.1
@@ -60,7 +60,7 @@ jobs:
             LAMBDA_LAYER:  ${{ secrets.NODE_LAMBDA_LAYER_ARN }}
 
   deploy_delete_topic_lambda:
-      name: deploy lambda from source
+      name: deploy delete-topic lambda
       runs-on: ubuntu-latest
       steps:
         - uses: chrislennon/action-aws-cli@v1.1
