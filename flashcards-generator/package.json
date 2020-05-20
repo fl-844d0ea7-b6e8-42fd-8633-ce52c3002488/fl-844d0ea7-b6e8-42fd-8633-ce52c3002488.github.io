@@ -6,7 +6,6 @@
     "start": "env-cmd -e debug nodemon --exec babel-node src/server/app.js",
     "build": "env-cmd -e dev webpack -p --mode=production --progress --config webpack.production.js",
     "teardown": "export PGPASSWORD=testpassword; psql -h localhost -U postgres -p 54320 -d postgres -e -f cypress/fixtures/delete_test_entries.sql",
-    "setup-topics": "export PGPASSWORD=testpassword; psql -h localhost -U postgres -p 54320 -d postgres -e -f cypress/fixtures/insert_test_topics.sql",
     "setup-flashcards": "export PGPASSWORD=testpassword; psql -h localhost -U postgres -p 54320 -d postgres -e -f cypress/fixtures/insert_test_flashcards.sql",
     "lint": "eslint --ext .jsx --ext .js src/",
     "fix": "eslint --ext .jsx --ext .js --fix src/",

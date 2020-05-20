@@ -4,9 +4,7 @@ import Button from 'react-bootstrap/Button'
 import FormInput from '../common/FormInput'
 import FormAlert from '../common/FormAlert'
 import CardColumns from 'react-bootstrap/CardColumns'
-import { getTopicsByName } from '../connectors/serverData'
-import { deleteTopic } from '../connectors/apigateway'
-import { getTopics } from '../connectors/apigateway'
+import { getTopics, getTopicsByName, deleteTopic } from '../connectors/apigateway'
 import TopicCard from './TopicCard'
 
 const TopicManager = () => {
@@ -29,15 +27,19 @@ const TopicManager = () => {
         if (topic) {
             console.log("Got topic - searching by topic name")
             resp = await getTopicsByName(topic)
+            console.log(resp)
         } else {
             console.log("No topic - just getting the full list")
             resp = await getTopics()
         }
 
         if (resp && resp.data) {
+            console.log("Data received!")
             if (resp.data.length > 0) {
+                console.log(resp.data)
                 updateFormSuccessState(resp.data, "")
             } else {
+                console.log("Received empty array")
                 updateFormSuccessState([], "Query Successful - but no results were returned")
             }
             return
@@ -58,6 +60,26 @@ const TopicManager = () => {
         }
     }
 
+    const handleDelete = async (id) => {
+
+        const resp = await deleteTopic(id)
+
+        console.log("Got response from deleting topic", resp)
+
+        if (resp) {
+            setLoading(false)
+        }
+
+        if (resp && resp.data) {
+            const filteredTopicsList = topicsList.filter(topic => topic.id != id)
+            updateFormSuccessState(filteredTopicsList, 'Successfully deleted topic')
+        }
+
+        if (resp && resp.error) {
+            updateFormErrorState("Something went wrong... :(")
+        }
+    }
+
     function initialiseFormLoadingState(){
         setLoading(true)
         setShowSuccess(false)
@@ -69,6 +91,7 @@ const TopicManager = () => {
         setSuccess(message)
         setTopicsList(topicList)
         setLoading(false)
+        message ? setShowSuccess(true): null
     }
 
     function updateFormErrorState(message){
@@ -77,26 +100,6 @@ const TopicManager = () => {
         setLoading(false)
     }
 
-    const handleDelete = async (id) => {
-
-        const resp = await deleteTopic(id)
-
-        console.log("Got dbResponse from deleting topic", resp)
-
-        if (resp) {
-            setLoading(false)
-        }
-
-        if (resp && resp.data) {
-            const filteredTopicsList = topicsList.filter(topic => topic.id != id)
-            setTopicsList(filteredTopicsList)
-        }
-
-        if (resp && resp.error) {
-            setError("Cannot delete that topic as there are flashcards related to it")
-            setShowError(true)
-        }
-    }
 
     return (
         <div>

@@ -50,6 +50,17 @@ Resources:
           Properties:
             Path: /api/listTopics
             Method: GET
+  ListTopicsByName:
+    Type: AWS::Serverless::Function
+    FunctionName: ListTopicsByName
+    Properties:
+      Handler: list-topics-by-name/index.handler
+      Events:
+        event:
+          Type: Api
+          Properties:
+            Path: /api/listTopicsByName/{name}
+            Method: GET
   CreateTopic:
     Type: AWS::Serverless::Function
     FunctionName: CreateTopic
@@ -60,4 +71,26 @@ Resources:
           Type: Api
           Properties:
             Path: /api/createTopic
+            Method: POST
+  DeleteTopic:
+    Type: AWS::Serverless::Function
+    FunctionName: ListTopics
+    Properties:
+      Handler: delete-topic/index.handler
+      Events:
+        event:
+          Type: Api
+          Properties:
+            Path: /api/deleteTopic/{id}
+            Method: DELETE
+  UpdateTopic:
+    Type: AWS::Serverless::Function
+    FunctionName: ListTopics
+    Properties:
+      Handler: update-topic/index.handler
+      Events:
+        event:
+          Type: Api
+          Properties:
+            Path: /api/updateTopic/{id}
             Method: POST

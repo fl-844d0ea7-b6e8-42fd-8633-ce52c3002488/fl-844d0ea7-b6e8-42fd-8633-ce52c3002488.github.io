@@ -9,51 +9,54 @@ const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN
 exports.handler = async function (event) {
   console.log("Received request")
 
-  const id = event.pathParameters.id
+  const name = event.pathParameters.name
 
-  console.log(`Received id: ${id}`)
+  console.log(`Found search name: ${name}`)
 
-  try {
-    const topics = await removeTopic(id)
+  // try {
+    const topics = await getTopicsByName(`%${name}%`)
 
     console.log("Received data: ", topics)
     return getReturnBody(200, topics)
-  } catch (e) {
-    console.error(e)
-    return getReturnBody(503, "")
-  }
+  // } catch (e) {
+  //   console.error(e)
+  //   return getReturnBody(503, "")
+  // }
 }
 
-async function removeTopic (id){
+async function getTopicsByName (name) {
   return (
     new Promise((resolve, reject) => {
-      console.log("Connecting to database to delete topic")
+      console.log("Making connectiong to database")
       client.connect((err) => {
         if (err) {
           console.log("Error connecting to the DB", err.stack)
           reject(new Error("Connection sadness"))
           return
+        } else {
+          console.log("Successfully connected to client and DB")
         }
 
         const query = {
-          text: 'DELETE FROM flashcards_app.topics where topic_id = $1',
-          values: [id]
+          text: 'SELECT * FROM flashcards_app.topics WHERE name like $1',
+          values: [name]
         }
 
-        client.query(query, (queryError, result) => {
-          console.log("Performing query", query.text)
+        console.log("Performing query", query.text)
 
+        client.query(query, (queryError, result) => {
           if (queryError) {
             console.log(queryError.stack)
             reject(new Error("Postgres sadness :("))
             client.end()
+            return
           }
-          resolve(result)
+          console.log("Received result", { count: result.rows })
+          resolve(result.rows)
           client.end()
         })
       })
-    }
-  ))
+    }))
 }
 
 function getReturnBody(statusCode, body) {

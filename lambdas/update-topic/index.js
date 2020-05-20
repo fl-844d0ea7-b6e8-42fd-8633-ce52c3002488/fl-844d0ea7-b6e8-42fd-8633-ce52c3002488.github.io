@@ -10,11 +10,13 @@ exports.handler = async function (event) {
   console.log("Received request")
 
   const id = event.pathParameters.id
+  const body = JSON.parse(event.body)
+  const { name } = body
 
-  console.log(`Received id: ${id}`)
+  console.log(`Received id: ${id} and name: ${name}`)
 
   try {
-    const topics = await removeTopic(id)
+    const topics = await updateTopicName(id)
 
     console.log("Received data: ", topics)
     return getReturnBody(200, topics)
@@ -24,31 +26,33 @@ exports.handler = async function (event) {
   }
 }
 
-async function removeTopic (id){
+async function updateTopicName(id, name) {
   return (
     new Promise((resolve, reject) => {
-      console.log("Connecting to database to delete topic")
       client.connect((err) => {
         if (err) {
           console.log("Error connecting to the DB", err.stack)
           reject(new Error("Connection sadness"))
+          client.end()
           return
         }
 
         const query = {
-          text: 'DELETE FROM flashcards_app.topics where topic_id = $1',
-          values: [id]
+          text: `
+            UPDATE flashcards_app.topics
+            SET name = $1,
+            updated = NOW()
+            WHERE topic_id = $2`,
+          values: [name, id]
         }
 
         client.query(query, (queryError, result) => {
-          console.log("Performing query", query.text)
-
           if (queryError) {
             console.log(queryError.stack)
             reject(new Error("Postgres sadness :("))
             client.end()
           }
-          resolve(result)
+          resolve(result.rowCount)
           client.end()
         })
       })

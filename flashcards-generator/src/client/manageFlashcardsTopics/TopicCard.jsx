@@ -2,9 +2,9 @@ import React, { useState, useMemo } from 'react'
 import Card from 'react-bootstrap/Card'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons'
-import { updateTopicName } from '../connectors/serverData'
+import { updateTopicName } from '../connectors/apigateway'
 
-const TopicCard = ({ id, name, colour, handleDelete }) => {
+const TopicCard = ({ id, name, colour, handleDelete, updateFormErrorState }) => {
     const [edit, setEdit] = useState(false)
     const [newTopicName, setNewTopicName] = useState(name)
 
@@ -19,9 +19,12 @@ const TopicCard = ({ id, name, colour, handleDelete }) => {
 
                 const resp = await updateTopicName(id, newTopicName)
 
-                if (resp) {
+                if (resp && resp.data === 1) {
                     console.log("Received request - all good")
                     setEdit(false)
+                } else {
+                    console.log(`Something went wrong... `, resp)
+                    // updateFormErrorState("Couldn't update topic card")
                 }
             }
             else {
@@ -93,6 +96,7 @@ const TopicCard = ({ id, name, colour, handleDelete }) => {
                                 value={newTopicName}
                                 onKeyDown={handleEditTopicNameSubmission}
                                 onChange={(e) => setNewTopicName(e.target.value)}
+                                data-cy="edit-topic-name"
                             />
                         : <div className="topicCard">
                             <Card.Text>{(newTopicName)}</Card.Text>

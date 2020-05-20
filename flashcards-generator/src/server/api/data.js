@@ -66,36 +66,6 @@ export const getTopicCountByName = async ( name ) => new Promise(
     }
 )
 
-export const getTopicsByName = async ( name ) => new Promise(
-    (resolve, reject) => {
-        logInfo("Making connectiong to database")
-        postgresPool.connect((connectError, client, release) => {
-            if (connectError) {
-                logError("Error connecting to the DB", connectError.stack)
-                reject( new Error("Connection sadness"))
-                return
-            }
-
-            const query = {
-                text: 'SELECT * FROM flashcards_app.topics WHERE name like $1',
-                values: [name]
-            }
-
-            logInfo("Performing query", query.text)
-            client.query(query, (queryError, result) => {
-                release()
-                if (queryError) {
-                    logError(queryError.stack)
-                    reject(new Error("Postgres sadness :("))
-                    return
-                }
-                logInfo("Received result", {count: result.rows})
-                resolve(result.rows)
-            })
-        })
-    }
-)
-
 export const insertFlashcard = async (term, definition, topic, name) => new Promise(
     (resolve, reject) => {
         postgresPool.connect((connectError, client, release) => {
@@ -293,38 +263,6 @@ export const updateFlashcardDefinition = async (id, definition) => new Promise(
                     updated = NOW()
                     WHERE id = $2`,
                 values: [definition, id]
-            }
-
-
-            client.query(query, (queryError, result) => {
-                release()
-                if (queryError) {
-                    logError(queryError.stack)
-                    reject(new Error("Postgres sadness :("))
-                    return
-                }
-                resolve(result.rowCount)
-            })
-        })
-    }
-)
-
-export const updateTopicByName = async (id, name) => new Promise(
-    (resolve, reject) => {
-        postgresPool.connect((connectError, client, release) => {
-            if (connectError) {
-                logError("Error connecting to the DB", connectError.stack)
-                reject(new Error("Connection sadness"))
-                return
-            }
-
-            const query = {
-                text: `
-                    UPDATE flashcards_app.topics
-                    SET name = $1,
-                    updated = NOW()
-                    WHERE topic_id = $2`,
-                values: [name, id]
             }
 
 
