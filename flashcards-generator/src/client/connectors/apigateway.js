@@ -86,7 +86,7 @@ export const deleteTopic = async (id) => {
 export const updateTopicName = async (id, name) => {
   console.log('Making POST request to Flashcards Vault to update topic name');
   try {
-    const resp = await axios.post(`${API_HOSTNAME}/api/updateTopicName?id=${id}&name=${name}`, config);
+    const resp = await axios.post(`${API_HOSTNAME}/api/updateTopic/${id}`, { name }, config);
     console.log('Request was successful, returning results');
     return { data: resp.data };
   } catch (error) {

@@ -83,3 +83,14 @@ Resources:
           Properties:
             Path: /api/deleteTopic/{id}
             Method: DELETE
+  UpdateTopic:
+    Type: AWS::Serverless::Function
+    FunctionName: ListTopics
+    Properties:
+      Handler: update-topic/index.handler
+      Events:
+        event:
+          Type: Api
+          Properties:
+            Path: /api/updateTopic/{id}
+            Method: POST

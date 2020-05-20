@@ -94,5 +94,34 @@ describe('The Manage Topics Tab', function () {
     cy.get('[data-cy=successAlert]')
     // cy.get('div[class="card-columns"]').children().should('have.length', 2)
   })
+
+  it('Allows me to edit the name of an existing topic', function () {
+    cy.visit("/manage")
+
+    cy.wait('@listTopics')
+
+    cy.contains("Manage Topics")
+      .click()
+
+    cy.get('form[id="topicsForm"]').within(() => {
+      // cy.get('[data-cy=topicName-formInput]')
+      //   .type('Test')
+      //   .blur
+      cy.contains('Submit')
+        .click()
+    })
+
+    cy.wait('@listTopics')
+
+    cy.get('div[class="card-columns"]').first().within(() => {
+      cy.get("svg[data-icon=edit]").first().click()
+        cy.get("[data-cy=edit-topic-name]")
+          .clear()
+          .type('New Testing Topic {enter}')
+          cy.wait('@updateTopic')
+    })
+
+    cy.contains('New Testing Topic')
+  })
 })
 
