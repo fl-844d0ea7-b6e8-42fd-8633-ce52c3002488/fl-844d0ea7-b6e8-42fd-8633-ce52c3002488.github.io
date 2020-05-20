@@ -92,7 +92,6 @@ describe('The Manage Topics Tab', function () {
     })
 
     cy.get('[data-cy=successAlert]')
-    // cy.get('div[class="card-columns"]').children().should('have.length', 2)
   })
 
   it('Allows me to edit the name of an existing topic', function () {
@@ -104,9 +103,6 @@ describe('The Manage Topics Tab', function () {
       .click()
 
     cy.get('form[id="topicsForm"]').within(() => {
-      // cy.get('[data-cy=topicName-formInput]')
-      //   .type('Test')
-      //   .blur
       cy.contains('Submit')
         .click()
     })

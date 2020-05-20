@@ -10,12 +10,13 @@ exports.handler = async function (event) {
   console.log("Received request")
 
   const id = event.pathParameters.id
-  const name = event.body.name
+  const body = JSON.parse(event.body)
+  const { name } = body
 
   console.log(`Received id: ${id} and name: ${name}`)
 
   try {
-    const topics = await updateTopicByName(id)
+    const topics = await updateTopicName(id)
 
     console.log("Received data: ", topics)
     return getReturnBody(200, topics)
@@ -25,7 +26,7 @@ exports.handler = async function (event) {
   }
 }
 
-async function updateTopicByName(id, name) {
+async function updateTopicName(id, name) {
   return (
     new Promise((resolve, reject) => {
       client.connect((err) => {
