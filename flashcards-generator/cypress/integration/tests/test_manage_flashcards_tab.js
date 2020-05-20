@@ -19,14 +19,13 @@ describe('The Manage Flashcards Tab', function () {
 
         cy.wait('@listFlashcards')
 
-        cy.get('div[id="TestTopic-card-columns"]')
-        cy.get('div[id="Testing-card-columns"]')
+        cy.get('[data-cy=flashcardsList]')
     })
 
     it('Allows me to view Flashcards by topic', function () {
         cy.visit("/manage/")
 
-        const searchTopic = 'Testing'
+        const searchTopic = 'TestTopic'
         cy.wait('@listTopics')
 
         cy.get('input[id="flashcardTopicsSearch"]')
@@ -40,7 +39,7 @@ describe('The Manage Flashcards Tab', function () {
 
         cy.wait('@listFlashcards')
 
-        cy.get(`div[id="${searchTopic}-card-columns"]`).children().should('have.length',2)
+        cy.get('[data-cy=flashcardsList]'
     })
 
     it('Allows me to view Flashcards by name', function () {

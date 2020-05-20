@@ -171,14 +171,13 @@ describe('The Create Flashcard Tab', function () {
                 .should('have.value', 'TestingTerm')
 
             cy.wait('@listTopics')
+            cy.wait('@listTopics')
 
             cy.get('input[id="flashcardTopicsSearch"]')
                 .click({
                     force: true
                 })
                 .type('Testing {enter}')
-
-            cy.contains('Testing')
 
             cy.get('textarea[name="flashcardDefinition"]')
                 .type("TestDefinition")
@@ -187,7 +186,7 @@ describe('The Create Flashcard Tab', function () {
             cy.contains('Submit')
                 .click()
 
-            cy.contains("Flashcard TestingFlashcard successfully added - feel free to add more!")
+            cy.get("[data-cy=successAlert]")
         })
     })
 

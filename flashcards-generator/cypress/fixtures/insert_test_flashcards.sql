@@ -1,3 +1,6 @@
+TRUNCATE TABLE flashcards_app.topics;
+TRUNCATE TABLE flashcards_app.flashcards;
+
 ALTER SEQUENCE flashcards_app.topics_topic_id_seq RESTART WITH 1;
 ALTER SEQUENCE flashcards_app.flashcards_id_seq RESTART WITH 1;
 

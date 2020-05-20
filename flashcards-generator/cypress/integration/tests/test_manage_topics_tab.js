@@ -22,7 +22,7 @@ describe('The Manage Topics Tab', function () {
 
     cy.wait('@listTopics')
 
-    cy.get('div[class="card-columns"]').children().should('have.length', 3)
+    cy.get('div[class="card-columns"]').children().should('have.length', 4)
   })
 
   it('Allows me to view topics by name', function () {
