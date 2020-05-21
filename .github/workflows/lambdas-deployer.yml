@@ -135,3 +135,29 @@ jobs:
             AWS_SECRET_ACCESS_KEY: ${{ secrets.LAMBDA_DEPLOYER_SECRET_KEY }}
             AWS_DEFAULT_REGION: ${{ secrets.LAMBDA_DEPLOYER_REGION }}
             LAMBDA_LAYER:  ${{ secrets.NODE_LAMBDA_LAYER_ARN }}
+
+  deploy_list_flashcards_lambda:
+      name: deploy list-flashcards lambda
+      runs-on: ubuntu-latest
+      steps:
+        - uses: chrislennon/action-aws-cli@v1.1
+        - name: checkout source code
+          uses: actions/checkout@v1
+        - name: Zip lambda code
+          run: |
+            mkdir list-flashcards/ && zip -r -j list-flashcards/function.zip ./lambdas/list-flashcards
+        - name: Deploy packaged lambda
+          uses: appleboy/lambda-action@master
+          with:
+            aws_access_key_id: ${{ secrets.LAMBDA_DEPLOYER_ACCESS_KEY }}
+            aws_secret_access_key: ${{ secrets.LAMBDA_DEPLOYER_SECRET_KEY }}
+            aws_region: ${{ secrets.LAMBDA_DEPLOYER_REGION }}
+            function_name: list-flashcards
+            zip_file: list-flashcards/function.zip
+        - name: Update Lambda to use layer
+          run: aws lambda update-function-configuration --function-name list-flashcards --layers ${LAMBDA_LAYER}
+          env:
+            AWS_ACCESS_KEY_ID: ${{ secrets.LAMBDA_DEPLOYER_ACCESS_KEY }}
+            AWS_SECRET_ACCESS_KEY: ${{ secrets.LAMBDA_DEPLOYER_SECRET_KEY }}
+            AWS_DEFAULT_REGION: ${{ secrets.LAMBDA_DEPLOYER_REGION }}
+            LAMBDA_LAYER:  ${{ secrets.NODE_LAMBDA_LAYER_ARN }}
