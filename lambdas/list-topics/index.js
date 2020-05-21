@@ -59,7 +59,8 @@ function getReturnBody(statusCode, body) {
     "isBase64Encoded": false,
     "headers": {
       "Access-Control-Allow-Origin": ALLOWED_ORIGIN,
-      "Access-Control-Allow-Methods": "OPTIONS,GET"
+      "Access-Control-Allow-Methods": "OPTIONS,GET",
+      "Content-Type": "application/json"
     }
   }
 

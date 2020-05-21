@@ -112,12 +112,13 @@ function getFlashcards (searchTerms) {
 
 function getReturnBody(statusCode, body) {
   return {
-    body,
+    "body": JSON.stringify(body),
     "statusCode": statusCode,
     "isBase64Encoded": false,
     "headers": {
       "Access-Control-Allow-Origin": ALLOWED_ORIGIN,
-      "Access-Control-Allow-Methods": "OPTIONS,POST"
+      "Access-Control-Allow-Methods": "OPTIONS,POST",
+      "Content-Type": "application/json"
     }
   }
 }

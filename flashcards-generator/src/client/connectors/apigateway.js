@@ -110,8 +110,7 @@ export const getFlashcards = async (name, topic_id, term) => {
       },
       config
     );
-    console.log('Request was successful, returning results');
-    console.log('Received data', resp.data)
+
     return { data: resp.data };
   } catch (error) {
     console.log(error);
