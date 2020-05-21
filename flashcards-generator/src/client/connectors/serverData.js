@@ -11,26 +11,6 @@ const parseSearchTerm = (string) => {
 
 /* Flashcard queries */
 
-export const insertFlashcard = async (name, topic, term, definition) => {
-    console.log('Making POST request to Flashcards Vault to insert flashcards');
-
-    name = name.toLowerCase()
-    term = term.toLowerCase()
-
-    try {
-        const resp = await axios.post(`/api/createFlashcard`, {
-            data: {
-              name, topic, term, definition,
-            },
-        });
-        console.log(resp);
-        return resp;
-    } catch (error) {
-        console.log(error);
-        return { error };
-    }
-};
-
 export const updateFlashcard = async (id, term, definition) => {
   console.log('Making POST request to Flashcards Vault update flashcards');
   try {
