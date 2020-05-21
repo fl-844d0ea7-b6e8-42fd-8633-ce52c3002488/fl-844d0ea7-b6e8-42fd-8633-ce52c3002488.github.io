@@ -6,7 +6,8 @@ import FormInput from '../common/FormInput'
 import FormAlert from '../common/FormAlert'
 import TopicSelect from '../common/TopicSelect'
 import Button from 'react-bootstrap/Button'
-import { getFlashcards, deleteFlashcard } from '../connectors/serverData'
+import { deleteFlashcard } from '../connectors/serverData'
+import { getFlashcards } from '../connectors/apigateway'
 
 const FlashcardsViewer = () => {
 

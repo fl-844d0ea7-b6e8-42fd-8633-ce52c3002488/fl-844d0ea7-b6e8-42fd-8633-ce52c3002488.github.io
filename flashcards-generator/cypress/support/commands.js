@@ -33,7 +33,7 @@ beforeEach(() => {
   cy.log('Setting up server and route listeners')
   cy.server()
   cy.route('**/api/listTopics').as('listTopics')
-  cy.route('POST', '**/api/list').as('listFlashcards')
+  cy.route('POST', '**/api/listFlashcards').as('listFlashcards')
   cy.route('DELETE', '**/api/delete/*').as('delete')
   cy.route('POST', '/api/createTopic').as("createTopic")
   cy.route('GET', '/api/listTopicsByName/*').as('listTopicsByName')
