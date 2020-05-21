@@ -9,9 +9,11 @@ const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN
 exports.handler = async function (event) {
   console.log("Received request")
 
-  const body = JSON.parse(event.body)
 
-  const { term, definition, topic, name } = body
+
+  const { data } = JSON.parse(event.body)
+
+  const { term, definition, topic, name } = data
 
   parsedName = name.toLowerCase()
   parsedTerm = term.toLowerCase()
@@ -66,7 +68,7 @@ function getReturnBody(statusCode, body) {
     "isBase64Encoded": false,
     "headers": {
       "Access-Control-Allow-Origin": ALLOWED_ORIGIN,
-      "Access-Control-Allow-Methods": "OPTIONS,GET",
+      "Access-Control-Allow-Methods": "OPTIONS,POST",
       "Content-Type": "application/json"
     }
   }
