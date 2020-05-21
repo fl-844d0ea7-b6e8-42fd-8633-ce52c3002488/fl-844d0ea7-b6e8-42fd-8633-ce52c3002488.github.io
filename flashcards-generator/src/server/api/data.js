@@ -66,35 +66,6 @@ export const getTopicCountByName = async ( name ) => new Promise(
     }
 )
 
-export const insertFlashcard = async (term, definition, topic, name) => new Promise(
-    (resolve, reject) => {
-        postgresPool.connect((connectError, client, release) => {
-            if (connectError) {
-                logError("Error connecting to the DB", connectError.stack)
-                reject( new Error("Connection sadness"))
-                return
-            }
-
-            const query = {
-                text: 'INSERT INTO flashcards_app.flashcards(term, definition, topic_id, name, created, updated) VALUES($1, $2, $3, $4, NOW(), NOW())',
-                values: [term, definition, topic, name]
-            }
-
-            logInfo(`Making query: ${query.text}`)
-
-            client.query(query, (queryError, result) => {
-                release()
-                // console.log(queryError)
-                if (queryError) {
-                    reject(new Error("Postgres sadness :("))
-                    return null
-                }
-                resolve(result.rowCount)
-            })
-        })
-    }
-)
-
 export const insertTopic = async (name, colour) => new Promise(
     (resolve, reject) => {
         logInfo("Connecting to database to insert topic")

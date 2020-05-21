@@ -107,3 +107,14 @@ Resources:
           Properties:
             Path: /api/listFlashcards
             Method: POST
+  CreateFlashcard:
+    Type: AWS::Serverless::Function
+    FunctionName: CreateFlashcard
+    Properties:
+      Handler: create-flashcard/index.handler
+      Events:
+        event:
+          Type: Api
+          Properties:
+            Path: /api/createFlashcard
+            Method: POST

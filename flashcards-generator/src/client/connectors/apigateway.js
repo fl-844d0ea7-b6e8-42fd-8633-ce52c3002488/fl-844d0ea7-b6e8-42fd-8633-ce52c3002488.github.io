@@ -117,3 +117,24 @@ export const getFlashcards = async (name, topic_id, term) => {
     return { error };
   }
 };
+
+export const insertFlashcard = async (name, topic, term, definition) => {
+  console.log('Making POST request to Flashcards Vault to insert flashcards');
+
+  try {
+    const resp = await axios.post(
+      `${API_HOSTNAME}/api/createFlashcard`,
+      {
+        data: {
+          name, topic, term, definition,
+        },
+      },
+      config
+    );
+    console.log(resp);
+    return resp;
+  } catch (error) {
+    console.log(error);
+    return { error };
+  }
+};

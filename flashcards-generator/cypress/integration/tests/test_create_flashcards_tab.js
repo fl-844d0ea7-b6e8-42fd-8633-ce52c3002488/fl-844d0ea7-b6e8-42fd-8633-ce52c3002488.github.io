@@ -9,7 +9,7 @@ describe('The Create Flashcards/Topic page', function () {
     })
 })
 
-describe('The Create Flashcard Tab', function () {
+describe.only('The Create Flashcard Tab', function () {
     it('Allows me input a name for a flashcard', function () {
         cy.visit("/create/")
 
@@ -76,7 +76,8 @@ describe('The Create Flashcard Tab', function () {
             cy.contains('Submit')
                 .click()
 
-            cy.contains("Flashcard TestFlashcard successfully added - feel free to add more!")
+            cy.wait("@createFlashcard")
+            cy.get("[data-cy=successAlert]")
         })
     })
 
@@ -106,7 +107,8 @@ describe('The Create Flashcard Tab', function () {
             cy.contains('Submit')
                 .click()
 
-            cy.contains("Flashcard TestFlashcard2 successfully added - feel free to add more!")
+            cy.wait("@createFlashcard")
+            cy.get("[data-cy=successAlert]")
         })
 
         cy.get('form').within(() => {
@@ -130,7 +132,8 @@ describe('The Create Flashcard Tab', function () {
             cy.contains('Submit')
                 .click()
 
-            cy.contains("Flashcard TestFlashcard3 successfully added - feel free to add more!")
+            cy.wait("@createFlashcard")
+            cy.get("[data-cy=successAlert]")
         })
     })
 
@@ -186,6 +189,7 @@ describe('The Create Flashcard Tab', function () {
             cy.contains('Submit')
                 .click()
 
+            cy.wait("@createFlashcard")
             cy.get("[data-cy=successAlert]")
         })
     })
@@ -211,7 +215,7 @@ describe('The Create Flashcard Tab', function () {
                 .blur()
         })
 
-        cy.contains('Please enter a value for the flashcard term')
+        cy.get('[data-cy="formInvalid"]')
     })
 
     it('Warns me when if the definition field is empty', function () {
@@ -223,7 +227,7 @@ describe('The Create Flashcard Tab', function () {
                 .blur()
         })
 
-        cy.contains('Please enter a value for the flashcard definition')
+        cy.get('[data-cy="formInvalid"]')
     })
 
     it('Does not allow me to create a flashcard without a definition', function () {
@@ -252,7 +256,7 @@ describe('The Create Flashcard Tab', function () {
                 .click()
         })
 
-        cy.contains('There are invalid fields - please check your data is correct')
+        cy.get('[data-cy="formInvalid"]')
     })
 
     it('Does not allow me to create a flashcard without a term', function () {
@@ -280,7 +284,7 @@ describe('The Create Flashcard Tab', function () {
             cy.contains('Submit')
                 .click()
         })
-        cy.contains('There are invalid fields - please check your data is correct')
+        cy.get('[data-cy="formInvalid"]')
     })
 
     it('Does not allow me to create a flashcard without a name', function () {
@@ -308,6 +312,6 @@ describe('The Create Flashcard Tab', function () {
             cy.contains('Submit')
                 .click()
         })
-        cy.contains('There are invalid fields - please check your data is correct')
+        cy.get('[data-cy="formInvalid"]')
     })
 })
