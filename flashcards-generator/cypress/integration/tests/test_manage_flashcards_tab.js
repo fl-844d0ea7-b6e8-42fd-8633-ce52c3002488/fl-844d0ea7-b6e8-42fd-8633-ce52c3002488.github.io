@@ -1,4 +1,4 @@
-describe('The Manage Flashcards Tab', function () {
+describe.only('The Manage Flashcards Tab', function () {
     it('Opens the Management Page', function () {
         cy.visit("/home/")
 
@@ -25,31 +25,28 @@ describe('The Manage Flashcards Tab', function () {
     it('Allows me to view Flashcards by topic', function () {
         cy.visit("/manage/")
 
-        const searchTopic = 'TestTopic'
         cy.wait('@listTopics')
 
         cy.get('input[id="flashcardTopicsSearch"]')
             .click({
                 force: true
             })
-            .type(`${searchTopic} {enter}`)
+            .type(`TestTopic{enter}`)
 
         cy.contains('Submit')
             .click()
 
         cy.wait('@listFlashcards')
 
-        cy.get('[data-cy=flashcardsList]'
+        cy.get('[data-cy=flashcardsList]')
     })
 
     it('Allows me to view Flashcards by name', function () {
         cy.visit("/manage/")
 
-        const flashcardName = "TestFlashcardName"
-
         cy.get('form').within(() => {
             cy.get('input[name="flashcardName"]')
-                .type(`${flashcardName}`)
+                .type('TestFlashcardName')
 
             cy.contains('Submit')
                 .click()
@@ -150,7 +147,7 @@ describe('The Manage Flashcards Tab', function () {
             .click({
                 force: true
             })
-            .type('TestTopic {enter}')
+            .type('TestTopic{enter}')
 
         cy.get('input[name="flashcardName"]')
             .click({ force: true })
@@ -171,7 +168,7 @@ describe('The Manage Flashcards Tab', function () {
             .click({
                 force: true
             })
-            .type('TestTopic {enter}')
+            .type('TestTopic{enter}')
 
         cy.get('input[name="flashcardTerm"]')
             .click({ force: true })
@@ -192,11 +189,11 @@ describe('The Manage Flashcards Tab', function () {
             .click({
                 force: true
             })
-            .type('Test {enter}')
+            .type('Test{enter}')
 
         cy.get('input[name="flashcardTerm"]')
             .click({ force: true })
-            .type("Testing {enter}")
+            .type("Testing{enter}")
 
         cy.contains('Submit')
             .click()

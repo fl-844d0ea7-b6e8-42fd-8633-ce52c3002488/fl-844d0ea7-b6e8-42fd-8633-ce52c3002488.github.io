@@ -184,69 +184,6 @@ export const removeTopic = async (id) => new Promise(
     }
 )
 
-
-export const getFlashcards = async (searchTerms) => new Promise(
-    (resolve, reject) => {
-
-        const hasEmptyValues = (searchTerms) => {
-            // console.log("Checking empty values for: ", searchTerms)
-            return Object.values(searchTerms).every((val) => (val === null || val === ''))
-        }
-
-        logInfo("Received request to get flashcards")
-        postgresPool.connect((connectError, client, release) => {
-            if (connectError) {
-                logError("Error connecting to the DB", connectError.stack)
-                reject( new Error("Connection sadness"))
-                return
-            }
-
-            const query = {
-                text: `SELECT id, flashcards_app.topics.name as topic_name, term, definition, colour FROM flashcards_app.flashcards INNER JOIN flashcards_app.topics ON flashcards_app.topics.topic_id = flashcards_app.flashcards.topic_id`,
-                values: []
-            }
-
-            if (!hasEmptyValues(searchTerms)){
-                logInfo("Building query parameters")
-                let whereClause = ' WHERE '
-                Object.entries(searchTerms).map(([column, value], index) => {
-                    // console.log(`${index}: ${column} => ${value}`)
-                    if (!(value === null || value === '')){
-                        query.values.push(value)
-                        if (whereClause !== ' WHERE '){
-                            whereClause += ` AND `
-                        }
-
-                        switch(column) {
-                            case 'topic_id':
-                                whereClause += `flashcards_app.flashcards.${column} = $${query.values.length}`
-                                break;
-                            default:
-                                whereClause += `flashcards_app.flashcards.${column} like $${query.values.length}`
-                        }
-                    }
-                })
-                logInfo(`Built ${whereClause}`)
-                query.text += whereClause
-                logInfo("Query values: ", query.values)
-            }
-
-            logInfo("Preparing to make query", {queryText: query.text})
-            client.query(query, (queryError, result) => {
-                release()
-                if (queryError) {
-                    logError('Error occurred', queryError.stack)
-                    reject(new Error("Postgres sadness :("))
-                    return
-                }
-                logInfo("Received successfuly result", {result} )
-                resolve(result.rows)
-            })
-        })
-    }
-)
-
-
 export const updateFlashcardDefinition = async (id, definition) => new Promise(
     (resolve, reject) => {
         postgresPool.connect((connectError, client, release) => {

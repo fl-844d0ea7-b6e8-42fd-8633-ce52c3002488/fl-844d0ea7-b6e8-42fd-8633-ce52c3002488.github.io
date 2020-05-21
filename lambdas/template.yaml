@@ -94,3 +94,16 @@ Resources:
           Properties:
             Path: /api/updateTopic/{id}
             Method: POST
+
+  # --------- Flashcard APIs ------------ #
+  ListFlashcards:
+    Type: AWS::Serverless::Function
+    FunctionName: ListFlashcards
+    Properties:
+      Handler: list-flashcards/index.handler
+      Events:
+        event:
+          Type: Api
+          Properties:
+            Path: /api/listFlashcards
+            Method: POST

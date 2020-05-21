@@ -97,3 +97,23 @@ export const updateTopicName = async (id, name) => {
 
 
 /* Flashcard Queries */
+export const getFlashcards = async (name, topic_id, term) => {
+  console.log('Making POST request to Flashcards Vault get FLASHCARDS');
+
+  try {
+    const resp = await axios.post(
+      `${API_HOSTNAME}/api/listFlashcards`,
+      {
+        searchTerms: {
+          name, topic_id, term,
+        },
+      },
+      config
+    );
+
+    return { data: resp.data };
+  } catch (error) {
+    console.log(error);
+    return { error };
+  }
+};

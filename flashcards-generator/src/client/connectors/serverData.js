@@ -31,28 +31,6 @@ export const insertFlashcard = async (name, topic, term, definition) => {
     }
 };
 
-export const getFlashcards = async (name, topic_id, term) => {
-    console.log('Making POST request to Flashcards Vault get FLASHCARDS');
-
-    name = parseSearchTerm(name.trim())
-    term = parseSearchTerm(term.trim())
-
-
-    try {
-        const resp = await axios.post(`/api/list`, {
-            searchTerms: {
-              name, topic_id, term,
-            },
-        });
-        console.log('Request was successful, returning results');
-        console.log('Data: oooooooo', resp.data)
-        return { data: resp.data };
-    } catch (error) {
-        console.log(error);
-        return { error };
-    }
-};
-
 export const updateFlashcard = async (id, term, definition) => {
   console.log('Making POST request to Flashcards Vault update flashcards');
   try {
