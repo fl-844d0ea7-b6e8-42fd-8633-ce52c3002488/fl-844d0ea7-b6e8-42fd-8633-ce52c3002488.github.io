@@ -39,4 +39,5 @@ beforeEach(() => {
   cy.route('GET', '/api/listTopicsByName/*').as('listTopicsByName')
   cy.route('POST', '/api/updateTopic/*').as('updateTopic')
   cy.route('POST', '/api/createFlashcard').as('createFlashcard')
+  cy.route('POST', '/api/updateFlashcard/*').as('updateFlashcard')
 })

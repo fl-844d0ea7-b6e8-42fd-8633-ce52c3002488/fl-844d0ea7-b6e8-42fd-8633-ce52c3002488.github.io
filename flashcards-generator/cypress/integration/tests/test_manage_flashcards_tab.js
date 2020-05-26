@@ -98,7 +98,7 @@ describe('The Manage Flashcards Tab', function () {
         cy.get('div[class="card-columns"]').children().should('have.length', 0)
     })
 
-    it('Allows me to edit a Flashcard', function () {
+    it.only('Allows me to edit a Flashcard', function () {
         cy.visit("/manage/")
 
         cy.get('form').within(() => {
@@ -109,11 +109,15 @@ describe('The Manage Flashcards Tab', function () {
                 .click()
         })
 
+        cy.wait('@listFlashcards')
+
         cy.get('div[class="card-columns"] div:first').within(() => {
             cy.get('svg[data-icon="edit"]').click()
             cy.get('input[type="text"]')
                 .clear()
                 .type("A New Test String{enter}")
+
+                cy.wait('@updateFlashcard')
 
             cy.contains("A New Test String")
         })

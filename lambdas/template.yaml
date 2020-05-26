@@ -85,7 +85,7 @@ Resources:
             Method: DELETE
   UpdateTopic:
     Type: AWS::Serverless::Function
-    FunctionName: ListTopics
+    FunctionName: UpdateTopic
     Properties:
       Handler: update-topic/index.handler
       Events:
@@ -117,4 +117,15 @@ Resources:
           Type: Api
           Properties:
             Path: /api/createFlashcard
+            Method: POST
+  UpdateFlashcard:
+    Type: AWS::Serverless::Function
+    FunctionName: UpdateFlashcard
+    Properties:
+      Handler: update-flashcard/index.handler
+      Events:
+        event:
+          Type: Api
+          Properties:
+            Path: /api/updateFlashcard/{id}
             Method: POST

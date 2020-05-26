@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react'
 import Card from 'react-bootstrap/Card'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons'
-import { updateFlashcard } from '../connectors/serverData'
+import { updateFlashcard } from '../connectors/apigateway'
 
 const Flashcard = ({ id, term, definition, colour, handleDelete }) => {
     const [edit, setEdit] = useState(false)

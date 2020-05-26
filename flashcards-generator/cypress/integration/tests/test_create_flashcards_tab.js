@@ -9,7 +9,7 @@ describe('The Create Flashcards/Topic page', function () {
     })
 })
 
-describe.only('The Create Flashcard Tab', function () {
+describe('The Create Flashcard Tab', function () {
     it('Allows me input a name for a flashcard', function () {
         cy.visit("/create/")
 
