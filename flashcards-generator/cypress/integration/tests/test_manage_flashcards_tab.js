@@ -98,7 +98,7 @@ describe('The Manage Flashcards Tab', function () {
         cy.get('div[class="card-columns"]').children().should('have.length', 0)
     })
 
-    it.only('Allows me to edit the definition of a Flashcard', function () {
+    it('Allows me to edit the definition of a Flashcard', function () {
         cy.visit("/manage/")
 
         cy.get('form').within(() => {
