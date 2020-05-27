@@ -99,34 +99,6 @@ export const insertTopic = async (name, colour) => new Promise(
     }
 )
 
-export const removeFlashcard = async (id) => new Promise(
-    (resolve, reject) => {
-        logInfo("Connecting to database to delete flashcard")
-        postgresPool.connect((connectError, client, release) => {
-            if (connectError) {
-                logError("Error connecting to the DB", connectError.stack)
-                reject( new Error("Connection sadness"))
-                return
-            }
-
-            const query = {
-                text: 'DELETE FROM flashcards_app.flashcards where id = $1',
-                values: [id]
-            }
-
-            client.query(query, (queryError, result) => {
-                release()
-                if (queryError) {
-                    logError(queryError.stack)
-                    reject(new Error("Postgres sadness :("))
-                    return
-                }
-                resolve(result)
-            })
-        })
-    }
-)
-
 export const removeTopic = async (id) => new Promise(
     (resolve, reject) => {
         logInfo("Connecting to database to delete topic")

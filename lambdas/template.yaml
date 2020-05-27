@@ -129,3 +129,14 @@ Resources:
           Properties:
             Path: /api/updateFlashcard/{id}
             Method: POST
+  DeleteFlashcard:
+    Type: AWS::Serverless::Function
+    FunctionName: DeleteFlashcard
+    Properties:
+      Handler: delete-flashcard/index.handler
+      Events:
+        event:
+          Type: Api
+          Properties:
+            Path: /api/deleteFlashcard/{id}
+            Method: POST

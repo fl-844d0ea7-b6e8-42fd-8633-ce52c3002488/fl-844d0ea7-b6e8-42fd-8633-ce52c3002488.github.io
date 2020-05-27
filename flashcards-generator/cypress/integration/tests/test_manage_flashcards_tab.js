@@ -1,4 +1,4 @@
-describe('The Manage Flashcards Tab', function () {
+describe.only('The Manage Flashcards Tab', function () {
     it('Opens the Management Page', function () {
         cy.visit("/home/")
 
