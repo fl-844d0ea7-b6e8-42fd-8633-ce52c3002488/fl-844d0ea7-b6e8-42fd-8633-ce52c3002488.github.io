@@ -233,7 +233,7 @@ jobs:
           function_name: delete-flashcard
           zip_file: delete-flashcard/function.zip
       - name: Delete Lambda to use layer
-        run: aws lambda delete-function-configuration --function-name delete-flashcard --layers ${LAMBDA_LAYER}
+        run: aws lambda update-function-configuration --function-name delete-flashcard --layers ${LAMBDA_LAYER}
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.LAMBDA_DEPLOYER_ACCESS_KEY }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.LAMBDA_DEPLOYER_SECRET_KEY }}
