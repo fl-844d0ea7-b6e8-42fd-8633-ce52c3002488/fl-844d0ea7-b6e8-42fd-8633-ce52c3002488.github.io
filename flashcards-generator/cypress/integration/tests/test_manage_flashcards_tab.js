@@ -94,35 +94,180 @@ describe('The Manage Flashcards Tab', function () {
             cy.wait('@deleteFlashcard')
         })
 
-
         cy.get('div[class="card-columns"]').children().should('have.length', 0)
     })
 
-    it('Allows me to edit the definition of a Flashcard', function () {
+    it.only('Displays a modal when edit is selected for flashcard', function () {
+        cy.server()
+        cy.route('POST', '/api/listFlashcards', 'fx:listFlashcardsResult').as('getFlashcards')
+
+        cy.visit("/manage/")
+
+
+        cy.get('form').within(() => {
+            cy.get('input[name="flashcardName"]')
+
+            cy.contains('Submit')
+                .click()
+
+            cy.wait("@getFlashcards")
+        })
+
+        cy.get('div[class="card-columns"] div:first').within(() => {
+            cy.get('svg[data-icon="edit"]').click()
+        })
+
+        cy.get('[data-cy="editFlashcardModal"]')
+    })
+
+    it.only('Allows me to close the edit flashcard modal', function () {
+        cy.server()
+        cy.route('POST', '/api/listFlashcards', 'fx:listFlashcardsResult').as('getFlashcards')
+
         cy.visit("/manage/")
 
         cy.get('form').within(() => {
             cy.get('input[name="flashcardName"]')
-                .type("TestingFlashcardName")
 
             cy.contains('Submit')
                 .click()
-        })
 
-        cy.wait('@listFlashcards')
+            cy.wait("@getFlashcards")
+        })
 
         cy.get('div[class="card-columns"] div:first').within(() => {
             cy.get('svg[data-icon="edit"]').click()
-            cy.get('input[type="text"]')
-                .clear()
-                .type("A New Test String{enter}")
-
-                cy.wait('@updateFlashcard')
-
-            cy.contains("A New Test String")
         })
 
-        cy.get('div[class="card-columns"]').children()
+        cy.get('[data-cy="editFlashcardModal"]').within(() => {
+            cy.get('[data-cy=closeEditFlashcardModal]')
+                .click()
+        })
+    })
+
+    it.only('Allows me to edit the definition of a Flashcard', function () {
+        cy.server()
+        cy.route('POST', '/api/listFlashcards', 'fx:listFlashcardsResult').as('getFlashcards')
+
+        cy.visit("/manage/")
+
+        cy.get('form').within(() => {
+            cy.get('input[name="flashcardName"]')
+
+            cy.contains('Submit')
+                .click()
+
+            cy.wait("@getFlashcards")
+        })
+
+        cy.get('div[class="card-columns"] div:first').within(() => {
+            cy.get('svg[data-icon="edit"]').click()
+        })
+
+        cy.get('[data-cy="editFlashcardModal"]').within(() => {
+            cy.get('[data-cy=editFlashcardTermInput]')
+                .clear()
+                .type('This is a totally new thing')
+
+                cy.get('[data-cy=saveEditFlashcardChanges]')
+                    .click()
+
+                cy.wait('@updateFlashcard')
+        })
+
+    })
+
+    it.only('Allows me to edit the name of a Flashcard', function () {
+        cy.server()
+        cy.route('POST', '/api/listFlashcards', 'fx:listFlashcardsResult').as('getFlashcards')
+
+        cy.visit("/manage/")
+
+        cy.get('form').within(() => {
+            cy.get('input[name="flashcardName"]')
+
+            cy.contains('Submit')
+                .click()
+
+            cy.wait("@getFlashcards")
+        })
+
+        cy.get('div[class="card-columns"] div:first').within(() => {
+            cy.get('svg[data-icon="edit"]').click()
+        })
+
+        cy.get('[data-cy="editFlashcardModal"]').within(() => {
+            cy.get('[data-cy=editFlashcardNameInput]')
+                .clear()
+                .type('This is a totally new thing')
+
+                cy.get('[data-cy=saveEditFlashcardChanges]')
+                    .click()
+
+                cy.wait('@updateFlashcard')
+        })
+    })
+
+    it.only('Allows me to edit the term of a Flashcard', function () {
+        cy.server()
+        cy.route('POST', '/api/listFlashcards', 'fx:listFlashcardsResult').as('getFlashcards')
+
+        cy.visit("/manage/")
+
+        cy.get('form').within(() => {
+            cy.get('input[name="flashcardName"]')
+
+            cy.contains('Submit')
+                .click()
+
+            cy.wait("@getFlashcards")
+        })
+
+        cy.get('div[class="card-columns"] div:first').within(() => {
+            cy.get('svg[data-icon="edit"]').click()
+        })
+
+        cy.get('[data-cy="editFlashcardModal"]').within(() => {
+            cy.get('[data-cy=editFlashcardTermInput]')
+                .clear()
+                .type('This is a totally new thing')
+
+                cy.get('[data-cy=saveEditFlashcardChanges]')
+                    .click()
+
+                cy.wait('@updateFlashcard')
+        })
+    })
+
+    it.only('Allows me to edit the colour of a Flashcard', function () {
+        cy.server()
+        cy.route('POST', '/api/listFlashcards', 'fx:listFlashcardsResult').as('getFlashcards')
+
+        cy.visit("/manage/")
+
+        cy.get('form').within(() => {
+            cy.get('input[name="flashcardName"]')
+
+            cy.contains('Submit')
+                .click()
+
+            cy.wait("@getFlashcards")
+        })
+
+        cy.get('div[class="card-columns"] div:first').within(() => {
+            cy.get('svg[data-icon="edit"]').click()
+        })
+
+        cy.get('[data-cy="editFlashcardModal"]').within(() => {
+            cy.get('[data-cy=editFlashcardColourInput]')
+                // .clear()
+                // .type('This is a totally new thing')
+
+                cy.get('[data-cy=saveEditFlashcardChanges]')
+                    .click()
+
+                cy.wait('@updateFlashcard')
+        })
     })
 
     it('Allows me view a flashcard with the colour associated to its topic', function () {
