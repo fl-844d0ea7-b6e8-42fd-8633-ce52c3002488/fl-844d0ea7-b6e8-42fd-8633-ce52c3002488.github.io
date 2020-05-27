@@ -1,10 +1,11 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState } from 'react'
 import Card from 'react-bootstrap/Card'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { updateFlashcard } from '../connectors/apigateway'
+import EditFlashcardModal from './EditFlashcardModal'
 
-const Flashcard = ({ id, term, definition, colour, handleDelete }) => {
+const Flashcard = ({ id, name, term, definition, colour, handleDelete }) => {
     const [edit, setEdit] = useState(false)
     const [newFlashcardDefinition, setNewFlashcardDefinition] = useState(definition)
 
@@ -98,10 +99,7 @@ const Flashcard = ({ id, term, definition, colour, handleDelete }) => {
             <Card.Body>
                 {
                     edit
-                        ? <input type="text"
-                            defaultValue={newFlashcardDefinition}
-                            onKeyDown={handleEditDefinitionSubmission}
-                            onChange={(e) => setNewFlashcardDefinition(e.target.value)}/>
+                        ? <EditFlashcardModal name={name} showModal={edit}/>
                         : <Card.Text>{newFlashcardDefinition}</Card.Text>
                 }
             </Card.Body>

@@ -13,10 +13,11 @@ const FlashcardsList = ({ cardsList, handleDelete }) => {
                 </h4>
                 <CardColumns id={`${topic}-card-columns`}>
                     {
-                        Object.entries(cardArray).map(([index, {id, term, definition, colour}]) => (
+                        Object.entries(cardArray).map(([index, {id, name, term, definition, colour}]) => (
                             <Flashcard
                                 key={id}
                                 id={id}
+                                name={name}
                                 term={term}
                                 colour={colour}
                                 definition={definition}
