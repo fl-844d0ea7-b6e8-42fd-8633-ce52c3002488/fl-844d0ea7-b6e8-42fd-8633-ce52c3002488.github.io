@@ -154,35 +154,3 @@ export const removeTopic = async (id) => new Promise(
         })
     }
 )
-
-export const updateFlashcardDefinition = async (id, definition) => new Promise(
-    (resolve, reject) => {
-        postgresPool.connect((connectError, client, release) => {
-            if (connectError) {
-                logError("Error connecting to the DB", connectError.stack)
-                reject(new Error("Connection sadness"))
-                return
-            }
-
-            const query = {
-                text: `
-                    UPDATE flashcards_app.flashcards
-                    SET data = jsonb_set(data, \'{definition}\', to_jsonb($1::text)),
-                    updated = NOW()
-                    WHERE id = $2`,
-                values: [definition, id]
-            }
-
-
-            client.query(query, (queryError, result) => {
-                release()
-                if (queryError) {
-                    logError(queryError.stack)
-                    reject(new Error("Postgres sadness :("))
-                    return
-                }
-                resolve(result.rowCount)
-            })
-        })
-    }
-)
