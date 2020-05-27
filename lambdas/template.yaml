@@ -139,4 +139,4 @@ Resources:
           Type: Api
           Properties:
             Path: /api/deleteFlashcard/{id}
-            Method: POST
+            Method: DELETE

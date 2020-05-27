@@ -25,10 +25,10 @@ exports.handler = async function (event) {
 async function deleteFlashcard(id) {
   return (
     new Promise((resolve, reject) => {
-      logInfo("Connecting to database to delete flashcard")
+      console.log("Connecting to database to delete flashcard")
       client.connect((err) => {
         if (err) {
-          logError("Error connecting to the DB", err.stack)
+          console.error("Error connecting to the DB", err.stack)
           reject(new Error("Connection sadness"))
           client.end()
           return
@@ -41,7 +41,7 @@ async function deleteFlashcard(id) {
 
         client.query(query, (queryError, result) => {
           if (queryError) {
-            logError(queryError.stack)
+            console.error(queryError.stack)
             reject(new Error("Postgres sadness :("))
             client.end()
             return

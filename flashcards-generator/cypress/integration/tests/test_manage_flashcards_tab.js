@@ -1,4 +1,4 @@
-describe.only('The Manage Flashcards Tab', function () {
+describe('The Manage Flashcards Tab', function () {
     it('Opens the Management Page', function () {
         cy.visit("/home/")
 
@@ -91,9 +91,9 @@ describe.only('The Manage Flashcards Tab', function () {
 
         cy.get('div[class="card-columns"] div:first').within(() => {
             cy.get('svg[data-icon="trash"]').click()
+            cy.wait('@deleteFlashcard')
         })
 
-        cy.wait('@delete')
 
         cy.get('div[class="card-columns"]').children().should('have.length', 0)
     })
