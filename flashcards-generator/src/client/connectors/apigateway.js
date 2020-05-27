@@ -144,7 +144,19 @@ export const updateFlashcard = async (id, term, definition) => {
   try {
     const resp = await axios.post(`${API_HOSTNAME}/api/updateFlashcard/${id}`, {
       data: { definition, term },
-    });
+    }, config);
+    console.log('Request was successful, returning results');
+    return { data: resp.data };
+  } catch (error) {
+    console.log(error);
+    return { error };
+  }
+};
+
+export const deleteFlashcard = async (id) => {
+  console.log('Making POST request to Flashcards Vault delete flashcards');
+  try {
+    const resp = await axios.delete(`${API_HOSTNAME}/api/deleteFlashcard/${id}`, config);
     console.log('Request was successful, returning results');
     return { data: resp.data };
   } catch (error) {
