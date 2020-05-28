@@ -13,23 +13,6 @@ const Flashcard = ({ id, name, term, definition, colour, handleDelete }) => {
         setEdit(!edit)
     }
 
-    const handleEditDefinitionSubmission = async (e) => {
-        if (e.key == "Enter"){
-            if (newFlashcardDefinition && definition !== newFlashcardDefinition){
-                console.log("Making request to update flashcard")
-
-                const resp = await updateFlashcard(id, "", newFlashcardDefinition)
-
-                if (resp) {
-                    setEdit(false)
-                }
-            }
-            else{
-                setEdit(false)
-            }
-        }
-    }
-
     // Taken from: https://codepen.io/andreaswik/pen/YjJqpK
     const getAppropriateTextColour = (colour) => {
         var brightness, r, g, b, hsp;
@@ -99,7 +82,13 @@ const Flashcard = ({ id, name, term, definition, colour, handleDelete }) => {
             <Card.Body>
                 {
                     edit
-                        ? <EditFlashcardModal name={name} showModal={edit}/>
+                        ? <EditFlashcardModal
+                            id={id}
+                            name={name}
+                            term={term}
+                            colour={colour}
+                            definition={definition}
+                            showModal={edit}/>
                         : <Card.Text>{newFlashcardDefinition}</Card.Text>
                 }
             </Card.Body>

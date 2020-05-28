@@ -18,8 +18,8 @@ exports.handler = async function (event) {
   try {
     const flashcardUpdate = await updateFlashcard(id, data)
 
-    console.log("Received data: ", [])
-    return getReturnBody(200, [])
+    console.log("Received data: ", flashcardUpdate)
+    return getReturnBody(200, flashcardUpdate)
   } catch (e) {
     console.error(e)
     return getReturnBody(503, "")

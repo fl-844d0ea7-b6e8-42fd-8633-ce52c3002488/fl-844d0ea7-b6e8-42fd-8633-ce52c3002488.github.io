@@ -174,7 +174,6 @@ describe('The Manage Flashcards Tab', function () {
 
                 cy.wait('@updateFlashcard')
         })
-
     })
 
     it.only('Allows me to edit the name of a Flashcard', function () {
@@ -206,6 +205,8 @@ describe('The Manage Flashcards Tab', function () {
 
                 cy.wait('@updateFlashcard')
         })
+
+        cy.get(['data-cy=successAlert'])
     })
 
     it.only('Allows me to edit the term of a Flashcard', function () {
