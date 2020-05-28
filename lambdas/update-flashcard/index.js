@@ -12,12 +12,12 @@ exports.handler = async function (event) {
   const id = event.pathParameters.id
   const body = JSON.parse(event.body)
   const { data } = body
-  const { definition } = data
 
-  console.log(`Received id: ${id} and definition: ${definition}`)
+  console.log('Received flashcard data ', data)
+  console.log(`Updating flashcard with id ${id}`)
 
   try {
-    const flashcardUpdate = await updateFlashcard(id, definition)
+    const flashcardUpdate = await updateFlashcard(id, data)
 
     console.log("Received data: ", flashcardUpdate)
     return getReturnBody(200, flashcardUpdate)
@@ -27,7 +27,7 @@ exports.handler = async function (event) {
   }
 }
 
-async function updateFlashcard (id, definition, term){
+async function updateFlashcard (id, data){
   return(
     new Promise((resolve, reject) => {
       client.connect((err) => {
@@ -38,8 +38,8 @@ async function updateFlashcard (id, definition, term){
           return
         }
 
-        const queryText = buildQuery(definition, term)
-        const queryValues = buildQueryValues(id, definition, term)
+        const queryText = buildQuery(data)
+        const queryValues = buildQueryValues(id, data)
 
         const query = {
           text: queryText,
@@ -54,34 +54,37 @@ async function updateFlashcard (id, definition, term){
             return
           }
           resolve(result.rowCount)
+          client.end()
         })
       })
     }
   ))
 }
 
-function buildQuery(definition, term) {
+function buildQuery(flashcardData) {
   let query = 'UPDATE flashcards_app.flashcards '
 
-  if (definition) {
-    query += 'SET definition = $1,'
-  }
+  Object.entries(flashcardData).forEach(([key, val], index) => {
+    if (index === 0) {
+      query += `SET ${key}=$${index+1} `
+    }
+    else {
+      query += `,${key}=$${index+1}`
+    }
+  })
 
-  query += 'updated = NOW() WHERE id = $2'
+  query += `,updated = NOW() WHERE id=$${Object.entries(flashcardData).length+1};`
+
+  console.log(query)
 
   return query
 }
 
-function buildQueryValues(id, definition, term) {
+function buildQueryValues(id, flashcardData) {
   let values = []
-
-  if (definition) {
-    values.push(definition)
-  }
-
-  if (term) {
-    values.push(definition)
-  }
+  Object.entries(flashcardData).forEach(([_, value]) => {
+    values.push(value)
+  })
 
   values.push(id)
 

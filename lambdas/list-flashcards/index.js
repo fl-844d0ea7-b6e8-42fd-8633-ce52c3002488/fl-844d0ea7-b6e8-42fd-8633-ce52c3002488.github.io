@@ -61,7 +61,7 @@ function getFlashcards (searchTerms) {
         }
 
         const query = {
-          text: `SELECT id, flashcards_app.topics.name as topic_name, term, definition, colour
+          text: `SELECT id, flashcards_app.topics.name as topic_name, flashcards_app.flashcards.name as name, term, definition, colour
                 FROM flashcards_app.flashcards
                 INNER JOIN flashcards_app.topics
                 ON flashcards_app.topics.topic_id = flashcards_app.flashcards.topic_id`,

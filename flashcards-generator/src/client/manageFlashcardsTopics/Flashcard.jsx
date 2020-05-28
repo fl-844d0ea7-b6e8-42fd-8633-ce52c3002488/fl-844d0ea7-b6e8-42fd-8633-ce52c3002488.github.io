@@ -1,32 +1,16 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState } from 'react'
 import Card from 'react-bootstrap/Card'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { updateFlashcard } from '../connectors/apigateway'
+import EditFlashcardModal from './EditFlashcardModal'
 
-const Flashcard = ({ id, term, definition, colour, handleDelete }) => {
+const Flashcard = ({ id, name, term, definition, colour, handleDelete }) => {
     const [edit, setEdit] = useState(false)
     const [newFlashcardDefinition, setNewFlashcardDefinition] = useState(definition)
 
     const handleEditClick = () => {
         setEdit(!edit)
-    }
-
-    const handleEditDefinitionSubmission = async (e) => {
-        if (e.key == "Enter"){
-            if (newFlashcardDefinition && definition !== newFlashcardDefinition){
-                console.log("Making request to update flashcard")
-
-                const resp = await updateFlashcard(id, "", newFlashcardDefinition)
-
-                if (resp) {
-                    setEdit(false)
-                }
-            }
-            else{
-                setEdit(false)
-            }
-        }
     }
 
     // Taken from: https://codepen.io/andreaswik/pen/YjJqpK
@@ -87,25 +71,31 @@ const Flashcard = ({ id, term, definition, colour, handleDelete }) => {
     }
 
     return (
-        <Card id={id}>
-            <Card.Header style={{backgroundColor: colour, color: getAppropriateTextColour(colour)}}>
-                {(term)}
-                <div className="flashcardsIcons">
-                    <FontAwesomeIcon icon={faEdit} size="sm" onClick={() => handleEditClick()}/>
-                    <FontAwesomeIcon icon={faTrash} size="sm" onClick={() => handleDelete(id)}/>
-                </div>
-            </Card.Header>
-            <Card.Body>
-                {
-                    edit
-                        ? <input type="text"
-                            defaultValue={newFlashcardDefinition}
-                            onKeyDown={handleEditDefinitionSubmission}
-                            onChange={(e) => setNewFlashcardDefinition(e.target.value)}/>
-                        : <Card.Text>{newFlashcardDefinition}</Card.Text>
-                }
-            </Card.Body>
-        </Card>
+        <>
+            <Card id={id}>
+                <Card.Header style={{backgroundColor: colour, color: getAppropriateTextColour(colour)}}>
+                    {(term)}
+                    <div className="flashcardsIcons">
+                        <FontAwesomeIcon icon={faEdit} size="sm" onClick={() => handleEditClick()}/>
+                        <FontAwesomeIcon icon={faTrash} size="sm" onClick={() => handleDelete(id)}/>
+                    </div>
+                </Card.Header>
+                <Card.Body>
+                    <Card.Text>{newFlashcardDefinition}</Card.Text>
+                </Card.Body>
+            </Card>
+            {
+                edit
+                    ? <EditFlashcardModal
+                        id={id}
+                        name={name}
+                        term={term}
+                        colour={colour}
+                        definition={definition}
+                        showModal={edit} />
+                    : null
+            }
+        </>
     )
 }
 
