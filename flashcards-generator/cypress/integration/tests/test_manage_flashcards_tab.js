@@ -165,7 +165,7 @@ describe('The Manage Flashcards Tab', function () {
         })
 
         cy.get('[data-cy="editFlashcardModal"]').within(() => {
-            cy.get('[data-cy=editFlashcardTermInput]')
+            cy.get('[data-cy=editFlashcardDefinition-formInput]')
                 .clear()
                 .type('This is a totally new thing')
 
@@ -197,7 +197,7 @@ describe('The Manage Flashcards Tab', function () {
         })
 
         cy.get('[data-cy="editFlashcardModal"]').within(() => {
-            cy.get('[data-cy=editFlashcardNameInput]')
+            cy.get('[data-cy=editFlashcardName-formInput]')
                 .clear()
                 .type('This is a totally new thing')
 
@@ -228,40 +228,9 @@ describe('The Manage Flashcards Tab', function () {
         })
 
         cy.get('[data-cy="editFlashcardModal"]').within(() => {
-            cy.get('[data-cy=editFlashcardTermInput]')
+            cy.get('[data-cy=editFlashcardTerm-formInput]')
                 .clear()
                 .type('This is a totally new thing')
-
-                cy.get('[data-cy=saveEditFlashcardChanges]')
-                    .click()
-
-                cy.wait('@updateFlashcard')
-        })
-    })
-
-    it.only('Allows me to edit the colour of a Flashcard', function () {
-        cy.server()
-        cy.route('POST', '/api/listFlashcards', 'fx:listFlashcardsResult').as('getFlashcards')
-
-        cy.visit("/manage/")
-
-        cy.get('form').within(() => {
-            cy.get('input[name="flashcardName"]')
-
-            cy.contains('Submit')
-                .click()
-
-            cy.wait("@getFlashcards")
-        })
-
-        cy.get('div[class="card-columns"] div:first').within(() => {
-            cy.get('svg[data-icon="edit"]').click()
-        })
-
-        cy.get('[data-cy="editFlashcardModal"]').within(() => {
-            cy.get('[data-cy=editFlashcardColourInput]')
-                // .clear()
-                // .type('This is a totally new thing')
 
                 cy.get('[data-cy=saveEditFlashcardChanges]')
                     .click()
