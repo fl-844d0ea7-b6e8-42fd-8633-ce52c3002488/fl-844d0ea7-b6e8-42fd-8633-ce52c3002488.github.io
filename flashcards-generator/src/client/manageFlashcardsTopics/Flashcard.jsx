@@ -71,28 +71,31 @@ const Flashcard = ({ id, name, term, definition, colour, handleDelete }) => {
     }
 
     return (
-        <Card id={id}>
-            <Card.Header style={{backgroundColor: colour, color: getAppropriateTextColour(colour)}}>
-                {(term)}
-                <div className="flashcardsIcons">
-                    <FontAwesomeIcon icon={faEdit} size="sm" onClick={() => handleEditClick()}/>
-                    <FontAwesomeIcon icon={faTrash} size="sm" onClick={() => handleDelete(id)}/>
-                </div>
-            </Card.Header>
-            <Card.Body>
-                {
-                    edit
-                        ? <EditFlashcardModal
-                            id={id}
-                            name={name}
-                            term={term}
-                            colour={colour}
-                            definition={definition}
-                            showModal={edit}/>
-                        : <Card.Text>{newFlashcardDefinition}</Card.Text>
-                }
-            </Card.Body>
-        </Card>
+        <>
+            <Card id={id}>
+                <Card.Header style={{backgroundColor: colour, color: getAppropriateTextColour(colour)}}>
+                    {(term)}
+                    <div className="flashcardsIcons">
+                        <FontAwesomeIcon icon={faEdit} size="sm" onClick={() => handleEditClick()}/>
+                        <FontAwesomeIcon icon={faTrash} size="sm" onClick={() => handleDelete(id)}/>
+                    </div>
+                </Card.Header>
+                <Card.Body>
+                    <Card.Text>{newFlashcardDefinition}</Card.Text>
+                </Card.Body>
+            </Card>
+            {
+                edit
+                    ? <EditFlashcardModal
+                        id={id}
+                        name={name}
+                        term={term}
+                        colour={colour}
+                        definition={definition}
+                        showModal={edit} />
+                    : null
+            }
+        </>
     )
 }
 

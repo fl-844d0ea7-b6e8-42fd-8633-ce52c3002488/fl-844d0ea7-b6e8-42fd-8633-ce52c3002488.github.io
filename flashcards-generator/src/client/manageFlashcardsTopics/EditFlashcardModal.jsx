@@ -8,10 +8,10 @@ import FormColourPicker from '../common/FormColourPicker'
 import TopicSelect from '../common/TopicSelect'
 import { updateFlashcard } from '../connectors/apigateway'
 
-const EditFlashcardModal = ({ showModal, id, name, term, colour, definition }) => {
+const EditFlashcardModal = ({ showModal, id, name, term, definition }) => {
 
     const [show, setShow] = useState(showModal)
-    const [editFlashcardData, setFlashcardData] = useState({})
+    const [editFlashcardData, setFlashcardData] = useState({name, term, definition})
     const [showSuccess, setShowSuccess] = useState(false)
     const [showError, setShowError] = useState(false)
     const [successMessage, setSuccessMessage] = useState("")
@@ -22,6 +22,8 @@ const EditFlashcardModal = ({ showModal, id, name, term, colour, definition }) =
 
     const submitChange = async () => {
         console.log("Making request to update flashcard")
+
+        if (!validateInputs()){ return }
         initialiseLoadingFormState()
 
         const resp = await updateFlashcard(id, editFlashcardData)
@@ -34,6 +36,9 @@ const EditFlashcardModal = ({ showModal, id, name, term, colour, definition }) =
             if (resp.data === 1) {
                 setSuccessMessage("Successfully updated flashcard, you can now close this window")
                 setShowSuccess(true)
+            } else if (resp.data === 0) {
+                setErrorMessage("Query was successful, but nothing was updated?")
+                setShowError(true)
             } else if (resp.error) {
                 setErrorMessage("Something went wrong - your changes have not been saved")
                 setShowError(true)
@@ -48,9 +53,11 @@ const EditFlashcardModal = ({ showModal, id, name, term, colour, definition }) =
     }
 
     function validateInputs() {
-        if (Object.entries(editFlashcardData).length === 0) {
+        if (editFlashcardData.name === name && editFlashcardData.term === term && editFlashcardData.definition === definition) {
             setFormErrorStatus("You need to make changes, or close the window")
+            return false
         }
+        return true
     }
 
     function setFormErrorStatus(message) {
@@ -74,7 +81,27 @@ const EditFlashcardModal = ({ showModal, id, name, term, colour, definition }) =
                         fieldOnChangeEvent={(e) => setFlashcardData({...editFlashcardData, name: e.target.value })}
                         fieldGroupControlId="formFlashcardName"
                         fieldHelpText="Enter any changes to the flashcard name here"
-                        fieldValue={editFlashcardData.name ? editFlashcardData.name : name}
+                        fieldValue={editFlashcardData.name}
+                    />
+                    <FormInput
+                        labelText="Term"
+                        fieldType="text"
+                        fieldPlaceholderText="Enter the term"
+                        fieldElementName="editFlashcardTerm"
+                        fieldOnChangeEvent={(e) => setFlashcardData({...editFlashcardData, term: e.target.value })}
+                        fieldGroupControlId="formFlashcardTerm"
+                        fieldHelpText="Enter any changes to the flashcard term here"
+                        fieldValue={editFlashcardData.term}
+                    />
+                    <FormInput
+                        labelText="Definition"
+                        fieldType="text"
+                        fieldPlaceholderText="Enter the definition"
+                        fieldElementName="editFlashcardDefinition"
+                        fieldOnChangeEvent={(e) => setFlashcardData({...editFlashcardData, definition: e.target.value })}
+                        fieldGroupControlId="formFlashcardDefinition"
+                        fieldHelpText="Enter any changes to the flashcard definition here"
+                        fieldValue={editFlashcardData.definition}
                     />
 
                     <FormAlert

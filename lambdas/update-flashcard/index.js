@@ -14,6 +14,7 @@ exports.handler = async function (event) {
   const { data } = body
 
   console.log('Received flashcard data ', data)
+  console.log(`Updating flashcard with id ${id}`)
 
   try {
     const flashcardUpdate = await updateFlashcard(id, data)
@@ -53,6 +54,7 @@ async function updateFlashcard (id, data){
             return
           }
           resolve(result.rowCount)
+          client.end()
         })
       })
     }
@@ -64,14 +66,14 @@ function buildQuery(flashcardData) {
 
   Object.entries(flashcardData).forEach(([key, val], index) => {
     if (index === 0) {
-      query += ` SET ${key}=$${index+1} `
+      query += `SET ${key}=$${index+1} `
     }
     else {
-      query += `, ${key}=$${index+1}`
+      query += `,${key}=$${index+1}`
     }
   })
 
-  query += `, updated = NOW() WHERE id=$${Object.entries(flashcardData).length+1}`
+  query += `,updated = NOW() WHERE id=$${Object.entries(flashcardData).length+1};`
 
   console.log(query)
 
