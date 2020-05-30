@@ -131,7 +131,6 @@ export const insertFlashcard = async (name, topic, term, definition) => {
       },
       config
     );
-    console.log(resp);
     return resp;
   } catch (error) {
     console.log(error);
