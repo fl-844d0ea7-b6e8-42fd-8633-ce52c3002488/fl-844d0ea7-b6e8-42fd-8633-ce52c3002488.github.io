@@ -1,4 +1,4 @@
-const ADD_TOPIC = 'ADD_TOPIC'
+import { ADD_TOPIC, UPDATE_TOPIC, DELETE_TOPIC } from '../create/actions/types'
 
 const topics = (state = {}, action) => {
   switch(action.type ){
@@ -11,6 +11,13 @@ const topics = (state = {}, action) => {
           colour: action.colour
         }
       ]
+
+    case UPDATE_TOPIC:
+      return state
+
+    case DELETE_TOPIC:
+      return state
+
     default:
       return state
   }
