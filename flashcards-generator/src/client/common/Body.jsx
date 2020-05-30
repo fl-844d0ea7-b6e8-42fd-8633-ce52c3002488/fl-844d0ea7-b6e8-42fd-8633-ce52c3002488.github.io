@@ -2,10 +2,10 @@ import React from 'react'
 import { Route } from "react-router-dom";
 
 import Home from '../home/Home';
-import FlashcardTopicManager from '../manageFlashcardsTopics/FlashcardTopicManager';
-import FlashcardCreator from '../createFlashcards/FlashcardCreator';
-import FlashcardTester from '../testFlashcards/FlashcardTester';
-import FlashcardViewer from '../viewFlashcards/FlashcardViewer';
+import FlashcardTester from '../test/FlashcardTester';
+import FlashcardViewer from '../view/FlashcardViewer';
+import FlashcardCreator from '../create/FlashcardCreator';
+import FlashcardTopicManager from '../manage/FlashcardTopicManager';
 
 const Body = () => {
     return (
