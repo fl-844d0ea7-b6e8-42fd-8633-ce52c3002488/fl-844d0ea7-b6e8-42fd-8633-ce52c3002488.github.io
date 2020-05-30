@@ -1,3 +1,6 @@
 export const CREATE_TOPIC = 'create/actions/CREATE_TOPIC'
 export const UPDATE_TOPIC = 'create/actions/UPDATE_TOPIC'
 export const DELETE_TOPIC = 'create/actions/ADD_TOPIC'
+export const CREATE_FLASHCARD = 'create/actions/CREATE_FLASHCARD'
+export const UPDATE_FLASHCARD = 'create/actions/UPDATE_FLASHCARD'
+export const DELETE_FLASHCARD = 'create/actions/ADD_FLASHCARD'
