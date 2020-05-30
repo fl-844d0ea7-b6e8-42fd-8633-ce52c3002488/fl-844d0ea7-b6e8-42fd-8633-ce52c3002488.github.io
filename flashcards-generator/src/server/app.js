@@ -5,7 +5,6 @@ import express from 'express'
 import expressStaticGzip from 'express-static-gzip'
 import logger from './logging/logger'
 import requestLogger from './logging/requestLogger'
-import api from './api/api'
 
 const port = process.env.PORT || 8080
 
@@ -15,7 +14,6 @@ const app = express()
 app
   .use(helmet())
   .use(requestLogger)
-  .use('/api', api)
 
 if (production) {
   app.use(
