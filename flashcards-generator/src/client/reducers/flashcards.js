@@ -1,8 +1,9 @@
-import { ADD_FLASHCARD, UPDATE_FLASHCARD, DELETE_FLASHCARD } from '../create/actions/types'
+import { CREATE_FLASHCARD } from '../create/actions/types'
+import { UPDATE_FLASHCARD, DELETE_FLASHCARD } from '../manage/actions/types'
 
 const flashcards = (state = {}, action) => {
   switch (action.type) {
-    case ADD_FLASHCARD:
+    case CREATE_FLASHCARD:
       return [
         ...state,
         {

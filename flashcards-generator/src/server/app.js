@@ -12,6 +12,7 @@ const production = process.env.NODE_ENV === 'production'
 
 const app = express()
 app
+  .use(cors())
   .use(helmet())
   .use(requestLogger)
 

@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button'
 import Alert from 'react-bootstrap/Alert'
 import FormAlert from '../common/FormAlert'
 import FormInput from '../common/FormInput'
-import TopicSelect from '../common/TopicSelect'
+import TopicSelect from '../common/containers/TopicSelect'
 import { insertFlashcard } from '../connectors/apigateway'
 
 const CreateFlashcardsForm = ({ newTopicCreated }) => {

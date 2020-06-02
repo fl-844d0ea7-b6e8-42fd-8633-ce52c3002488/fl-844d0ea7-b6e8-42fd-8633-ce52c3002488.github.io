@@ -1,10 +1,11 @@
-import { ADD_TOPIC, UPDATE_TOPIC, DELETE_TOPIC } from '../create/actions/types'
+import { CREATE_TOPIC } from '../create/actions/types'
+import { UPDATE_TOPIC, DELETE_TOPIC } from '../manage/actions/types'
 
 const topics = (state = {}, action) => {
   switch(action.type ){
-    case ADD_TOPIC:
+    case CREATE_TOPIC:
       return [
-        ...state,
+        ...state.topics,
         {
           id: action.id,
           name: action.name,
@@ -13,10 +14,10 @@ const topics = (state = {}, action) => {
       ]
 
     case UPDATE_TOPIC:
-      return state
+      return state.topics
 
     case DELETE_TOPIC:
-      return state
+      return state.topics
 
     default:
       return state
