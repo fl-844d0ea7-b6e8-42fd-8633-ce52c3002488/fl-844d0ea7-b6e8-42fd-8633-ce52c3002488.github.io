@@ -17,15 +17,11 @@ const morganStream = ({
 /* eslint-disable camelcase */
 /* Disabled as must match logging standard */
 const morganFormat = morganJson({
-  remote_addr: ':remote-addr',
-  remote_user: ':remote-user',
   body_bytes_sent: ':res[content-length]',
   response_time: ':response-time',
   status: ':status',
   request_method: ':method',
   request_url: ':url',
-  http_version: ':http-version',
-  http_referrer: ':referrer',
   http_user_agent: ':user-agent',
 })
 /* eslint-enable camelcase */
