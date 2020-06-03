@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Route } from "react-router-dom";
 
 import Home from '../home/Home';
@@ -7,7 +7,12 @@ import FlashcardViewer from '../view/FlashcardViewer';
 import FlashcardCreator from '../create/FlashcardCreator';
 import FlashcardTopicManager from '../manage/FlashcardTopicManager';
 
-const Body = () => {
+const Body = ({ loadTopics }) => {
+
+    useEffect(() => {
+        loadTopics()
+    }, [])
+
     return (
         <div>
             <Route path="/home/" component={Home}/>

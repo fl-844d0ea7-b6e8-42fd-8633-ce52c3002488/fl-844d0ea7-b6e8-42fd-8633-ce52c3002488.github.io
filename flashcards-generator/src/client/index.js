@@ -5,7 +5,7 @@ import ReactDOM from "react-dom";
 import { Provider } from 'react-redux'
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
-import Body from './common/Body'
+import Body from './common/containers/Body'
 import Header from './common/Header'
 import Footer from './common/Footer'
 
