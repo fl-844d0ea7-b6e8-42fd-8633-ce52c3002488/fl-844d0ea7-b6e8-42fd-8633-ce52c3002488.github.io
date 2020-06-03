@@ -6,7 +6,7 @@ import { getTopics } from '../connectors/apigateway'
 import Form from 'react-bootstrap/Form'
 import { array, bool } from 'prop-types'
 
-const TopicSelect = ({ topics, fieldHelpText, newTopicCreated, value, handleTopicChange, handleCreateTopic }) => {
+const TopicSelect = ({ topics, fieldHelpText, value, handleTopicChange, handleCreateTopic }) => {
 
     const [topicOptionsList, setTopicOptionsList] = useState(topics)
     const [isLoading, setIsLoading] = useState(false)
@@ -15,8 +15,6 @@ const TopicSelect = ({ topics, fieldHelpText, newTopicCreated, value, handleTopi
         return this.replace(/\w\S*/g, txt => {
             return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
     };
-
-    console.log('topics', topics)
 
     useEffect(() => {
         setTopicOptionsList(
@@ -28,7 +26,7 @@ const TopicSelect = ({ topics, fieldHelpText, newTopicCreated, value, handleTopi
                 }
             })
         )
-    }, [newTopicCreated])
+    }, [topics])
 
     const topicOption = ({value, colour, label}) => {
         return (
@@ -63,12 +61,10 @@ const TopicSelect = ({ topics, fieldHelpText, newTopicCreated, value, handleTopi
 
 TopicSelect.proptypes = {
     topics: array,
-    newTopicCreated: bool,
 }
 
 TopicSelect.defaultProps = {
     topics: [],
-    newTopicCreated: false,
 }
 
 export default TopicSelect

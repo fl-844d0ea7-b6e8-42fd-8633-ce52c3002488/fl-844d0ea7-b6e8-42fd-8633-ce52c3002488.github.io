@@ -7,7 +7,7 @@ import FormAlert from '../common/FormAlert';
 import { insertTopic } from '../connectors/apigateway';
 
 
-const CreateTopicsForm = ({handleNewTopic}) => {
+const CreateTopicsForm = ({ handleNewTopic }) => {
 
     const [topic, setTopic] = useState("");
     const [topicColour, setTopicColour] = useState("")

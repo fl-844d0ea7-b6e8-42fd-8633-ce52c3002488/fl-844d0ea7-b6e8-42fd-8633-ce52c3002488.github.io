@@ -1,7 +1,7 @@
 import Flashcard from './Flashcard'
 import React, { useState } from 'react'
 import { TestSettings } from './FlashcardsTestSettings'
-import TopicSelect from '../common/TopicSelect'
+import TopicSelect from '../common/containers/TopicSelect'
 import Form from 'react-bootstrap/Form'
 import Alert from 'react-bootstrap/Alert'
 import Button from 'react-bootstrap/Button'

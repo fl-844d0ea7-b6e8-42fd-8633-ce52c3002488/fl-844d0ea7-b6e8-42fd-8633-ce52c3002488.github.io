@@ -4,7 +4,7 @@ import { Route } from "react-router-dom";
 import Home from '../home/Home';
 import FlashcardTester from '../test/FlashcardTester';
 import FlashcardViewer from '../view/FlashcardViewer';
-import FlashcardCreator from '../create/FlashcardCreator';
+import FlashcardCreator from '../create/containers/FlashcardCreator';
 import FlashcardTopicManager from '../manage/FlashcardTopicManager';
 
 const Body = ({ loadTopics }) => {

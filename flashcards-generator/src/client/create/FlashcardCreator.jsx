@@ -4,13 +4,14 @@ import CreateTopicsForm from './CreateTopicsForm'
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
 
-const FlashcardCreator = () => {
+const FlashcardCreator = ({ loadTopics }) => {
 
     const [newTopicCreated, setNewTopicCreated] = useState(false)
     // THIS IS SO SMELLY
 
     const handleNewTopic = () => {
         console.log("We've detected a new topic to be created now")
+        loadTopics()
         setNewTopicCreated(!newTopicCreated)
     }
 
