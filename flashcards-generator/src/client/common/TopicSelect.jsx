@@ -4,10 +4,11 @@ import { faSquareFull } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { getTopics } from '../connectors/apigateway'
 import Form from 'react-bootstrap/Form'
+import { array, bool } from 'prop-types'
 
-const TopicSelect = ({ fieldHelpText, newTopicCreated, value, handleTopicChange, handleCreateTopic }) => {
+const TopicSelect = ({ topics, fieldHelpText, newTopicCreated, value, handleTopicChange, handleCreateTopic }) => {
 
-    const [topicOptionsList, setTopicOptionsList] = useState([])
+    const [topicOptionsList, setTopicOptionsList] = useState(topics)
     const [isLoading, setIsLoading] = useState(false)
 
     String.prototype.toProperCase = function () {
@@ -15,24 +16,18 @@ const TopicSelect = ({ fieldHelpText, newTopicCreated, value, handleTopicChange,
             return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
     };
 
+    console.log('topics', topics)
+
     useEffect(() => {
-        setIsLoading(true)
-        const fetchData = async () => {
-            const result = await getTopics()
-            if (result && result.data) {
-                setTopicOptionsList(
-                    result.data.map(({ topic_id, name, colour }) => {
-                        return {
-                            value: topic_id,
-                            label: name,
-                            colour
-                        }
-                    })
-                )
-            }
-            setIsLoading(false)
-        }
-        fetchData()
+        setTopicOptionsList(
+            topics.map(({ topic_id, name, colour }) => {
+                return {
+                    value: topic_id,
+                    label: name,
+                    colour
+                }
+            })
+        )
     }, [newTopicCreated])
 
     const topicOption = ({value, colour, label}) => {
@@ -64,6 +59,16 @@ const TopicSelect = ({ fieldHelpText, newTopicCreated, value, handleTopicChange,
             </Form.Text>
         </Form.Group>
     )
+}
+
+TopicSelect.proptypes = {
+    topics: array,
+    newTopicCreated: bool,
+}
+
+TopicSelect.defaultProps = {
+    topics: [],
+    newTopicCreated: false,
 }
 
 export default TopicSelect

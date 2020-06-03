@@ -1,12 +1,10 @@
 import React, { useState } from 'react'
 import FlashcardsList from './FlashcardsList'
-import CardColumns from 'react-bootstrap/CardColumns'
 import Form from 'react-bootstrap/Form'
-import FormInput from '../common/FormInput'
 import FormAlert from '../common/FormAlert'
-import TopicSelect from '../common/TopicSelect'
+import TopicSelect from '../common/containers/TopicSelect'
 import Button from 'react-bootstrap/Button'
-import { getFlashcards, deleteFlashcard } from '../connectors/apigateway'
+import { getFlashcards } from '../connectors/apigateway'
 
 const FlashcardsViewer = () => {
 

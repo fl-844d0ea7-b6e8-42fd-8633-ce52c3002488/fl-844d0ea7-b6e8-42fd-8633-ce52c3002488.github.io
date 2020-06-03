@@ -1,3 +1,4 @@
+import produce from 'immer'
 import { CREATE_TOPIC } from '../create/actions/types'
 import {
   GET_TOPICS,
@@ -11,30 +12,26 @@ import {
   DELETE_TOPIC_FAILURE,
   LOAD_TOPICS
 } from '../manage/actions/types'
-import { getTopics, loadTopics } from '../manage/actions/creators'
 
-export const topics = (state = {}, action) => {
-  switch(action.type ){
+export const topics = produce((draft, action) => {
+  switch(action.type){
 
     case LOAD_TOPICS:
       return {
-        ...state,
+        ...draft,
         topics: action.data
       }
 
     case GET_TOPICS:
-      return state
+      return draft
 
     case GET_TOPICS_SUCCESS:
-      return Object.assign({}, state, {
-        topics: {
-          items: action.data
-        }
-      })
+      draft.items = action.data
+      return
 
     case CREATE_TOPIC:
       return [
-        ...state.topics,
+        ...draft.topics,
         {
           id: action.id,
           name: action.name,
@@ -43,12 +40,12 @@ export const topics = (state = {}, action) => {
       ]
 
     case UPDATE_TOPIC:
-      return state.topics
+      return draft.topics
 
     case DELETE_TOPIC:
-      return state.topics
+      return draft.topics
 
     default:
-      return state
+      return draft
   }
-}
+}, {})
