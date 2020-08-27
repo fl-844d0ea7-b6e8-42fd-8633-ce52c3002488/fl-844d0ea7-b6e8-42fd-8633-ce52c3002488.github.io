@@ -1,4 +1,5 @@
 import axios from 'axios'
+import axiosRetry from 'axios-retry';
 
 const API_HOSTNAME = process.env.API_HOSTNAME
 const API_KEY = process.env.API_KEY
@@ -9,6 +10,8 @@ const config = {
     'X-Api-Key': API_KEY
   }
 }
+
+
 const axiosInstance = axios.create({
   baseUrl: `${API_HOSTNAME}/api`,
   headers: {
@@ -17,13 +20,15 @@ const axiosInstance = axios.create({
   }
 })
 
+axiosRetry(axiosInstance, { retries: 3 });
+
 /* Topic queries */
 
 export const getTopics = async () => {
   console.log('Making GET request to Flashcards Vault get TOPICS');
 
   try {
-    const resp = await axios.get(`${API_HOSTNAME}/api/listTopics`, config);
+    const resp = await axiosInstance.get(`${API_HOSTNAME}/api/listTopics`, config);
 
     console.log('Received response with status: ', resp.status);
 
@@ -40,7 +45,7 @@ export const getTopicsByName = async (name) => {
   console.log('Making GET request to Flashcards Vault get TOPICS by name');
 
   try {
-    const resp = await axios.get(`${API_HOSTNAME}/api/listTopicsByName/${name}`, config)
+    const resp = await axiosInstance.get(`${API_HOSTNAME}/api/listTopicsByName/${name}`, config)
 
     console.log('Received response with status: ', resp.status);
 
@@ -57,7 +62,7 @@ export const insertTopic = async (name, colour) => {
   console.log('Making POST request to Flashcards Vault to insert TOPIC');
 
   try {
-    const resp = await axios.post(
+    const resp = await axiosInstance.post(
       `${API_HOSTNAME}/api/createTopic`,
       { data: { name, colour } },
       config,
@@ -74,7 +79,7 @@ export const insertTopic = async (name, colour) => {
 export const deleteTopic = async (id) => {
   console.log('Making DELETE request to Flashcards Vault for topic');
   try {
-    const resp = await axios.delete(`${API_HOSTNAME}/api/deleteTopic/${id}`, config);
+    const resp = await axiosInstance.delete(`${API_HOSTNAME}/api/deleteTopic/${id}`, config);
     console.log('Request was successful, returning results');
     return { data: resp.data };
   } catch (error) {
@@ -86,7 +91,7 @@ export const deleteTopic = async (id) => {
 export const updateTopicName = async (id, name) => {
   console.log('Making POST request to Flashcards Vault to update topic name');
   try {
-    const resp = await axios.post(`${API_HOSTNAME}/api/updateTopic/${id}`, { name }, config);
+    const resp = await axiosInstance.post(`${API_HOSTNAME}/api/updateTopic/${id}`, { name }, config);
     console.log('Request was successful, returning results');
     return { data: resp.data };
   } catch (error) {
@@ -101,7 +106,7 @@ export const getFlashcards = async (name, topic_id, term) => {
   console.log('Making POST request to Flashcards Vault get FLASHCARDS');
 
   try {
-    const resp = await axios.post(
+    const resp = await axiosInstance.post(
       `${API_HOSTNAME}/api/listFlashcards`,
       {
         searchTerms: {
@@ -122,7 +127,7 @@ export const insertFlashcard = async (name, topic, term, definition) => {
   console.log('Making POST request to Flashcards Vault to insert flashcards');
 
   try {
-    const resp = await axios.post(
+    const resp = await axiosInstance.post(
       `${API_HOSTNAME}/api/createFlashcard`,
       {
         data: {
@@ -142,7 +147,7 @@ export const insertFlashcard = async (name, topic, term, definition) => {
 export const updateFlashcard = async (id, data) => {
   console.log('Making POST request to Flashcards Vault update flashcards');
   try {
-    const resp = await axios.post(`${API_HOSTNAME}/api/updateFlashcard/${id}`, { data }, config);
+    const resp = await axiosInstance.post(`${API_HOSTNAME}/api/updateFlashcard/${id}`, { data }, config);
     console.log('Request was successful, returning results');
     return { data: resp.data };
   } catch (error) {
@@ -154,7 +159,7 @@ export const updateFlashcard = async (id, data) => {
 export const deleteFlashcard = async (id) => {
   console.log('Making POST request to Flashcards Vault delete flashcards');
   try {
-    const resp = await axios.delete(`${API_HOSTNAME}/api/deleteFlashcard/${id}`, config);
+    const resp = await axiosInstance.delete(`${API_HOSTNAME}/api/deleteFlashcard/${id}`, config);
     console.log('Request was successful, returning results');
     return { data: resp.data };
   } catch (error) {
