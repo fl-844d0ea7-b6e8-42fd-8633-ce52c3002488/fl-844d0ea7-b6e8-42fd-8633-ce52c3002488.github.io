@@ -46,10 +46,8 @@ async function removeTopic (id){
           if (queryError) {
             console.log(queryError.stack)
             reject(new Error("Postgres sadness :("))
-            client.end()
           }
           resolve(result)
-          client.end()
         })
       })
     }

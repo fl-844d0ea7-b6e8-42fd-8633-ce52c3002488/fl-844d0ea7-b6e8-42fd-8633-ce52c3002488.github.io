@@ -30,8 +30,6 @@ async function deleteFlashcard(id) {
         if (err) {
           console.error("Error connecting to the DB", err.stack)
           reject(new Error("Connection sadness"))
-          client.end()
-          return
         }
 
         const query = {
@@ -43,12 +41,8 @@ async function deleteFlashcard(id) {
           if (queryError) {
             console.error(queryError.stack)
             reject(new Error("Postgres sadness :("))
-            client.end()
-            return
           }
-          client.end()
           resolve(result)
-          return
         })
       })
   }

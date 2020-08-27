@@ -32,9 +32,8 @@ async function updateTopicName(id, name) {
       client.connect((err) => {
         if (err) {
           console.log("Error connecting to the DB", err.stack)
-          reject(new Error("Connection sadness"))
           client.end()
-          return
+          reject(new Error("Connection sadness"))
         }
 
         const query = {
@@ -49,11 +48,11 @@ async function updateTopicName(id, name) {
         client.query(query, (queryError, result) => {
           if (queryError) {
             console.log(queryError.stack)
-            reject(new Error("Postgres sadness :("))
             client.end()
+            reject(new Error("Postgres sadness :("))
           }
-          resolve(result.rowCount)
           client.end()
+          resolve(result.rowCount)
         })
       })
     }

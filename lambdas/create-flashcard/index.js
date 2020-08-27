@@ -50,11 +50,8 @@ async function insertFlashcard (term, definition, topic, name) {
           console.log(queryError)
           if (queryError) {
             reject(new Error("Postgres sadness :("))
-            client.end()
-            return null
           }
           resolve(result.rowCount)
-          client.end()
         })
       })
     }

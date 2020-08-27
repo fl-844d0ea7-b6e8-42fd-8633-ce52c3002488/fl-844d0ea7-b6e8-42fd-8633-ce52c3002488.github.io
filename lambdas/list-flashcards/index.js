@@ -96,15 +96,15 @@ function getFlashcards (searchTerms) {
         client.query(query, (queryError, result) => {
           if (queryError) {
             console.log('Error occurred', queryError.stack)
-            reject(new Error("Postgres sadness :("))
             client.end()
+            reject(new Error("Postgres sadness :("))
           }
 
           const results = result.rows
 
           console.log("Received successfuly result", { results })
-          resolve(results)
           client.end()
+          resolve(results)
         })
       })
   }
