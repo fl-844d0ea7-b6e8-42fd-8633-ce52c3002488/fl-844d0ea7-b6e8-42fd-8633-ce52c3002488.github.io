@@ -20,7 +20,12 @@ const axiosInstance = axios.create({
   }
 })
 
-axiosRetry(axiosInstance, { retries: 3 });
+axiosRetry(axiosInstance, {
+  retries: 3,
+  retryDelay: (retryCount) => {
+    return retryCount * 1000 //exponential backoff
+  }
+})
 
 /* Topic queries */
 
