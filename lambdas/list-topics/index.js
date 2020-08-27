@@ -46,8 +46,8 @@ async function getTopics() {
         client.end()
         return
       }
-      resolve(result.rows)
       client.end()
+      resolve(result.rows)
     })
   })
 }

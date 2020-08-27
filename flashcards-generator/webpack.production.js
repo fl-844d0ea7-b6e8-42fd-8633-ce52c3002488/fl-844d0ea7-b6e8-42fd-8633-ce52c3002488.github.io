@@ -1,6 +1,5 @@
 const path = require('path')
 const webpack = require('webpack')
-// const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const merge = require('webpack-merge')
 const common = require('./webpack.config.js')
 

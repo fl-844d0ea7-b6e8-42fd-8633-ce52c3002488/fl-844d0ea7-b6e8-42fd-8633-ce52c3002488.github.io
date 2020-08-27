@@ -47,13 +47,12 @@ async function getTopicsByName (name) {
         client.query(query, (queryError, result) => {
           if (queryError) {
             console.log(queryError.stack)
-            reject(new Error("Postgres sadness :("))
             client.end()
-            return
+            reject(new Error("Postgres sadness :("))
           }
           console.log("Received result", { count: result.rows })
-          resolve(result.rows)
           client.end()
+          resolve(result.rows)
         })
       })
     }))

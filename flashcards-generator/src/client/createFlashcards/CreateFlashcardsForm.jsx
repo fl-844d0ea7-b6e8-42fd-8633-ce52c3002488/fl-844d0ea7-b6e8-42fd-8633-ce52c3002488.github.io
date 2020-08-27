@@ -1,7 +1,6 @@
 import React, {useState} from 'react'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
-import Alert from 'react-bootstrap/Alert'
 import FormAlert from '../common/FormAlert'
 import FormInput from '../common/FormInput'
 import TopicSelect from '../common/TopicSelect'

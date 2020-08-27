@@ -49,12 +49,11 @@ async function updateFlashcard (id, data){
         client.query(query, (queryError, result) => {
           if (queryError) {
             console.error(queryError.stack)
-            reject(new Error("Postgres sadness :("))
             client.end()
-            return
+            reject(new Error("Postgres sadness :("))
           }
-          resolve(result.rowCount)
           client.end()
+          resolve(result.rowCount)
         })
       })
     }

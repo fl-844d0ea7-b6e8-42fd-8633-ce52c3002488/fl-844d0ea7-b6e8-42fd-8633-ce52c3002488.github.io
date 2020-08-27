@@ -58,11 +58,9 @@ async function insertTopic (name, colour) {
         if (queryError) {
           console.error(queryError)
           reject(new Error("Query Error"))
-          return
         }
         console.log(`Received result: ${result.rowCount}`)
         resolve(result.rowCount)
-        client.end()
       })
     }
   )
