@@ -11,7 +11,6 @@ const config = {
   }
 }
 
-
 const axiosInstance = axios.create({
   baseUrl: `${API_HOSTNAME}/api`,
   headers: {
