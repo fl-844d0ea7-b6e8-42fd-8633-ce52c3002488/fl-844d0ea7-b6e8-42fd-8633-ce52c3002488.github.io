@@ -7,7 +7,7 @@ import EditFlashcardModal from './EditFlashcardModal'
 
 const Flashcard = ({ id, name, term, definition, colour, handleDelete }) => {
     const [edit, setEdit] = useState(false)
-    const [newFlashcardDefinition, setNewFlashcardDefinition] = useState(definition)
+    const [editFlashcardData, setFlashcardData] = useState({ name, term, definition })
 
     const handleEditClick = () => {
         setEdit(!edit)
@@ -66,32 +66,29 @@ const Flashcard = ({ id, name, term, definition, colour, handleDelete }) => {
         }
     }
 
-    const titleCase = (str) => {
-        return str.toLowerCase().split(' ').map((word) => word.replace(word[0], word[0].toUpperCase())).join(' ');
-    }
-
     return (
         <>
             <Card id={id}>
                 <Card.Header style={{backgroundColor: colour, color: getAppropriateTextColour(colour)}}>
-                    {(term)}
+                    {(editFlashcardData.term)}
                     <div className="flashcardsIcons">
                         <FontAwesomeIcon icon={faEdit} size="sm" onClick={() => handleEditClick()}/>
                         <FontAwesomeIcon icon={faTrash} size="sm" onClick={() => handleDelete(id)}/>
                     </div>
                 </Card.Header>
                 <Card.Body>
-                    <Card.Text>{newFlashcardDefinition}</Card.Text>
+                    <Card.Text>{editFlashcardData.definition}</Card.Text>
                 </Card.Body>
             </Card>
             {
                 edit
                     ? <EditFlashcardModal
                         id={id}
-                        name={name}
-                        term={term}
-                        colour={colour}
-                        definition={definition}
+                        name={editFlashcardData.name}
+                        term={editFlashcardData.term}
+                        colour={editFlashcardData.colour}
+                        definition={editFlashcardData.definition}
+                        setFlashcardData={setFlashcardData}
                         showModal={edit} />
                     : null
             }

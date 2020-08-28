@@ -1,4 +1,3 @@
-import cors from 'cors'
 import { join } from 'path'
 import helmet from 'helmet'
 import express from 'express'
