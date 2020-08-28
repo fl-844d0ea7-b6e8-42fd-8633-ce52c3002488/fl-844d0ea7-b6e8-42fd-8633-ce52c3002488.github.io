@@ -64,9 +64,9 @@ const CreateFlashcardsForm = ({ newTopicCreated }) => {
 
         if (resp && resp.data) {
             updateFormSuccessState()
+            return
         }
-
-        if (resp && resp.error && resp.error.response) {
+        else if (resp && resp.error && resp.error.response) {
             switch (resp.error.response.status) {
                 case 409:
                     updateFormErrorState("Sorry! You've already got a flashcard with that name")
@@ -77,6 +77,7 @@ const CreateFlashcardsForm = ({ newTopicCreated }) => {
             }
             return
         }
+
         updateFormErrorState("Sorry! Shit done real messed up...")
     }
 
