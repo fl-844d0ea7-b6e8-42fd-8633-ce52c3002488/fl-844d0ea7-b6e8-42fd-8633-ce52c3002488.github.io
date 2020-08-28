@@ -90,14 +90,14 @@ const FlashcardsViewer = () => {
                 <FormAlert
                     alertVariant="danger"
                     showAlert={showError}
-                    alertCloseEvent={() => setShowError(false)}
+                    onCloseEvent={() => setShowError(false)}
                     message={errorMessage}
                 />
 
                 <FormAlert
                     alertVariant="success"
                     showAlert={showSuccess}
-                    alertCloseEvent={() => setShowSuccess(false)}
+                    onCloseEvent={() => setShowSuccess(false)}
                     message={successMessage}
                 />
 

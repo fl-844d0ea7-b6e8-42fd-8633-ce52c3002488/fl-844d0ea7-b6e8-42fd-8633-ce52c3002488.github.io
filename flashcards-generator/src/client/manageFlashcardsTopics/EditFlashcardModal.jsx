@@ -101,14 +101,14 @@ const EditFlashcardModal = ({ showModal, id, name, term, definition, setFlashcar
                     <FormAlert
                         alertVariant="danger"
                         showAlert={showError}
-                        alertCloseEvent={() => setShowError(false)}
+                        onCloseEvent={() => setShowError(false)}
                         message={errorMessage}
                     />
 
                     <FormAlert
                         alertVariant="success"
                         showAlert={showSuccess}
-                        alertCloseEvent={() => setShowSuccess(false)}
+                        onCloseEvent={() => setShowSuccess(false)}
                         message={successMessage}
                     />
 
