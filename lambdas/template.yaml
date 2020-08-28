@@ -17,6 +17,8 @@ Globals:
     Cors:
       AllowMethods: "'OPTIONS,GET,POST,PUT,DELETE'"
       AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
+      AllowOrigin: "http://localhost:3002"
+      AllowCredentials: true
 
 Resources:
   APIGateway:
