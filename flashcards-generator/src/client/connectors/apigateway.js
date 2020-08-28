@@ -1,5 +1,5 @@
 import axios from 'axios'
-import axiosRetry from 'axios-retry';
+import axiosRetry from 'axios-retry'
 
 const API_HOSTNAME = process.env.API_HOSTNAME
 const API_KEY = process.env.API_KEY
