@@ -47,7 +47,6 @@
     "axios-retry": "^3.1.8",
     "babel-loader": "^8.0.6",
     "bootstrap": "^4.3.1",
-    "cors": "^2.8.4",
     "css-loader": "^1.0.1",
     "env-cmd": "^10.0.1",
     "express": "^4.17.1",
