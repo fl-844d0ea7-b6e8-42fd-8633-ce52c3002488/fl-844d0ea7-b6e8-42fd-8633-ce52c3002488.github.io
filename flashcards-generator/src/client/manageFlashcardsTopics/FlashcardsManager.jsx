@@ -36,9 +36,7 @@ const FlashcardsViewer = () => {
                 setTerm("")
                 setName("")
                 setTopicId("")
-                setCardsList(
-                    parseCardsList(resp.data)
-                )
+                setCardsList(parseCardsList(resp.data))
             }
             else {
                 setSuccess(`Query succesful - No results were returned ${resp.data.length}`)
@@ -82,8 +80,8 @@ const FlashcardsViewer = () => {
             setLoading(false)
             if (resp.data.length > 0) {
                 Object.entries(cardsList).map(([topic, cardsArray]) => {
-                    if (cardsArray.some(card => card.id == id)){
-                        const filteredArray = cardsArray.filter(card => card.id != id)
+                    if (cardsArray.some(card => card.id === id)){
+                        const filteredArray = cardsArray.filter(card => card.id !== id)
                         let newObject = {}
 
                         // remove topic as no flashcards are associated with it anymore

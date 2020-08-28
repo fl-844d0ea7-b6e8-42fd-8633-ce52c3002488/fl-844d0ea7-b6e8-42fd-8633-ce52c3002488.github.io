@@ -1,5 +1,5 @@
 import axios from 'axios'
-import axiosRetry from 'axios-retry';
+import axiosRetry from 'axios-retry'
 
 const API_HOSTNAME = process.env.API_HOSTNAME
 const API_KEY = process.env.API_KEY
@@ -140,7 +140,6 @@ export const insertFlashcard = async (name, topic, term, definition) => {
       },
       config
     );
-    console.log(resp);
     return resp;
   } catch (error) {
     console.log(error);
